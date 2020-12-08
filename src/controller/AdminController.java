@@ -35,6 +35,10 @@ public class AdminController extends Controller {
 	
 	public void insert(String productName, String productAuthor, Integer productPrice, Integer productStock) {
 		Products p = new Products();
+		p.setProductName(productName);
+		p.setProductAuthor(productAuthor);
+		p.setProductPrice(productPrice);
+		p.setProductStock(productStock);
 		
 		if(!productName.equals("")) {
 			if(!productAuthor.equals("")) {
@@ -42,8 +46,7 @@ public class AdminController extends Controller {
 					try {
 						Integer.parseInt(productPrice.toString());
 					} catch (Exception e) {
-//						JOptionPane.showMessageDialog(null, "Price must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
-						System.out.println("Not a good thing");
+						JOptionPane.showMessageDialog(null, "Price must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
 					}
 					if(productStock != null) {
 						try {
@@ -53,10 +56,6 @@ public class AdminController extends Controller {
 						}
 						if(!productPrice.toString().equals("0")) {
 							if(!productStock.toString().equals("0")) {
-								p.setProductName(productName);
-								p.setProductAuthor(productAuthor);
-								p.setProductPrice(productPrice);
-								p.setProductStock(productStock);
 								p.insert();
 							} else {
 								JOptionPane.showMessageDialog(null, "Stock must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);

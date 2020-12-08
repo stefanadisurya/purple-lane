@@ -24,7 +24,7 @@ import core.model.Model;
 import core.view.View;
 import model.Products;
 
-public class ProductView extends View {
+public class ProductView extends View implements ActionListener, MouseListener {
 	
 	JPanel top, mid, bot;
 	JTable table;
@@ -51,6 +51,8 @@ public class ProductView extends View {
 		table = new JTable();
 		sp = new JScrollPane(table);
 		
+		table.addMouseListener(this);
+		
 		idLbl = new JLabel("Product ID: ");
 		nameLbl = new JLabel("Product Name: ");
 		authorLbl = new JLabel("Product Author: ");
@@ -65,7 +67,11 @@ public class ProductView extends View {
 		stockTxt = new JTextField();
 		insert = new JButton("Insert");
 		update = new JButton("Update");
-		delete = new JButton("Delete");	
+		delete = new JButton("Delete");
+		
+		insert.addActionListener(this);
+		update.addActionListener(this);
+		delete.addActionListener(this);
 
 	}
 
@@ -88,7 +94,6 @@ public class ProductView extends View {
 		bot.add(insert);
 		bot.add(update);
 		bot.add(delete);
-	
 		
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -96,85 +101,6 @@ public class ProductView extends View {
 		
 		loadData();
 
-	}
-
-	public void addListener() {
-		insert.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String name = nameTxt.getText();
-				String author = authorTxt.getText();
-				Integer price = Integer.parseInt(priceTxt.getText());
-				Integer stock = Integer.parseInt(stockTxt.getText());
-				
-				AdminController.getInstance().insert(name, author, price, stock);
-				loadData();
-			}
-		});
-		
-		table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.getSelectedRow();
-				idValue.setText(table.getValueAt(row, 0).toString());
-				nameTxt.setText(table.getValueAt(row, 1).toString());
-				authorTxt.setText(table.getValueAt(row, 2).toString());
-				priceTxt.setText(table.getValueAt(row, 3).toString());
-				stockTxt.setText(table.getValueAt(row, 4).toString());
-			}
-		});
-		
-		update.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String name = nameTxt.getText();
-				String author = authorTxt.getText();
-				Integer price = Integer.parseInt(priceTxt.getText());
-				Integer stock = Integer.parseInt(stockTxt.getText());
-				Integer id = Integer.parseInt(idValue.getText());
-				
-				AdminController.getInstance().update(name, author, price, stock, id);
-				loadData();
-			}
-		});
-		
-		delete.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Integer id = Integer.parseInt(idValue.getText());
-				
-				AdminController.getInstance().delete(id);
-				loadData();
-			}
-		});
 	}
 	
 	public void loadData() {
@@ -205,6 +131,69 @@ public class ProductView extends View {
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
 		
 		table.setModel(dtm);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == insert) {
+			String name = nameTxt.getText();
+			String author = authorTxt.getText();
+			Integer price = Integer.parseInt(priceTxt.getText());
+			Integer stock = Integer.parseInt(stockTxt.getText());
+			
+			AdminController.getInstance().insert(name, author, price, stock);
+			loadData();
+		} else if(e.getSource() == update) {
+			String name = nameTxt.getText();
+			String author = authorTxt.getText();
+			Integer price = Integer.parseInt(priceTxt.getText());
+			Integer stock = Integer.parseInt(stockTxt.getText());
+			Integer id = Integer.parseInt(idValue.getText());
+			
+			AdminController.getInstance().update(name, author, price, stock, id);
+			loadData();
+		} else if(e.getSource() == delete) {
+			Integer id = Integer.parseInt(idValue.getText());
+			
+			AdminController.getInstance().delete(id);
+			loadData();
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource() == table) {
+			int row = table.getSelectedRow();
+			idValue.setText(table.getValueAt(row, 0).toString());
+			nameTxt.setText(table.getValueAt(row, 1).toString());
+			authorTxt.setText(table.getValueAt(row, 2).toString());
+			priceTxt.setText(table.getValueAt(row, 3).toString());
+			stockTxt.setText(table.getValueAt(row, 4).toString());
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
