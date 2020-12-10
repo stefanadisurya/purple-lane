@@ -26,11 +26,10 @@ public class RegisterController extends Controller {
 		return null;
 	}
 	
-	public void insert(String username, String email, String role, String password) {
+	public void insert(String username, Integer roleId, String password) {
 		Users u = new Users();
 		u.setUsername(username);
-		u.setEmail(email);
-		u.setRole(role);
+		u.setRoleId(roleId);
 		u.setPassword(password);
 		u.insert();
 	}

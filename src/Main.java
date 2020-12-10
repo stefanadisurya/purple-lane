@@ -8,7 +8,8 @@ public class Main {
 	public Main() {
 //		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
-		LoginController.getInstance().view().showForm();
+//		LoginController.getInstance().view().showForm();
+		AuthController.getInstance().view().showForm();
 	}
 
 	public static void main(String[] args) {
