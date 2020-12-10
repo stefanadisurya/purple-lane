@@ -111,7 +111,8 @@ public class Users extends Model {
 						new ManagerController();
 					} else if (rs.getString("roleId").equals(Integer.toString(4))) { // Promotion
 						JOptionPane.showMessageDialog(null, "Login Success!");
-						new PromoController();
+//						new PromoController();
+						PromoController.getInstance();
 					}
 				}
 			} else {
