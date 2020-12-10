@@ -14,45 +14,61 @@ public class Products extends Model {
 	private String productAuthor;
 	private Integer productPrice;
 	private Integer productStock;
+	private String tableName;
 	
 	public Integer getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public boolean setProductId(Integer productId) {
+		if(productId == 0)
+			return false;
 		this.productId = productId;
+		return true;
 	}
 
 	public String getProductName() {
 		return productName;
 	}
 
-	public void setProductName(String productName) {
+	public boolean setProductName(String productName) {
+		if(productName.equals(""))
+			return false;
 		this.productName = productName;
+		return true;
 	}
 
 	public String getProductAuthor() {
 		return productAuthor;
 	}
 
-	public void setProductAuthor(String productAuthor) {
+	public boolean setProductAuthor(String productAuthor) {
+		if(productAuthor.equals(""))
+			return false;
 		this.productAuthor = productAuthor;
+		return true;
 	}
 
 	public Integer getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Integer productPrice) {
+	public boolean setProductPrice(Integer productPrice) {
+		if(productPrice <= 0)
+			return false;
 		this.productPrice = productPrice;
+		return true;
 	}
 
 	public Integer getProductStock() {
 		return productStock;
 	}
 
-	public void setProductStock(Integer productStock) {
+	public boolean setProductStock(Integer productStock) {
+		if(productStock <= 0)
+			return false;
 		this.productStock = productStock;
+		return true;
 	}
 	
 	public Products() {

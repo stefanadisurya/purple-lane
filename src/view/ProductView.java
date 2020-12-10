@@ -20,12 +20,16 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
+import controller.AuthController;
 import core.model.Model;
 import core.view.View;
 import model.Products;
 
 public class ProductView extends View implements ActionListener, MouseListener {
 	
+	JMenuBar menuBar;
+	JMenuItem logout;
+	JMenu menuMore;
 	JPanel top, mid, bot;
 	JTable table;
 	JScrollPane sp;
@@ -44,7 +48,6 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
 		top = new JPanel();
 		mid = new JPanel(new GridLayout(6,2));
 		bot = new JPanel();
@@ -52,6 +55,10 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		sp = new JScrollPane(table);
 		
 		table.addMouseListener(this);
+		
+		menuBar = new JMenuBar();
+		menuMore = new JMenu("More");
+		logout = new JMenuItem("Logout");
 		
 		idLbl = new JLabel("Product ID: ");
 		nameLbl = new JLabel("Product Name: ");
@@ -72,12 +79,17 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		insert.addActionListener(this);
 		update.addActionListener(this);
 		delete.addActionListener(this);
+		logout.addActionListener(this);
 
 	}
 
 	@Override
 	public void initializeComponent() {
-		// TODO Auto-generated method stub
+		
+		menuMore.add(logout);
+		menuBar.add(menuMore);
+		setJMenuBar(menuBar);
+		
 		top.add(sp);
 		
 		mid.add(idLbl);
@@ -157,6 +169,9 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			
 			AdminController.getInstance().delete(id);
 			loadData();
+		} else if(e.getSource() == logout) {
+			this.dispose();
+			new AuthController();
 		}
 	}
 

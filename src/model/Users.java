@@ -112,7 +112,7 @@ public class Users extends Model {
 					   AdminController.getInstance().view().showForm();
 				   } else if(rs.getString("role").equals("Customer")) {
 					   JOptionPane.showMessageDialog(null, "Login Success!");
-					   new CustomerController();
+					   CustomerController.getInstance().view().showForm();
 				   } else if(rs.getString("role").equals("Manager")) {
 					   JOptionPane.showMessageDialog(null, "Login Success!");
 					   new ManagerController();

@@ -1,51 +1,32 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Vector;
+import core.controller.Controller;
+import core.model.Model;
+import core.view.View;
+import view.CustomerHomeView;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-public class CustomerController extends JFrame implements ActionListener {
+public class CustomerController extends Controller {
 	
-	JMenuBar menuBar;
-	JMenu menuMore;
-	JMenuItem logout;
+	private static CustomerController controller;
+	private ProductController productController;
 	
-	void initializeComponent() {
-		menuBar = new JMenuBar();
-		menuMore = new JMenu("More");
-		logout = new JMenuItem("Logout");
-		
-		logout.addActionListener(this);
-		
-		menuMore.add(logout);
-		menuBar.add(menuMore);
-		setJMenuBar(menuBar);
-	}
-	
-	public void initialize() {
-		setSize(600, 600);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		
-		initializeComponent();
-		
-		setVisible(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == logout) {
-			this.dispose();
-			new AuthController();
-		}
+	public static CustomerController getInstance() {
+		return controller = (controller == null) ? new CustomerController() : controller;
 	}
 	
 	public CustomerController() {
-		initialize();
+		productController = new ProductController();
+	}
+
+	@Override
+	public View view() {
+		return new CustomerHomeView();
+	}
+
+	@Override
+	public Vector<Model> getAll() {
+		return productController.getAll();
 	}
 
 }
