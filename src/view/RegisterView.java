@@ -1,3 +1,4 @@
+
 package view;
 
 import java.awt.BorderLayout;
@@ -7,28 +8,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.AdminController;
 import controller.AuthController;
+import controller.LoginController;
 import controller.RegisterController;
 import core.view.View;
 
 public class RegisterView extends View implements ActionListener {
-	
-	JPanel top, mid, bot;
-	JLabel titleLbl, usernameLbl, passwordLbl, emailLbl, roleLbl;
-	JTextField usernameTxt, passwordTxt, emailTxt;
-	JComboBox<String> roleBox;
+
+	JPanel top, mid, bot, rolePnl;
+	JLabel titleLbl, usernameLbl, passwordLbl, roleLbl;
+	JTextField usernameTxt, passwordTxt;
+	JRadioButton admin, customer, manager, promotion;
 	JButton cancel, register;
-	
-	Vector<String> roleList;
+
+	ButtonGroup roleGroup;
 
 	public RegisterView() {
 		super();
@@ -39,32 +44,41 @@ public class RegisterView extends View implements ActionListener {
 	@Override
 	public void initialize() {
 		top = new JPanel(new FlowLayout());
-		GridLayout gl = new GridLayout(4, 2);
+		GridLayout gl = new GridLayout(3, 2);
 		gl.setVgap(90);
 		mid = new JPanel(gl);
 		bot = new JPanel(new FlowLayout());
-		
+		rolePnl = new JPanel();
+
 		titleLbl = new JLabel("Register");
 		usernameLbl = new JLabel("Username");
-		emailLbl = new JLabel("Email");
 		roleLbl = new JLabel("Role");
 		passwordLbl = new JLabel("Password");
-		
+
 		usernameTxt = new JTextField();
-		emailTxt = new JTextField();
 		passwordTxt = new JPasswordField();
-		
-		roleList = new Vector<>();
-		roleList.add("Customer");
-		roleList.add("Manager");
-		roleList.add("Admin");
-		roleList.add("Promotion");
-		
-		roleBox = new JComboBox<>(roleList);
-		
+
+		admin = new JRadioButton("1");
+		admin.setActionCommand("1");
+		customer = new JRadioButton("2");
+		customer.setActionCommand("2");
+		manager = new JRadioButton("3");
+		manager.setActionCommand("3");
+		promotion = new JRadioButton("4");
+		promotion.setActionCommand("4");
+		rolePnl.add(admin);
+		rolePnl.add(customer);
+		rolePnl.add(manager);
+		rolePnl.add(promotion);
+		roleGroup = new ButtonGroup();
+		roleGroup.add(admin);
+		roleGroup.add(customer);
+		roleGroup.add(manager);
+		roleGroup.add(promotion);
+
 		cancel = new JButton("Cancel");
 		register = new JButton("Register");
-		
+
 		cancel.addActionListener(this);
 		register.addActionListener(this);
 	}
@@ -72,21 +86,19 @@ public class RegisterView extends View implements ActionListener {
 	@Override
 	public void initializeComponent() {
 		top.add(titleLbl);
-		
+
 		mid.add(usernameLbl);
 		mid.add(usernameTxt);
-		mid.add(emailLbl);
-		mid.add(emailTxt);
 		mid.add(roleLbl);
-		mid.add(roleBox);
+		mid.add(rolePnl);
 		mid.add(passwordLbl);
 		mid.add(passwordTxt);
-		
+
 		bot.add(cancel);
 		bot.add(register);
-		
+
 		mid.setBorder(new EmptyBorder(50, 50, 50, 50));
-		
+
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
 		add(bot, BorderLayout.SOUTH);
@@ -94,16 +106,18 @@ public class RegisterView extends View implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == cancel) {
+		if (e.getSource() == cancel) {
 			this.dispose();
 			AuthController.getInstance().view().showForm();
-		} else if(e.getSource() == register) {
+		} else if (e.getSource() == register) {
 			String username = usernameTxt.getText();
-			String email = emailTxt.getText();
-			String role = roleBox.getSelectedItem().toString();
+			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
 			String password = passwordTxt.getText();
-			
-			RegisterController.getInstance().insert(username, email, role, password);
+
+			RegisterController.getInstance().insert(username, roleId, password);
+			JOptionPane.showMessageDialog(null, "Register Success!");
+			this.dispose();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 

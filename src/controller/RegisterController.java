@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.util.Vector;
@@ -9,9 +10,9 @@ import model.Users;
 import view.RegisterView;
 
 public class RegisterController extends Controller {
-	
+
 	private static RegisterController controller;
-	
+
 	public static RegisterController getInstance() {
 		return controller = (controller == null) ? new RegisterController() : controller;
 	}
@@ -25,12 +26,11 @@ public class RegisterController extends Controller {
 	public Vector<Model> getAll() {
 		return null;
 	}
-	
-	public void insert(String username, String email, String role, String password) {
+
+	public void insert(String username, Integer roleId, String password) {
 		Users u = new Users();
 		u.setUsername(username);
-		u.setEmail(email);
-		u.setRole(role);
+		u.setRoleId(roleId);
 		u.setPassword(password);
 		u.insert();
 	}

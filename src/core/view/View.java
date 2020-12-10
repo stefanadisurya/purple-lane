@@ -1,3 +1,4 @@
+
 package core.view;
 
 import javax.swing.JFrame;
@@ -11,15 +12,16 @@ public abstract class View extends JFrame {
 		initialize();
 		initializeComponent();
 	}
-	
-	public void showForm(){
+
+	public void showForm() {
 		setSize(width, height);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
+
 	public abstract void initialize();
+
 	public abstract void initializeComponent();
 
 }

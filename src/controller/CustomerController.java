@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.util.Vector;
@@ -7,14 +8,14 @@ import core.view.View;
 import view.CustomerHomeView;
 
 public class CustomerController extends Controller {
-	
+
 	private static CustomerController controller;
 	private ProductController productController;
-	
+
 	public static CustomerController getInstance() {
 		return controller = (controller == null) ? new CustomerController() : controller;
 	}
-	
+
 	public CustomerController() {
 		productController = new ProductController();
 	}

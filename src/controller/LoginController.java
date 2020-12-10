@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.awt.BorderLayout;
@@ -26,9 +27,9 @@ import model.Users;
 import view.LoginView;
 
 public class LoginController extends Controller {
-	
+
 	private static LoginController controller;
-	
+
 	public static LoginController getInstance() {
 		return controller = (controller == null) ? new LoginController() : controller;
 	}
@@ -42,7 +43,7 @@ public class LoginController extends Controller {
 	public Vector<Model> getAll() {
 		return null;
 	}
-	
+
 	public void verifyLogin(String username, String password) {
 		Users u = new Users();
 		u.setUsername(username);

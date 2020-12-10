@@ -1,3 +1,4 @@
+
 package view;
 
 import java.awt.BorderLayout;
@@ -15,7 +16,7 @@ import controller.RegisterController;
 import core.view.View;
 
 public class AuthView extends View implements ActionListener {
-	
+
 	JPanel pos;
 	JButton register, login;
 
@@ -30,10 +31,10 @@ public class AuthView extends View implements ActionListener {
 		GridLayout grid = new GridLayout(1, 2);
 		grid.setVgap(120);
 		pos = new JPanel(new FlowLayout());
-		
+
 		register = new JButton("Register");
 		login = new JButton("Login");
-		
+
 		register.addActionListener(this);
 		login.addActionListener(this);
 	}
@@ -42,20 +43,20 @@ public class AuthView extends View implements ActionListener {
 	public void initializeComponent() {
 		pos.add(register);
 		pos.add(login);
-		
+
 		pos.setBorder(new EmptyBorder(50, 50, 50, 50));
-		
+
 		add(pos, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == register) {
-		   this.dispose();
-		   RegisterController.getInstance().view().showForm();
-		} else if(e.getSource() == login) {
-		   this.dispose();
-		   LoginController.getInstance().view().showForm();
+		if (e.getSource() == register) {
+			this.dispose();
+			RegisterController.getInstance().view().showForm();
+		} else if (e.getSource() == login) {
+			this.dispose();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 
