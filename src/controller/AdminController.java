@@ -85,7 +85,7 @@ public class AdminController extends Controller {
 		productController.setProductStock(productStock);
 
 		if (productController.isValid() == true) {
-			Products p = productController.getProduct();
+			Products p = productController.createProduct();
 			p.insert();
 		}
 
@@ -100,7 +100,7 @@ public class AdminController extends Controller {
 		productController.setProductId(productId);
 
 		if (productController.isValid() == true) {
-			Products p = productController.getProduct();
+			Products p = productController.createProduct();
 			p.update();
 		}
 	}

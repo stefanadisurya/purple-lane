@@ -11,11 +11,16 @@ import model.Products;
 public class ProductController {
 
 	private Products products;
+	private static ProductController controller;
 	private boolean valid;
 
 	public ProductController() {
 		products = new Products();
 		valid = true;
+	}
+	
+	public static ProductController getInstance() {
+		return controller = (controller == null) ? new ProductController() : controller;
 	}
 
 	public void setProductId(Integer productId) {
@@ -69,12 +74,16 @@ public class ProductController {
 		return valid;
 	}
 
-	public Products getProduct() {
+	public Products createProduct() {
 		return products;
 	}
 
 	public Vector<Model> getAll() {
 		return products.getAll();
+	}
+	
+	public Products getOneProduct(Integer productId) {
+		return products.getOneProduct(productId);
 	}
 
 }

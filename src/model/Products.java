@@ -76,6 +76,17 @@ public class Products extends Model {
 		this.tableName = "products";
 	}
 
+	public Products(Integer productId, String productName, String productAuthor, Integer productPrice,
+			Integer productStock) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.productAuthor = productAuthor;
+		this.productPrice = productPrice;
+		this.productStock = productStock;
+		this.tableName = "products";
+	}
+
 	@Override
 	public void insert() {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?, ?)", tableName);
@@ -153,6 +164,41 @@ public class Products extends Model {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+	
+	public Products getOneProduct(Integer productId) {
+		String query = String.format("SELECT * FROM %s "
+				+ "WHERE productId=%d", tableName, productId);
+		ResultSet res = this.con.executeQuery(query);
+		
+		try {
+			while(res.next()) {
+				Products p = map(res);
+				return p;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private Products map(ResultSet res) {
+		Integer id;
+		try {
+			id = res.getInt("productId");
+			String name = res.getString("productName");
+			String author = res.getString("productAuthor");
+			Integer price = res.getInt("productPrice");
+			Integer stock = res.getInt("productStock");
+			
+			return new Products(id, name, author, price, stock);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
