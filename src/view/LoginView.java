@@ -36,7 +36,7 @@ public class LoginView extends View implements ActionListener {
 	public void initialize() {
 		top = new JPanel(new FlowLayout());
 		GridLayout gl = new GridLayout(2, 2);
-		gl.setVgap(120);
+		gl.setVgap(350);
 		mid = new JPanel(gl);
 		bot = new JPanel(new FlowLayout());
 

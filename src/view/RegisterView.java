@@ -38,14 +38,14 @@ public class RegisterView extends View implements ActionListener {
 	public RegisterView() {
 		super();
 		this.height = 600;
-		this.width = 600;
+		this.width = 500;
 	}
 
 	@Override
 	public void initialize() {
 		top = new JPanel(new FlowLayout());
 		GridLayout gl = new GridLayout(3, 2);
-		gl.setVgap(90);
+		gl.setVgap(100);
 		mid = new JPanel(gl);
 		bot = new JPanel(new FlowLayout());
 		rolePnl = new JPanel();

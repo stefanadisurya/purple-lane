@@ -25,6 +25,14 @@ public class Users extends Model {
 
 	Connect db;
 	ResultSet rs;
+	
+	public Users(Integer userId, String username, Integer roleId, String password) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.roleId = roleId;
+		this.password = password;
+	}
 
 	public Users() {
 		this.tableName = "users";
@@ -61,8 +69,82 @@ public class Users extends Model {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Users getOneUser(String username, String password) {
+		String query = String.format("SELECT * FROM %s WHERE username=? AND password=?", tableName);
+		ResultSet rs = this.con.executeQuery(query);
+		
+		try {
+			while(rs.next()) {
+				Users u = map(rs);
+				return u;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public void createCustomerAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, 2);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void createAdminAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, 1);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void createPromotionTeamAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, 3);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private Users map(ResultSet rs) {
+		try {
+			Integer userId = rs.getInt("userId");
+			String username = rs.getString("username");
+			Integer roleId = rs.getInt("roleId");
+			String password = rs.getString("password");
+			return new Users(null, username, roleId, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
-//	@Override
 	public void insert() {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
@@ -100,9 +182,8 @@ public class Users extends Model {
 					} else if (rs.getString("roleId").equals(Integer.toString(3))) { // Manager
 						JOptionPane.showMessageDialog(null, "Login Success!");
 						new ManagerController();
-					} else if (rs.getString("roleId").equals(Integer.toString(4))) { // Promotion
+					} else if (rs.getString("roleId").equals(Integer.toString(4))) { // Promotion Team
 						JOptionPane.showMessageDialog(null, "Login Success!");
-//						new PromoController();
 						PromoController.getInstance();
 					}
 				}
