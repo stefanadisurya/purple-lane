@@ -93,7 +93,6 @@ public class Cart extends Model{
 			ps.setInt(2, productId);
 			return ps.executeUpdate() == 1;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

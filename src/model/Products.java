@@ -87,8 +87,7 @@ public class Products extends Model {
 		this.tableName = "products";
 	}
 
-//	@Override
-	public void insert() {
+	public Products create() {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?, ?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 
@@ -98,12 +97,14 @@ public class Products extends Model {
 			ps.setInt(3, productPrice);
 			ps.setInt(4, productStock);
 			ps.executeUpdate();
+			return new Products(null, productName, productAuthor, productPrice, productStock);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
-//	@Override
 	public void update() {
 		String query = String.format(
 				"UPDATE %s SET productName=?, productAuthor=?, productPrice=?, productStock=? WHERE productId=?",
@@ -122,7 +123,6 @@ public class Products extends Model {
 		}
 	}
 
-//	@Override
 	public void delete() {
 		String query = String.format("DELETE FROM %s WHERE productId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);

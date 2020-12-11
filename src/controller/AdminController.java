@@ -12,13 +12,11 @@ import view.ProductView;
 
 public class AdminController extends Controller {
 
-//	private Products product;
 	private ProductController productController;
 	private static AdminController controller;
 
-	public AdminController() {
-//		product = new Products();
-		productController = new ProductController();
+	private AdminController() {
+		productController = ProductController.getInstance();
 	}
 
 	public static AdminController getInstance() {
@@ -37,48 +35,6 @@ public class AdminController extends Controller {
 
 	public void insert(String productName, String productAuthor, Integer productPrice, Integer productStock) {
 
-//		Products p = new Products();
-//		p.setProductName(productName);
-//		p.setProductAuthor(productAuthor);
-//		p.setProductPrice(productPrice);
-//		p.setProductStock(productStock);
-//		
-//		if(!productName.equals("")) {
-//			if(!productAuthor.equals("")) {
-//				if(productPrice != null) {
-//					try {
-//						Integer.parseInt(productPrice.toString());
-//					} catch (Exception e) {
-//						JOptionPane.showMessageDialog(null, "Price must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//					}
-//					if(productStock != null) {
-//						try {
-//							Integer.parseInt(productStock.toString());
-//						} catch (Exception e) {
-//							JOptionPane.showMessageDialog(null, "Stock must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//						}
-//						if(!productPrice.toString().equals("0")) {
-//							if(!productStock.toString().equals("0")) {
-//								p.insert();
-//							} else {
-//								JOptionPane.showMessageDialog(null, "Stock must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
-//							}
-//						} else {
-//							JOptionPane.showMessageDialog(null, "Price must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
-//						}
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Please fill the Product Stock column!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//					}
-//				} else  {
-//					JOptionPane.showMessageDialog(null, "Please fill the Product Price column!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//				}
-//			} else {
-//				JOptionPane.showMessageDialog(null, "Please fill the Product Author column!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//			}
-//		} else {
-//			JOptionPane.showMessageDialog(null, "Please fill the Product Name column!", "Warning!", JOptionPane.WARNING_MESSAGE);
-//		}
-
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
@@ -86,7 +42,7 @@ public class AdminController extends Controller {
 
 		if (productController.isValid() == true) {
 			Products p = productController.createProduct();
-			p.insert();
+			p.create();
 		}
 
 	}

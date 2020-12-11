@@ -14,7 +14,7 @@ public class ProductController {
 	private static ProductController controller;
 	private boolean valid;
 
-	public ProductController() {
+	private ProductController() {
 		products = new Products();
 		valid = true;
 	}

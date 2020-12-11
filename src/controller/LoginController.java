@@ -45,9 +45,12 @@ public class LoginController extends Controller {
 	}
 
 	public void verifyLogin(String username, String password) {
-		Users u = new Users();
-		u.setUsername(username);
-		u.setPassword(password);
-		u.verifyLogin();
+		UserController c = UserController.getInstance();
+		Users u = c.getOneUser(username, password);
+		if(u != null) {
+			c.setActiveUser(u);
+			JOptionPane.showMessageDialog(null, "Login Success!");
+			UserController.getInstance().processRole(u);
+		}
 	}
 }

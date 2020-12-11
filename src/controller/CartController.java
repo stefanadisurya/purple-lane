@@ -35,6 +35,7 @@ public class CartController extends Controller {
 
 	private CartController() {
 		cart = new Cart();
+		cartList = new Vector<>();
 	}
 
 	public Vector<Cart> getCartList() {

@@ -17,7 +17,7 @@ public class CustomerController extends Controller {
 	}
 
 	public CustomerController() {
-		productController = new ProductController();
+		productController = ProductController.getInstance();
 	}
 
 	@Override

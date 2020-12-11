@@ -26,7 +26,7 @@ public class Users extends Model {
 	Connect db;
 	ResultSet rs;
 	
-	public Users(Integer userId, String username, Integer roleId, String password) {
+	private Users(Integer userId, String username, Integer roleId, String password) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -40,10 +40,6 @@ public class Users extends Model {
 
 	public Integer getUserId() {
 		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -70,20 +66,15 @@ public class Users extends Model {
 		this.password = password;
 	}
 	
-	public Users getOneUser(String username, String password) {
-		String query = String.format("SELECT * FROM %s WHERE username=? AND password=?", tableName);
-		ResultSet rs = this.con.executeQuery(query);
+	public Users getOneUser(String username, String password) throws SQLException {
+		db = Connect.getConnection();
 		
-		try {
-			while(rs.next()) {
-				Users u = map(rs);
-				return u;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s'", tableName, username, password);
+		rs = db.executeQuery(query);
 		
-		return null;
+		Users u = map(rs);
+		return u;
+		
 	}
 	
 	public Users createCustomerAccount(String username, String password) {
@@ -139,19 +130,25 @@ public class Users extends Model {
 	
 	private Users map(ResultSet rs) {
 		try {
-			Integer userId = rs.getInt("userId");
-			String username = rs.getString("username");
-			Integer roleId = rs.getInt("roleId");
-			String password = rs.getString("password");
-			return new Users(null, username, roleId, password);
+			if(rs.next()) {
+				Integer userId = rs.getInt("userId");
+				String username = rs.getString("username");
+				Integer roleId = rs.getInt("roleId");
+				String password = rs.getString("password");
+				return new Users(userId, username, roleId, password);
+			} else {
+				JOptionPane.showMessageDialog(null, "Wrong username or password!", "Warning!",
+						JOptionPane.WARNING_MESSAGE);
+				LoginController.getInstance().view().showForm();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
-		
 		return null;
 	}
 
-	public void insert() {
+	public Users insert() {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 
@@ -160,9 +157,11 @@ public class Users extends Model {
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.executeUpdate();
+			return new Users(null, username, roleId, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 
@@ -178,7 +177,7 @@ public class Users extends Model {
 			rs = db.executeQuery(
 					"SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'");
 			if (rs.next()) {
-				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {
+				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {					
 					if (rs.getString("roleId").equals(Integer.toString(1))) { // Admin
 						JOptionPane.showMessageDialog(null, "Login Success!");
 						AdminController.getInstance().view().showForm();

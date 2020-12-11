@@ -23,11 +23,14 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
 import controller.AuthController;
+import controller.CartController;
 import controller.CustomerController;
 import controller.ProductController;
+import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Products;
+import model.Users;
 
 public class CustomerHomeView extends View implements ActionListener, MouseListener {
 
@@ -35,8 +38,8 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	JTable table;
 	JScrollPane sp;
 	JMenuBar menuBar;
-	JMenu menuMore, menuCart, menuTransactionHistory;
-	JMenuItem logout;
+	JMenu menuMore, menuTransactionHistory;
+	JMenuItem logout, cart;
 	JButton addCart;
 	JLabel nameLbl, authorLbl, priceLbl;
 	JLabel nameTxt, authorTxt, priceTxt;
@@ -64,7 +67,6 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 		menuBar = new JMenuBar();
 		menuMore = new JMenu("More");
-		menuCart = new JMenu("Cart");
 		menuTransactionHistory = new JMenu("Transaction History");
 		
 		nameLbl = new JLabel("Product Name: ");
@@ -78,6 +80,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		qtyTxt = new JTextField();
 
 		logout = new JMenuItem("Logout");
+		cart = new JMenuItem("Cart");
 
 		addCart = new JButton("Add To Cart");
 
@@ -89,8 +92,8 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	public void initializeComponent() {
 
 		menuMore.add(logout);
+		menuMore.add(cart);
 		menuBar.add(menuMore);
-		menuBar.add(menuCart);
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
 
@@ -152,9 +155,15 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 			this.dispose();
 			new AuthController();
 		} else if(e.getSource() == addCart) {
+			String qty = qtyTxt.getText();
 			Products p = ProductController.getInstance().getOneProduct(productId);
+			CartController c = CartController.getInstance();
+			Users u = UserController.getInstance().getActiveUser();
 			
+			c.addToCart(u.getUserId().toString(), productId.toString(), qty);
 			loadData();
+		} else if(e.getSource() == cart) {
+			//View Cart
 		}
 	}
 
