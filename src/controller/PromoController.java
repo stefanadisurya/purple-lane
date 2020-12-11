@@ -12,8 +12,8 @@ import view.ManagePromoMenuView;
 public class PromoController extends Controller {
 
 	public static PromoController controller = null;
-	public Promo promo;
-	public String errorMessage;
+	private Promo promo;
+	private String errorMessage;
 
 	private PromoController() {
 		promo = new Promo();
