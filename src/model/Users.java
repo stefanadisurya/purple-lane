@@ -86,7 +86,7 @@ public class Users extends Model {
 		return null;
 	}
 	
-	public void createCustomerAccount(String username, String password) {
+	public Users createCustomerAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -95,13 +95,15 @@ public class Users extends Model {
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.executeUpdate();
+			return new Users(null, username, 2, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		return null;
 	}
 	
-	public void createAdminAccount(String username, String password) {
+	public Users createAdminAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -110,13 +112,15 @@ public class Users extends Model {
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.executeUpdate();
+			return new Users(null, username, 1, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		return null;
 	}
 	
-	public void createPromotionTeamAccount(String username, String password) {
+	public Users createPromotionTeamAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -125,10 +129,12 @@ public class Users extends Model {
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.executeUpdate();
+			return new Users(null, username, 3, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		return null;
 	}
 	
 	private Users map(ResultSet rs) {
