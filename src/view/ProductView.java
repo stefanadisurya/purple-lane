@@ -186,6 +186,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			priceTxt.setText(table.getValueAt(row, 3).toString());
 			stockTxt.setText(table.getValueAt(row, 4).toString());
 		}
+		
 	}
 
 	@Override

@@ -15,12 +15,12 @@ public class Promo extends Model {
 	private String promoNote;
 
 	public Promo() {
-		this.tableName = "Promo";
+		this.tableName = "promo";
 	}
 
 	public Promo(Integer promoId, String promoCode, Integer promoDiscount, String promoNote) {
 		super();
-		this.tableName = "Promo";
+		this.tableName = "promo";
 		this.promoId = promoId;
 		this.promoCode = promoCode;
 		this.promoDiscount = promoDiscount;
@@ -57,24 +57,23 @@ public class Promo extends Model {
 		return null;
 	}
 
-	public Promo insert1() {
-		String query = String.format("INSERT INTO %s VALUES (?,?,?,?)", this.tableName);
+	public Promo create(String promoCode, String promoNote, Integer promoDiscount ) {
+		String query = String.format("INSERT INTO %s VALUES (NULL,?,?,?)", this.tableName);
 		PreparedStatement ps = this.con.prepareStatement(query);
 
 		try {
-			ps.setInt(1, promoId);
-			ps.setString(2, promoCode);
-			ps.setInt(3, promoDiscount);
-			ps.setString(4, promoNote);
-			return new Promo(promoId, promoCode, promoDiscount, promoNote);
+			ps.setString(1, promoCode);
+			ps.setInt(2, promoDiscount);
+			ps.setString(3, promoNote);
+			ps.executeUpdate();
+			return new Promo(null, promoCode, promoDiscount, promoNote);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public Promo update1() {
+	public Promo update(Integer promoId, String promoCode, String promoNote, Integer promoDiscount ) {
 		String query = String.format(
 				"UPDATE %s " + "SET promoCode = ?, promoDiscount = ?, promoNote = ? " + "WHERE promoId = ?",
 				this.tableName);
@@ -86,6 +85,7 @@ public class Promo extends Model {
 			ps.setInt(2, promoDiscount);
 			ps.setString(3, promoNote);
 			ps.setInt(4, promoId);
+			ps.executeUpdate();
 			return new Promo(promoId, promoCode, promoDiscount, promoNote);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -94,7 +94,7 @@ public class Promo extends Model {
 		return null;
 	}
 
-	public boolean delete1() {
+	public boolean delete(Integer promoId) {
 		String query = String.format("DELETE FROM %s WHERE promoId = ?", this.tableName);
 		PreparedStatement ps = this.con.prepareStatement(query);
 
@@ -158,22 +158,5 @@ public class Promo extends Model {
 
 	public void setPromoNote(String promoNote) {
 		this.promoNote = promoNote;
-	}
-
-	@Override
-	public void insert() {
-
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-
 	}
 }

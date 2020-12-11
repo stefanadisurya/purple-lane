@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -63,24 +62,6 @@ public class Role extends Model{
 
 	public Role() {
 		super();
-	}
-
-	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

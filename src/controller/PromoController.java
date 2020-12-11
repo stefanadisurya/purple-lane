@@ -2,30 +2,20 @@
 package controller;
 
 import java.util.Vector;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
+import core.controller.Controller;
 import core.model.Model;
+import core.view.View;
 import model.Promo;
-import model.Role;
+import view.ManagePromoMenuView;
 
-public class PromoController extends JFrame implements ActionListener {
-
-	JMenuBar menuBar;
-	JMenu menuMore;
-	JMenuItem logout;
+public class PromoController extends Controller {
 
 	public static PromoController controller = null;
 	public Promo promo;
 	public String errorMessage;
 
 	private PromoController() {
-		initialize();
 		promo = new Promo();
 	}
 
@@ -45,87 +35,97 @@ public class PromoController extends JFrame implements ActionListener {
 //		//return view;
 //	}
 
-	private Promo getData() {
-//		Integer promoId = Integer.parseInt(promoIdField.getText());
-//		String promoCode = promoCodeField.getText();
-//		Integer promoDiscount = Integer.parseInt(promoDiscountField.getText()));
-//		String promoNote = promoNoteField.getText();
-//		return new Promo(promoId,promoCode,promoDiscount,promoNote);
-		return null;
-	}
-
-	public Promo create() {
-		Promo pd = getData();
-
-		if (pd.getPromoId() == null) {
-			errorMessage = "Id cannot be empty!";
-			return null;
-		} else if (pd.getPromoCode() == null) {
+	public Promo create(String code, String discount, String note) {
+		if (code == null) {
 			errorMessage = "Code cannot be empty!";
 			return null;
-		} else if (pd.getPromoDiscount() == null) {
-			errorMessage = "Discount cannot be empty!";
-			return null;
-		} else if (pd.getPromoDiscount() < 15000) {
-			errorMessage = "Discount must be at least 15000!";
-			return null;
-		} else if (pd.getPromoNote() == null) {
+		} else if (note == null) {
 			errorMessage = "Note cannot be empty!";
 			return null;
 		} else {
+			Integer disc = 0;
+			try {
+				disc = Integer.parseInt(discount);
+			} catch (Exception e) {
+				errorMessage = "Discount must be numeric!";
+				return null;
+			}
 
-			Promo promo = pd.insert1();
-			if (promo == null) {
+			if (disc == 0 || disc == null) {
+				errorMessage = "Discount cannot be empty!";
+				return null;
+			} else if (disc < 15000) {
+				errorMessage = "Discount must be at least 15000!";
+				return null;
+			}
+
+			Promo pd = new Promo();
+			pd = pd.create(code, note, disc);
+			if (pd == null) {
 				errorMessage = "Insert Failed!";
 			}
-			return promo;
+			return pd;
 		}
 	}
 
-	public Promo update() {
-		Promo pd = getData();
-
-		if (pd.getPromoId() == null) {
+	public Promo update(String id, String code, String discount, String note) {
+		Integer ID = 0;
+		try {
+			ID = Integer.parseInt(id);
+		} catch (Exception e) {
+			errorMessage = "Choose Promo Code First!";
+			return null;
+		}
+		if (ID == null || ID == 0) {
 			errorMessage = "Id cannot be empty!";
 			return null;
-		} else if (pd.getPromoCode() == null) {
+		} else if (code == null) {
 			errorMessage = "Code cannot be empty!";
 			return null;
-		} else if (pd.getPromoDiscount() == null) {
-			errorMessage = "Discount cannot be empty!";
-			return null;
-		} else if (pd.getPromoDiscount() < 15000) {
-			errorMessage = "Discount must be at least 15000!";
-			return null;
-		} else if (pd.getPromoNote() == null) {
+		} else if (note == null) {
 			errorMessage = "Note cannot be empty!";
 			return null;
 		} else {
+			Integer disc = 0;
+			try {
+				disc = Integer.parseInt(discount);
+			} catch (Exception e) {
+				errorMessage = "Discount must be numeric!";
+				return null;
+			}
 
-			Promo promo = pd.update1();
-			if (promo == null) {
+			if (disc == 0 || disc == null) {
+				errorMessage = "Discount cannot be empty!";
+				return null;
+			} else if (disc < 15000) {
+				errorMessage = "Discount must be at least 15000!";
+				return null;
+			}
+
+			Promo pd = new Promo();
+			pd = pd.update(ID, code, note, disc);
+			if (pd == null) {
 				errorMessage = "Update Failed!";
 			}
-			return promo;
+			return pd;
 		}
+
 	}
 
-	public boolean delete() {
-		Promo pd = getData();
-
-		if (pd.getPromoId() == null) {
-			errorMessage = "Id cannot be empty!";
+	public boolean delete(String id) {
+		Integer ID = 0;
+		try {
+			ID = Integer.parseInt(id);
+		} catch (Exception e) {
+			errorMessage = "Choose Promo Code First!";
 			return false;
-		} else {
-			promo = new Promo();
-			promo.setPromoId(pd.getPromoId());
-			boolean deleted = promo.delete1();
-
-			if (deleted == false) {
-				errorMessage = "Delete Failed!";
-			}
-			return deleted;
 		}
+		boolean deleted = promo.delete(ID);
+
+		if (deleted == false) {
+			errorMessage = "Delete Failed!";
+		}
+		return deleted;
 	}
 
 	public Promo getOnePromo(Integer promoId) {
@@ -138,34 +138,9 @@ public class PromoController extends JFrame implements ActionListener {
 		return promo.getAll();
 	}
 
-	void initializeComponent() {
-		menuBar = new JMenuBar();
-		menuMore = new JMenu("More");
-		logout = new JMenuItem("Logout");
-
-		logout.addActionListener(this);
-
-		menuMore.add(logout);
-		menuBar.add(menuMore);
-		setJMenuBar(menuBar);
-	}
-
-	public void initialize() {
-		setSize(600, 600);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-
-		initializeComponent();
-
-		setVisible(true);
-	}
-
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == logout) {
-			this.dispose();
-			new AuthController();
-		}
+	public View view() {
+		return new ManagePromoMenuView();
 	}
 
 }

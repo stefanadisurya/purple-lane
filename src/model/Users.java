@@ -62,7 +62,7 @@ public class Users extends Model {
 		this.password = password;
 	}
 
-	@Override
+//	@Override
 	public void insert() {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
@@ -77,15 +77,6 @@ public class Users extends Model {
 		}
 	}
 
-	@Override
-	public void update() {
-
-	}
-
-	@Override
-	public void delete() {
-
-	}
 
 	@Override
 	public Vector<Model> getAll() {

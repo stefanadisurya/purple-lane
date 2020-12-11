@@ -2,6 +2,7 @@
 import controller.AdminController;
 import controller.AuthController;
 import controller.LoginController;
+import controller.PromoController;
 import controller.RegisterController;
 
 public class Main {
@@ -10,7 +11,12 @@ public class Main {
 //		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
 //		LoginController.getInstance().view().showForm();
-		AuthController.getInstance().view().showForm();
+//		AuthController.getInstance().view().showForm();
+		
+		
+		
+		//Albert Promo View Testing
+//		PromoController.getInstance().view().showForm();
 	}
 
 	public static void main(String[] args) {
