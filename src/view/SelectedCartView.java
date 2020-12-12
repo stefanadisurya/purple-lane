@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -15,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,13 +21,11 @@ import javax.swing.table.DefaultTableModel;
 import controller.AuthController;
 import controller.CartController;
 import controller.ProductController;
-import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Cart;
-import model.Users;
 
-public class ManageCartMenuView extends View implements ActionListener {
+public class SelectedCartView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
@@ -38,11 +33,10 @@ public class ManageCartMenuView extends View implements ActionListener {
 	JMenu menuMore, menuBack;
 	JPanel top, mid, bot, pnlbottomtop, pnlbottombottom;
 	JTable table;
-	JButton selectBtn, checkOutBtn;
-	JLabel titleLbl, productNameLbl, pmLbl, productQtyLbl, qtyLbl;
-	private Integer productId = 0;
+	JButton cancelBtn, payBtn;
+	JLabel titleLbl, totalPriceLbl, tpLbl;
 
-	public ManageCartMenuView() {
+	public SelectedCartView() {
 		super();
 		addListeners();
 		this.height = 700;
@@ -57,7 +51,7 @@ public class ManageCartMenuView extends View implements ActionListener {
 		logout = new JMenuItem("Logout");
 
 		top = new JPanel();
-		titleLbl = new JLabel("My Cart");
+		titleLbl = new JLabel("List Selected Product");
 		table = new JTable() {
 			private static final long serialVersionUID = 1L;
 
@@ -69,22 +63,19 @@ public class ManageCartMenuView extends View implements ActionListener {
 
 		mid = new JPanel();
 		bot = new JPanel(new BorderLayout());
-		GridLayout layout = new GridLayout(2, 2, 10, 10);
+		GridLayout layout = new GridLayout(1, 2, 10, 10);
 
 		pnlbottomtop = new JPanel(layout);
 		pnlbottomtop.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
 		pnlbottombottom = new JPanel();
 
-		productNameLbl = new JLabel("Product Name");
-		pmLbl = new JLabel("-");
-		productQtyLbl = new JLabel("Promo Quantity");
-		qtyLbl = new JLabel("0");
+		totalPriceLbl = new JLabel("Total Price");
+		tpLbl = new JLabel("");
 
-		checkOutBtn = new JButton("CheckOut");
-		checkOutBtn.setBackground(Color.RED);
-		selectBtn = new JButton("Select");
-		selectBtn.setBackground(Color.YELLOW);
+		cancelBtn = new JButton("Cancel");
+		payBtn = new JButton("Pay");
+		payBtn.setBackground(Color.GREEN);
 	}
 
 	@Override
@@ -98,13 +89,11 @@ public class ManageCartMenuView extends View implements ActionListener {
 		loadData();
 
 		mid.add(new JScrollPane(table), BorderLayout.CENTER);
-		pnlbottomtop.add(productNameLbl);
-		pnlbottomtop.add(pmLbl);
-		pnlbottomtop.add(productQtyLbl);
-		pnlbottomtop.add(qtyLbl);
+		pnlbottomtop.add(totalPriceLbl);
+		pnlbottomtop.add(tpLbl);
 
-		pnlbottombottom.add(selectBtn);
-		pnlbottombottom.add(checkOutBtn);
+		pnlbottombottom.add(cancelBtn);
+		pnlbottombottom.add(payBtn);
 		bot.add(pnlbottomtop, BorderLayout.NORTH);
 		bot.add(pnlbottombottom, BorderLayout.SOUTH);
 
@@ -114,31 +103,19 @@ public class ManageCartMenuView extends View implements ActionListener {
 	}
 
 	private void addListeners() {
-		checkOutBtn.addActionListener(this);
-		selectBtn.addActionListener(this);
-		table.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int row = table.getSelectedRow();
-				String id = (String) table.getValueAt(row, 0);
-				String name = (String) table.getValueAt(row, 1);
-				String qty = (String) table.getValueAt(row, 2);
-				
-				productId = Integer.parseInt(id);
-				pmLbl.setText(name);
-				qtyLbl.setText(qty);
-			}
-		});
+		cancelBtn.addActionListener(this);
+		payBtn.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == selectBtn) {
-			selectCart();
-		} else if (e.getSource() == checkOutBtn) {
+		if (e.getSource() == cancelBtn) {
 			this.dispose();
-			new SelectedCartView().showForm();
+			CartController.getInstance().viewManageCartMenu();
+		} else if (e.getSource() == payBtn) {
+//			CartController.getInstance().processSelectedCart();
+			this.dispose();
+//			new SelectedCartView.showForm();
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
@@ -151,43 +128,22 @@ public class ManageCartMenuView extends View implements ActionListener {
 		header.add("Product Id");
 		header.add("Product Name");
 		header.add("Product Quantity");
+		header.add("Product Price");
 		DefaultTableModel dtm = new DefaultTableModel(header, 0);
 
-		Vector<Cart> carts = CartController.getInstance().getCartList();
+		Integer totalPrice = 0;
+		Vector<Cart> carts = CartController.getInstance().getSelectedCart();
 		for (Cart c : carts) {
 			Vector<Object> row = new Vector<>();
 			row.add(c.getProductId().toString());
 			row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductName());
 			row.add(c.getProductQuantity().toString());
+			row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductPrice());
+			totalPrice += ProductController.getInstance().getOneProduct(c.getProductId()).getProductPrice();
 			dtm.addRow(row);
 		}
 		table.setModel(dtm);
+		tpLbl.setText(totalPrice.toString());
 	}
 
-	private void selectCart() {
-		int ans = JOptionPane.showConfirmDialog(this, "Select This Product?");
-		if (ans == JOptionPane.YES_OPTION) {
-			Integer productQuantity = Integer.parseInt(qtyLbl.getText());
-
-			Users u = UserController.getInstance().getActiveUser();
-			CartController.getInstance().setCart(new Cart(u.getUserId(), productId, productQuantity));
-
-			Cart cart = CartController.getInstance().selectCart();
-
-			if (cart == null) {
-				JOptionPane.showMessageDialog(this, CartController.getInstance().getErrorMessage());
-			} else {
-				JOptionPane.showMessageDialog(this, "Select Cart Successful!");
-				loadData();
-			}
-			pmLbl.setText("-");
-			qtyLbl.setText("0");
-			productId=0;
-		} else if (ans == JOptionPane.NO_OPTION) {
-			productId=0;
-			pmLbl.setText("-");
-			qtyLbl.setText("0");
-		}
-
-	}
 }

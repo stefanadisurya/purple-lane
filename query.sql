@@ -3,6 +3,12 @@ CREATE TABLE Role (
 	roleName varchar(255) not null
 );
 
+INSERT INTO `role` (`roleId`, `roleName`) VALUES
+(1, 'Admin'),
+(2, 'Member'),
+(3, 'Manager'),
+(4, 'PromotionTeam');
+
 CREATE TABLE Users (
 	userId int primary key auto_increment,
 	roleId int not null,

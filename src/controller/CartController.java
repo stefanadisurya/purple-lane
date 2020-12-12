@@ -7,6 +7,8 @@ import core.model.Model;
 import core.view.View;
 import model.Cart;
 import model.Product;
+import view.ManageCartMenuView;
+import view.ManagePromoMenuView;
 
 public class CartController extends Controller {
 	private Vector<Cart> cartList;
@@ -20,13 +22,8 @@ public class CartController extends Controller {
 		if (controller == null) {
 			controller = new CartController();
 		}
-
 		return controller;
 
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
 	}
 
 	private CartController(Vector<Cart> cartList, Vector<Cart> selectedCart) {
@@ -46,34 +43,26 @@ public class CartController extends Controller {
 				}
 			}
 		}
+		selectedCart = new Vector<>();
 	}
 
-	public Vector<Cart> getCartList() {
-
-		return cartList;
+	public void viewManageCartMenu() {
+		view().showForm();
 	}
-
-	public void setCartList(Vector<Cart> cartList) {
-		this.cartList = cartList;
-	}
-
-	public Vector<Cart> getSelectedCart() {
-		return selectedCart;
-	}
-
-	public void setSelectedCart(Vector<Cart> selectedCart) {
-		this.selectedCart = selectedCart;
+	
+	public void viewPaymentMenu() {
+		view().showForm();
 	}
 
 	@Override
 	public View view() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ManageCartMenuView();
 	}
 
 	@Override
 	public Vector<Model> getAll() {
-		
+
 		// TODO Auto-generated method stub
 		return cart.getAll();
 	}
@@ -94,15 +83,15 @@ public class CartController extends Controller {
 			errorMessage = "product Id must be numeric!";
 			return null;
 		}
-		
-		if(productID==0) {
+
+		if (productID == 0) {
 			errorMessage = "Choose Product First!";
 			return null;
-		}else if(productQuantity.isEmpty()) {
+		} else if (productQuantity.isEmpty()) {
 			errorMessage = "Quantity cannot be empty!";
 			return null;
 		}
-		
+
 		Integer qty = 0;
 		try {
 			qty = Integer.parseInt(productQuantity);
@@ -142,6 +131,18 @@ public class CartController extends Controller {
 	}
 
 	public Cart selectCart() {
+		if (cart.getProductId() == 0 || cart.getProductQuantity() == 0) {
+			errorMessage = "Choose Product First!";
+			return null;
+		}
+
+		for (Cart c : selectedCart) {
+			if (c.getProductId() == cart.getProductId() && c.getProductQuantity() == cart.getProductQuantity()
+					&& c.getUserId() == cart.getUserId()) {
+				errorMessage = "This Product Already Selected!";
+				return null;
+			}
+		}
 		selectedCart.add(cart);
 		return cart;
 	}
@@ -216,6 +217,7 @@ public class CartController extends Controller {
 			if (cart.getUserId() == userID && cart.getProductId() == productID) {
 				cart.setProductQuantity(qty);
 				c = pd.update();
+				System.out.println(c.getProductQuantity());
 			}
 		}
 
@@ -231,6 +233,19 @@ public class CartController extends Controller {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public Vector<Cart> getCartList() {
+
+		return cartList;
+	}
+
+	public Vector<Cart> getSelectedCart() {
+		return selectedCart;
 	}
 
 }

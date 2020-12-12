@@ -68,7 +68,7 @@ public class Cart extends Model{
 	
 	public Cart update() {
 		String query = String.format(
-				"UPDATE %s " + "SET productQty = ?" + "WHERE userId = ? AND productId = ?",
+				"UPDATE %s " + "SET productQty = ? WHERE userId = ? AND productId = ?",
 				this.tableName);
 
 		PreparedStatement ps = this.con.prepareStatement(query);
@@ -78,6 +78,7 @@ public class Cart extends Model{
 			ps.setInt(2, userId);
 			ps.setInt(3, productId);
 			ps.executeUpdate();
+			System.out.println(productId);
 			return new Cart(userId, productId, productQuantity);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -121,7 +122,6 @@ public class Cart extends Model{
 		String query = "SELECT * FROM " + this.tableName;
 		ResultSet rs = this.con.executeQuery(query);
 		if(rs==null)return null;
-		System.out.println("berhasil");
 		try {
 			Vector<Model> carts = new Vector<>();
 			while (rs.next()) {
