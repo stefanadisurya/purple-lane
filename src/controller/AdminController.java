@@ -35,7 +35,6 @@ public class AdminController extends Controller {
 	}
 
 	public void create(String productName, String productAuthor, String productPrice, String productStock) {
-
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
@@ -43,6 +42,7 @@ public class AdminController extends Controller {
 
 		if (productController.isValid() == true) {
 			productController.createProduct();
+			JOptionPane.showMessageDialog(null, "Insert Product Success!");
 		} else {
 			productController.setValid(true);
 		}
@@ -58,6 +58,7 @@ public class AdminController extends Controller {
 
 		if (productController.isValid() == true) {
 			productController.updateProduct();
+			JOptionPane.showMessageDialog(null, "Update Product Success!");
 		} else {
 			productController.setValid(true);
 		}
@@ -68,12 +69,16 @@ public class AdminController extends Controller {
 		
 		if(productController.isValid() == true) {
 			productController.deleteProduct();
+			JOptionPane.showMessageDialog(null, "Delete Product Success!");
+		} else {
+			productController.setValid(true);
 		}
 	}
 	
 	public void reduceStock(Integer productStock, Integer productId) {
 		productController.setProductId(productId);
 		productController.reduceStock(productStock);
+		JOptionPane.showMessageDialog(null, "Reduct Product Stock Success!");
 	}
 
 }
