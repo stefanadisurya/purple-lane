@@ -28,15 +28,15 @@ public class LoginView extends View implements ActionListener {
 
 	public LoginView() {
 		super();
-		this.height = 600;
-		this.width = 600;
+		this.height = 300;
+		this.width = 400;
 	}
 
 	@Override
 	public void initialize() {
 		top = new JPanel(new FlowLayout());
 		GridLayout gl = new GridLayout(2, 2);
-		gl.setVgap(350);
+		gl.setVgap(20);
 		mid = new JPanel(gl);
 		bot = new JPanel(new FlowLayout());
 
@@ -66,7 +66,7 @@ public class LoginView extends View implements ActionListener {
 		bot.add(cancel);
 		bot.add(login);
 
-		mid.setBorder(new EmptyBorder(50, 50, 50, 50));
+		mid.setBorder(new EmptyBorder(30, 40, 30, 40));
 
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);

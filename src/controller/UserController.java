@@ -63,5 +63,10 @@ public class UserController extends Controller {
 	public void setActiveUser(Users activeUser) {
 		this.activeUser = activeUser;
 	}
+	
+	public void disposeUser() {
+		this.controller = null;
+		this.activeUser = null;
+	}
 
 }

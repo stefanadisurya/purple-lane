@@ -13,6 +13,7 @@ import view.ManagePromoMenuView;
 public class CartController extends Controller {
 	private Vector<Cart> cartList;
 	private Vector<Cart> selectedCart;
+	
 	private Cart cart;
 	public static CartController controller = null;
 
