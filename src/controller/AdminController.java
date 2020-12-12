@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
-import model.Products;
+import model.Product;
 import view.ProductView;
 
 public class AdminController extends Controller {
@@ -41,8 +41,8 @@ public class AdminController extends Controller {
 		productController.setProductStock(productStock);
 
 		if (productController.isValid() == true) {
-			Products p = productController.createProduct();
-			p.create();
+			Product p = productController.createProduct();
+			p.createProduct(productName, productAuthor, productPrice, productStock);
 		}
 
 	}
@@ -56,15 +56,15 @@ public class AdminController extends Controller {
 		productController.setProductId(productId);
 
 		if (productController.isValid() == true) {
-			Products p = productController.createProduct();
-			p.update();
+			Product p = productController.createProduct();
+			p.updateProduct(productId, productName, productAuthor, productPrice, productStock);
 		}
 	}
 
 	public void delete(Integer productId) {
-		Products p = new Products();
+		Product p = new Product();
 		p.setProductId(productId);
-		p.delete();
+		p.deleteProduct(productId);
 	}
 
 }

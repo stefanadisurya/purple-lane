@@ -24,7 +24,7 @@ import controller.AdminController;
 import controller.AuthController;
 import core.model.Model;
 import core.view.View;
-import model.Products;
+import model.Product;
 
 public class ProductView extends View implements ActionListener, MouseListener {
 
@@ -129,7 +129,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		Vector<Model> listProduct = AdminController.getInstance().getAll();
 
 		for (Model model : listProduct) {
-			Products p = (Products) model;
+			Product p = (Product) model;
 			detail = new Vector<>();
 
 			detail.add(p.getProductId().toString());

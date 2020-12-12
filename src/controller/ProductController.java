@@ -6,16 +6,16 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import core.model.Model;
-import model.Products;
+import model.Product;
 
 public class ProductController {
 
-	private Products products;
+	private Product product;
 	private static ProductController controller;
 	private boolean valid;
 
 	private ProductController() {
-		products = new Products();
+		product = new Product();
 		valid = true;
 	}
 	
@@ -24,14 +24,14 @@ public class ProductController {
 	}
 
 	public void setProductId(Integer productId) {
-		if (this.products.setProductId(productId) == false) {
+		if (this.product.setProductId(productId) == false) {
 			JOptionPane.showMessageDialog(null, "ProductId Not Detected!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
 	}
 
 	public void setProductName(String productName) {
-		if (this.products.setProductName(productName) == false) {
+		if (this.product.setProductName(productName) == false) {
 			JOptionPane.showMessageDialog(null, "Please fill the Product Name column!", "Warning!",
 					JOptionPane.WARNING_MESSAGE);
 			valid = false;
@@ -39,7 +39,7 @@ public class ProductController {
 	}
 
 	public void setProductAuthor(String productAuthor) {
-		if (this.products.setProductAuthor(productAuthor) == false) {
+		if (this.product.setProductAuthor(productAuthor) == false) {
 			JOptionPane.showMessageDialog(null, "Please fill the Product Author column!", "Warning!",
 					JOptionPane.WARNING_MESSAGE);
 			valid = false;
@@ -52,7 +52,7 @@ public class ProductController {
 					JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
-		if (this.products.setProductPrice(productPrice) == false) {
+		if (this.product.setProductPrice(productPrice) == false) {
 			JOptionPane.showMessageDialog(null, "Price must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
@@ -64,7 +64,7 @@ public class ProductController {
 					JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
-		if (this.products.setProductStock(productStock) == false) {
+		if (this.product.setProductStock(productStock) == false) {
 			JOptionPane.showMessageDialog(null, "Stock must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
@@ -74,16 +74,16 @@ public class ProductController {
 		return valid;
 	}
 
-	public Products createProduct() {
-		return products;
+	public Product createProduct() {
+		return product;
 	}
 
 	public Vector<Model> getAll() {
-		return products.getAll();
+		return product.getAll();
 	}
 	
-	public Products getOneProduct(Integer productId) {
-		return products.getOneProduct(productId);
+	public Product getOneProduct(Integer productId) {
+		return product.getOneProduct(productId);
 	}
 
 }

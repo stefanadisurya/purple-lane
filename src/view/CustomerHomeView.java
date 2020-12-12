@@ -29,7 +29,7 @@ import controller.ProductController;
 import controller.UserController;
 import core.model.Model;
 import core.view.View;
-import model.Products;
+import model.Product;
 import model.Users;
 
 public class CustomerHomeView extends View implements ActionListener, MouseListener {
@@ -132,7 +132,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		Vector<Model> listProduct = AdminController.getInstance().getAll();
 
 		for (Model model : listProduct) {
-			Products p = (Products) model;
+			Product p = (Product) model;
 			detail = new Vector<>();
 
 			detail.add(p.getProductId().toString());
@@ -156,7 +156,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 			new AuthController();
 		} else if(e.getSource() == addCart) {
 			String qty = qtyTxt.getText();
-			Products p = ProductController.getInstance().getOneProduct(productId);
+			Product p = ProductController.getInstance().getOneProduct(productId);
 			CartController c = CartController.getInstance();
 			Users u = UserController.getInstance().getActiveUser();
 			

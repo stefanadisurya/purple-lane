@@ -1,4 +1,3 @@
-
 package model;
 
 import java.sql.PreparedStatement;
@@ -8,15 +7,15 @@ import java.util.Vector;
 
 import core.model.Model;
 
-public class Products extends Model {
-
+public class Product extends Model {
+	
 	private Integer productId;
 	private String productName;
 	private String productAuthor;
 	private Integer productPrice;
 	private Integer productStock;
 	private String tableName;
-
+	
 	public Integer getProductId() {
 		return productId;
 	}
@@ -72,11 +71,11 @@ public class Products extends Model {
 		return true;
 	}
 
-	public Products() {
+	public Product() {
 		this.tableName = "products";
 	}
 
-	public Products(Integer productId, String productName, String productAuthor, Integer productPrice,
+	public Product(Integer productId, String productName, String productAuthor, Integer productPrice,
 			Integer productStock) {
 		super();
 		this.productId = productId;
@@ -86,8 +85,9 @@ public class Products extends Model {
 		this.productStock = productStock;
 		this.tableName = "products";
 	}
-
-	public Products create() {
+	
+	public Product createProduct(String productName, String productAuthor, Integer productPrice,
+			Integer productStock) {
 		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?, ?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 
@@ -97,15 +97,16 @@ public class Products extends Model {
 			ps.setInt(3, productPrice);
 			ps.setInt(4, productStock);
 			ps.executeUpdate();
-			return new Products(null, productName, productAuthor, productPrice, productStock);
+			return new Product(null, productName, productAuthor, productPrice, productStock);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
-
-	public void update() {
+	
+	public Product updateProduct(Integer productId, String productName, String productAuthor, Integer productPrice,
+			Integer productStock) {
 		String query = String.format(
 				"UPDATE %s SET productName=?, productAuthor=?, productPrice=?, productStock=? WHERE productId=?",
 				tableName);
@@ -121,9 +122,11 @@ public class Products extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
-
-	public void delete() {
+	
+	public Product deleteProduct(Integer productId) {
 		String query = String.format("DELETE FROM %s WHERE productId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 
@@ -133,6 +136,8 @@ public class Products extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	@Override
@@ -150,7 +155,7 @@ public class Products extends Model {
 				Integer price = rs.getInt("productPrice");
 				Integer stock = rs.getInt("productStock");
 
-				Products p = new Products();
+				Product p = new Product();
 				p.setProductId(id);
 				p.setProductName(name);
 				p.setProductAuthor(author);
@@ -163,29 +168,28 @@ public class Products extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
 	
-	public Products getOneProduct(Integer productId) {
+	public Product getOneProduct(Integer productId) {
 		String query = String.format("SELECT * FROM %s "
 				+ "WHERE productId=%d", tableName, productId);
 		ResultSet res = this.con.executeQuery(query);
 		
 		try {
 			while(res.next()) {
-				Products p = map(res);
+				Product p = map(res);
 				return p;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
 	
-	private Products map(ResultSet res) {
+	private Product map(ResultSet res) {
 		Integer id;
 		try {
 			id = res.getInt("productId");
@@ -194,12 +198,10 @@ public class Products extends Model {
 			Integer price = res.getInt("productPrice");
 			Integer stock = res.getInt("productStock");
 			
-			return new Products(id, name, author, price, stock);
+			return new Product(id, name, author, price, stock);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 }
