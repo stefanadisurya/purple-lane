@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -151,8 +152,8 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		if (e.getSource() == insert) {
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
-			Integer price = Integer.parseInt(priceTxt.getText());
-			Integer stock = Integer.parseInt(stockTxt.getText());
+			String price = priceTxt.getText();
+			String stock = stockTxt.getText();
 
 			AdminController.getInstance().create(name, author, price, stock);
 			loadData();
@@ -160,8 +161,8 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			Integer id = Integer.parseInt(idValue.getText());
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
-			Integer price = Integer.parseInt(priceTxt.getText());
-			Integer stock = Integer.parseInt(stockTxt.getText());
+			String price = priceTxt.getText();
+			String stock = stockTxt.getText();
 
 			AdminController.getInstance().update(id, name, author, price, stock);
 			loadData();
@@ -170,6 +171,12 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 			AdminController.getInstance().delete(id);
 			loadData();
+			
+			idValue.setText("-");
+			nameTxt.setText("");
+			authorTxt.setText("");
+			priceTxt.setText("");
+			stockTxt.setText("");
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();

@@ -10,10 +10,10 @@ import view.CustomerHomeView;
 public class Main {
 
 	public Main() {
-//		AdminController.getInstance().view().showForm();
+		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
 //		LoginController.getInstance().view().showForm();
-		AuthController.getInstance().view().showForm();
+//		AuthController.getInstance().view().showForm();
 		
 		//Albert Promo View Testing
 //		PromoController.getInstance().viewManagePromoMenu();

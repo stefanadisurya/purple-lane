@@ -17,6 +17,10 @@ public class ProductController extends Controller {
 	private static ProductController controller;
 	private boolean valid;
 	
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
 	private ProductController() {
 		product = new Product();
 		valid = true;
@@ -40,41 +44,59 @@ public class ProductController extends Controller {
 
 	public void setProductName(String productName) {
 		if (this.product.setProductName(productName) == false) {
-			JOptionPane.showMessageDialog(null, "Please fill the Product Name column!", "Warning!",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Please fill the Product Name column!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
 	}
 
 	public void setProductAuthor(String productAuthor) {
 		if (this.product.setProductAuthor(productAuthor) == false) {
-			JOptionPane.showMessageDialog(null, "Please fill the Product Author column!", "Warning!",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Please fill the Product Author column!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 		}
 	}
 
-	public void setProductPrice(Integer productPrice) {
-		if (productPrice.equals(null)) {
-			JOptionPane.showMessageDialog(null, "Please fill the Product Price column!", "Warning!",
-					JOptionPane.WARNING_MESSAGE);
+	public void setProductPrice(String productPrice) {
+		if(productPrice.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Product Price column!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
-		}
-		if (this.product.setProductPrice(productPrice) == false) {
-			JOptionPane.showMessageDialog(null, "Price must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
-			valid = false;
+		} else {
+			Integer temp = 0;
+			try {
+				temp = Integer.parseInt(productPrice);
+				
+				if(temp <= 0) {
+					JOptionPane.showMessageDialog(null, "Product Price must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
+					valid = false;
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Product Price must be numeric!", "Warning!", JOptionPane.WARNING_MESSAGE);
+				valid = false;
+			}
+			
+			product.setProductPrice(temp);
 		}
 	}
 
-	public void setProductStock(Integer productStock) {
-		if (productStock.equals(null)) {
-			JOptionPane.showMessageDialog(null, "Please fill the Product Stock column!", "Warning!",
-					JOptionPane.WARNING_MESSAGE);
+	public void setProductStock(String productStock) {
+		if(productStock.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Product Stock column!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
-		}
-		if (this.product.setProductStock(productStock) == false) {
-			JOptionPane.showMessageDialog(null, "Stock must be number!", "Warning!", JOptionPane.WARNING_MESSAGE);
-			valid = false;
+		} else {
+			Integer temp = 0;
+			try {
+				temp = Integer.parseInt(productStock);
+				
+				if(temp <= 0) {
+					JOptionPane.showMessageDialog(null, "Product Stock must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
+					valid = false;
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Product Stock must be numeric!", "Warning!", JOptionPane.WARNING_MESSAGE);
+				valid = false;
+			}
+			
+			product.setProductStock(temp);
 		}
 	}
 

@@ -2,6 +2,8 @@ package controller;
 
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
@@ -12,6 +14,7 @@ public class AdminController extends Controller {
 
 	private ProductController productController;
 	private static AdminController controller;
+	private boolean valid;
 
 	private AdminController() {
 		productController = ProductController.getInstance();
@@ -31,7 +34,7 @@ public class AdminController extends Controller {
 		return productController.getAll();
 	}
 
-	public void create(String productName, String productAuthor, Integer productPrice, Integer productStock) {
+	public void create(String productName, String productAuthor, String productPrice, String productStock) {
 
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
@@ -39,12 +42,14 @@ public class AdminController extends Controller {
 		productController.setProductStock(productStock);
 
 		if (productController.isValid() == true) {
-			Product p = productController.createProduct();
+			productController.createProduct();
+		} else {
+			productController.setValid(true);
 		}
 
 	}
 
-	public void update(Integer productId, String productName, String productAuthor, Integer productPrice, Integer productStock) {
+	public void update(Integer productId, String productName, String productAuthor, String productPrice, String productStock) {
 		productController.setProductId(productId);
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
@@ -52,7 +57,9 @@ public class AdminController extends Controller {
 		productController.setProductStock(productStock);
 
 		if (productController.isValid() == true) {
-			Product p = productController.updateProduct();
+			productController.updateProduct();
+		} else {
+			productController.setValid(true);
 		}
 	}
 
@@ -60,7 +67,7 @@ public class AdminController extends Controller {
 		productController.setProductId(productId);
 		
 		if(productController.isValid() == true) {
-			Product p = productController.deleteProduct();
+			productController.deleteProduct();
 		}
 	}
 
