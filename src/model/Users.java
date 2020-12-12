@@ -26,7 +26,7 @@ public class Users extends Model {
 
 	Connect db;
 	ResultSet rs;
-	
+
 	private Users(Integer userId, String username, Integer roleId, String password) {
 		super();
 		this.tableName = "users";
@@ -49,7 +49,7 @@ public class Users extends Model {
 	}
 
 	public boolean setUsername(String username) {
-		if(username.equals(""))
+		if (username.equals(""))
 			return false;
 		this.username = username;
 		return true;
@@ -60,7 +60,7 @@ public class Users extends Model {
 	}
 
 	public boolean setRoleId(Integer roleId) {
-		if(roleId == 0)
+		if (roleId == 0)
 			return false;
 		this.roleId = roleId;
 		return true;
@@ -71,27 +71,28 @@ public class Users extends Model {
 	}
 
 	public boolean setPassword(String password) {
-		if(password.equals(""))
+		if (password.equals(""))
 			return false;
 		this.password = password;
 		return true;
 	}
-	
+
 	public Users getOneUser(String username, String password) throws SQLException {
 		db = Connect.getConnection();
-		
-		String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s'", tableName, username, password);
+
+		String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s'", tableName, username,
+				password);
 		rs = db.executeQuery(query);
-		
+
 		Users u = map(rs);
 		return u;
-		
+
 	}
-	
+
 	public Users createAdminAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
 		try {
 			ps.setInt(1, 1);
 			ps.setString(2, username);
@@ -101,14 +102,14 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public Users createCustomerAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
 		try {
 			ps.setInt(1, 2);
 			ps.setString(2, username);
@@ -118,14 +119,14 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public Users createManagerAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
 		try {
 			ps.setInt(1, 3);
 			ps.setString(2, username);
@@ -135,14 +136,14 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public Users createPromotionTeamAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
 		try {
 			ps.setInt(1, 3);
 			ps.setString(2, username);
@@ -152,13 +153,13 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	private Users map(ResultSet rs) {
 		try {
-			if(rs.next()) {
+			if (rs.next()) {
 				Integer userId = rs.getInt("userId");
 				String username = rs.getString("username");
 				Integer roleId = rs.getInt("roleId");
@@ -171,7 +172,7 @@ public class Users extends Model {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		}
 		return null;
 	}
@@ -188,7 +189,7 @@ public class Users extends Model {
 			rs = db.executeQuery(
 					"SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'");
 			if (rs.next()) {
-				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {					
+				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {
 					if (rs.getString("roleId").equals(Integer.toString(1))) { // Admin
 						JOptionPane.showMessageDialog(null, "Login Success!");
 						AdminController.getInstance().view().showForm();
