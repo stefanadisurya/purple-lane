@@ -14,10 +14,6 @@ public class Main {
 //		LoginController.getInstance().view().showForm();
 //		AuthController.getInstance().view().showForm();
 		
-<<<<<<< HEAD
-		
-=======
->>>>>>> ca92f5989eaad2b20c82c2a787c7dafddb538430
 		//Albert Promo View Testing
 		PromoController.getInstance().viewManagePromoMenu();
 	}
