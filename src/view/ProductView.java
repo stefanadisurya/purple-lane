@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
 import controller.AuthController;
+import controller.ProductController;
 import core.model.Model;
 import core.view.View;
 import model.Product;
@@ -41,7 +42,6 @@ public class ProductView extends View implements ActionListener, MouseListener {
 	Vector<String> detail, header;
 
 	public ProductView() {
-		// TODO Auto-generated constructor stub
 		super();
 		this.height = 700;
 		this.width = 600;
@@ -126,7 +126,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Price");
 		header.add("Product Stock");
 
-		Vector<Model> listProduct = AdminController.getInstance().getAll();
+		Vector<Model> listProduct = ProductController.getInstance().getAll();
 
 		for (Model model : listProduct) {
 			Product p = (Product) model;
@@ -154,16 +154,16 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			Integer price = Integer.parseInt(priceTxt.getText());
 			Integer stock = Integer.parseInt(stockTxt.getText());
 
-			AdminController.getInstance().insert(name, author, price, stock);
+			AdminController.getInstance().create(name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == update) {
+			Integer id = Integer.parseInt(idValue.getText());
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
 			Integer price = Integer.parseInt(priceTxt.getText());
 			Integer stock = Integer.parseInt(stockTxt.getText());
-			Integer id = Integer.parseInt(idValue.getText());
 
-			AdminController.getInstance().update(name, author, price, stock, id);
+			AdminController.getInstance().update(id, name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == delete) {
 			Integer id = Integer.parseInt(idValue.getText());

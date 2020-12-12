@@ -111,10 +111,18 @@ public class RegisterView extends View implements ActionListener {
 			AuthController.getInstance().view().showForm();
 		} else if (e.getSource() == register) {
 			String username = usernameTxt.getText();
-			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
+//			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
 			String password = passwordTxt.getText();
-
-			RegisterController.getInstance().insert(username, roleId, password);
+			if(roleGroup.getSelection().getActionCommand().equals(Integer.toString(1))) {
+				RegisterController.getInstance().createAdminAccount(username, password);
+			} else if(roleGroup.getSelection().getActionCommand().equals(Integer.toString(2))) {
+				RegisterController.getInstance().createCustomerAccount(username, password);
+			} else if(roleGroup.getSelection().getActionCommand().equals(Integer.toString(3))) {
+				RegisterController.getInstance().createManagerAccount(username, password);
+			} else if(roleGroup.getSelection().getActionCommand().equals(Integer.toString(4))) {
+				RegisterController.getInstance().createPromotionTeamAccount(username, password);
+			}
+			
 			JOptionPane.showMessageDialog(null, "Register Success!");
 			this.dispose();
 			LoginController.getInstance().view().showForm();

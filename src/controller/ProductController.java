@@ -5,10 +5,13 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import core.controller.Controller;
 import core.model.Model;
+import core.view.View;
 import model.Product;
+import view.ProductView;
 
-public class ProductController {
+public class ProductController extends Controller {
 
 	private Product product;
 	private static ProductController controller;
@@ -21,6 +24,11 @@ public class ProductController {
 	
 	public static ProductController getInstance() {
 		return controller = (controller == null) ? new ProductController() : controller;
+	}
+	
+	@Override
+	public View view() {
+		return new ProductView();
 	}
 
 	public void setProductId(Integer productId) {
@@ -73,9 +81,24 @@ public class ProductController {
 	public boolean isValid() {
 		return valid;
 	}
+	
+	public Product newProduct() {
+		return product;
+	}
 
 	public Product createProduct() {
-		return product;
+		newProduct();
+		return product.createProduct(product.getProductName(), product.getProductAuthor(), product.getProductPrice(), product.getProductStock());
+	}
+	
+	public Product updateProduct() {
+		newProduct();
+		return product.updateProduct(product.getProductId(), product.getProductName(), product.getProductAuthor(), product.getProductPrice(), product.getProductStock());
+	}
+	
+	public Product deleteProduct() {
+		newProduct();
+		return product.deleteProduct(product.getProductId());
 	}
 
 	public Vector<Model> getAll() {
