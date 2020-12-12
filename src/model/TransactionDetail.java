@@ -108,10 +108,4 @@ public class TransactionDetail extends Model {
 		this.productQuantity = productQuantity;
 	}
 
-	
-	
-
-
-	
-
 }

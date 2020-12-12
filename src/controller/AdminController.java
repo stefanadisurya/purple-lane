@@ -14,6 +14,7 @@ public class AdminController extends Controller {
 
 	private ProductController productController;
 	private static AdminController controller;
+	private boolean valid;
 
 	private AdminController() {
 		productController = ProductController.getInstance();
@@ -33,38 +34,51 @@ public class AdminController extends Controller {
 		return productController.getAll();
 	}
 
-	public void insert(String productName, String productAuthor, Integer productPrice, Integer productStock) {
-
+	public void create(String productName, String productAuthor, String productPrice, String productStock) {
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
 		productController.setProductStock(productStock);
 
 		if (productController.isValid() == true) {
-			Product p = productController.createProduct();
-			p.createProduct(productName, productAuthor, productPrice, productStock);
+			productController.createProduct();
+			JOptionPane.showMessageDialog(null, "Insert Product Success!");
+		} else {
+			productController.setValid(true);
 		}
 
 	}
 
-	public void update(String productName, String productAuthor, Integer productPrice, Integer productStock,
-			Integer productId) {
+	public void update(Integer productId, String productName, String productAuthor, String productPrice, String productStock) {
+		productController.setProductId(productId);
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
 		productController.setProductStock(productStock);
-		productController.setProductId(productId);
 
 		if (productController.isValid() == true) {
-			Product p = productController.createProduct();
-			p.updateProduct(productId, productName, productAuthor, productPrice, productStock);
+			productController.updateProduct();
+			JOptionPane.showMessageDialog(null, "Update Product Success!");
+		} else {
+			productController.setValid(true);
 		}
 	}
 
 	public void delete(Integer productId) {
-		Product p = new Product();
-		p.setProductId(productId);
-		p.deleteProduct(productId);
+		productController.setProductId(productId);
+		
+		if(productController.isValid() == true) {
+			productController.deleteProduct();
+			JOptionPane.showMessageDialog(null, "Delete Product Success!");
+		} else {
+			productController.setValid(true);
+		}
+	}
+	
+	public void reduceStock(Integer productStock, Integer productId) {
+		productController.setProductId(productId);
+		productController.reduceStock(productStock);
+		JOptionPane.showMessageDialog(null, "Reduct Product Stock Success!");
 	}
 
 }

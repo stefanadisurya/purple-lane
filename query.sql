@@ -3,6 +3,12 @@ CREATE TABLE Role (
 	roleName varchar(255) not null
 );
 
+INSERT INTO `role` (`roleId`, `roleName`) VALUES
+(1, 'Admin'),
+(2, 'Member'),
+(3, 'Manager'),
+(4, 'PromotionTeam');
+
 CREATE TABLE Users (
 	userId int primary key auto_increment,
 	roleId int not null,
@@ -45,9 +51,10 @@ CREATE TABLE DetailTransaction (
 );
 
 
-CREATE TABLE Carts (
-	cartId int primary key auto_increment,
+CREATE TABLE Cart (
+	userId int not null,
 	productId int not null,
 	productQty int not null,
+	foreign key (userId) references Users(userId) on update cascade on delete cascade,
 	foreign key (productId) references Products(productId) on update cascade on delete cascade
 );

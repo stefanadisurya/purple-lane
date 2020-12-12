@@ -2,9 +2,13 @@
 import controller.AdminController;
 import controller.AuthController;
 import controller.LoginController;
+import controller.ProductController;
 import controller.PromoController;
 import controller.RegisterController;
+
+import view.CustomerHomeView;
 import view.RegisterView;
+
 
 public class Main {
 
@@ -14,10 +18,13 @@ public class Main {
 //		LoginController.getInstance().view().showForm();
 //		AuthController.getInstance().view().showForm();
 		
+
 		new RegisterView().showForm();
 		
+
+
 		//Albert Promo View Testing
-//		PromoController.getInstance().view().showForm();
+//		PromoController.getInstance().viewManagePromoMenu();
 	}
 
 	public static void main(String[] args) {

@@ -157,27 +157,6 @@ public class Transaction extends Model{
 		this.userId = userId;
 	}
 
-	
-	
-
-	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public Vector<Model> getAll() {
 		// TODO Auto-generated method stub

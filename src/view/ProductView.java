@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
 import controller.AuthController;
+import controller.ProductController;
 import core.model.Model;
 import core.view.View;
 import model.Product;
@@ -36,12 +38,11 @@ public class ProductView extends View implements ActionListener, MouseListener {
 	JScrollPane sp;
 	JLabel idLbl, idValue, nameLbl, authorLbl, priceLbl, stockLbl;
 	JTextField nameTxt, authorTxt, priceTxt, stockTxt;
-	JButton insert, update, delete;
+	JButton insert, update, delete, reduce;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 
 	public ProductView() {
-		// TODO Auto-generated constructor stub
 		super();
 		this.height = 700;
 		this.width = 600;
@@ -76,11 +77,13 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		insert = new JButton("Insert");
 		update = new JButton("Update");
 		delete = new JButton("Delete");
+		reduce = new JButton("Reduce Stock");
 
 		insert.addActionListener(this);
 		update.addActionListener(this);
 		delete.addActionListener(this);
 		logout.addActionListener(this);
+		reduce.addActionListener(this);
 
 	}
 
@@ -107,6 +110,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		bot.add(insert);
 		bot.add(update);
 		bot.add(delete);
+		bot.add(reduce);
 
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -126,7 +130,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Price");
 		header.add("Product Stock");
 
-		Vector<Model> listProduct = AdminController.getInstance().getAll();
+		Vector<Model> listProduct = ProductController.getInstance().getAll();
 
 		for (Model model : listProduct) {
 			Product p = (Product) model;
@@ -151,25 +155,43 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		if (e.getSource() == insert) {
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
-			Integer price = Integer.parseInt(priceTxt.getText());
-			Integer stock = Integer.parseInt(stockTxt.getText());
+			String price = priceTxt.getText();
+			String stock = stockTxt.getText();
 
-			AdminController.getInstance().insert(name, author, price, stock);
+			AdminController.getInstance().create(name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == update) {
+			Integer id = Integer.parseInt(idValue.getText());
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
-			Integer price = Integer.parseInt(priceTxt.getText());
-			Integer stock = Integer.parseInt(stockTxt.getText());
-			Integer id = Integer.parseInt(idValue.getText());
+			String price = priceTxt.getText();
+			String stock = stockTxt.getText();
 
-			AdminController.getInstance().update(name, author, price, stock, id);
+			AdminController.getInstance().update(id, name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == delete) {
 			Integer id = Integer.parseInt(idValue.getText());
 
 			AdminController.getInstance().delete(id);
 			loadData();
+			
+			idValue.setText("-");
+			nameTxt.setText("");
+			authorTxt.setText("");
+			priceTxt.setText("");
+			stockTxt.setText("");
+		} else if(e.getSource() == reduce) {
+			Integer stock = Integer.parseInt(stockTxt.getText());
+			Integer id = Integer.parseInt(idValue.getText());
+			
+			AdminController.getInstance().reduceStock(stock, id);
+			loadData();
+			
+			idValue.setText("-");
+			nameTxt.setText("");
+			authorTxt.setText("");
+			priceTxt.setText("");
+			stockTxt.setText("");
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();

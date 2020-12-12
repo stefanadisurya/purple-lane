@@ -13,6 +13,7 @@ import controller.AdminController;
 import controller.CustomerController;
 import controller.LoginController;
 import controller.ManagerController;
+import controller.ProductController;
 import controller.PromoController;
 import core.model.Model;
 
@@ -25,9 +26,10 @@ public class Users extends Model {
 
 	Connect db;
 	ResultSet rs;
-	
+
 	private Users(Integer userId, String username, Integer roleId, String password) {
 		super();
+		this.tableName = "users";
 		this.userId = userId;
 		this.username = username;
 		this.roleId = roleId;
@@ -46,58 +48,51 @@ public class Users extends Model {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public boolean setUsername(String username) {
+		if (username.equals(""))
+			return false;
 		this.username = username;
+		return true;
 	}
 
 	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public boolean setRoleId(Integer roleId) {
+		if (roleId == 0)
+			return false;
 		this.roleId = roleId;
+		return true;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public boolean setPassword(String password) {
+		if (password.equals(""))
+			return false;
 		this.password = password;
+		return true;
 	}
-	
+
 	public Users getOneUser(String username, String password) throws SQLException {
 		db = Connect.getConnection();
-		
-		String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s'", tableName, username, password);
+
+		String query = String.format("SELECT * FROM %s WHERE username='%s' AND password='%s'", tableName, username,
+				password);
 		rs = db.executeQuery(query);
-		
+
 		Users u = map(rs);
 		return u;
-		
+
 	}
-	
-	public Users createCustomerAccount(String username, String password) {
-		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
-		PreparedStatement ps = con.prepareStatement(query);
-		
-		try {
-			ps.setInt(1, 2);
-			ps.setString(2, username);
-			ps.setString(3, password);
-			ps.executeUpdate();
-			return new Users(null, username, 2, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
+
 	public Users createAdminAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
 		try {
 			ps.setInt(1, 1);
 			ps.setString(2, username);
@@ -107,14 +102,31 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
-	public Users createPromotionTeamAccount(String username, String password) {
+
+	public Users createCustomerAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
-		
+
+		try {
+			ps.setInt(1, 2);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+			return new Users(null, username, 2, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public Users createManagerAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+
 		try {
 			ps.setInt(1, 3);
 			ps.setString(2, username);
@@ -124,13 +136,30 @@ public class Users extends Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
+	public Users createPromotionTeamAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+
+		try {
+			ps.setInt(1, 3);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+			return new Users(null, username, 4, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 	private Users map(ResultSet rs) {
 		try {
-			if(rs.next()) {
+			if (rs.next()) {
 				Integer userId = rs.getInt("userId");
 				String username = rs.getString("username");
 				Integer roleId = rs.getInt("roleId");
@@ -143,27 +172,10 @@ public class Users extends Model {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		}
 		return null;
 	}
-
-	public Users insert() {
-		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?)", tableName);
-		PreparedStatement ps = con.prepareStatement(query);
-
-		try {
-			ps.setInt(1, roleId);
-			ps.setString(2, username);
-			ps.setString(3, password);
-			ps.executeUpdate();
-			return new Users(null, username, roleId, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 
 	@Override
 	public Vector<Model> getAll() {
@@ -177,7 +189,7 @@ public class Users extends Model {
 			rs = db.executeQuery(
 					"SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'");
 			if (rs.next()) {
-				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {					
+				if (username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {
 					if (rs.getString("roleId").equals(Integer.toString(1))) { // Admin
 						JOptionPane.showMessageDialog(null, "Login Success!");
 						AdminController.getInstance().view().showForm();
