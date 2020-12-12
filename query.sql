@@ -45,9 +45,10 @@ CREATE TABLE DetailTransaction (
 );
 
 
-CREATE TABLE Carts (
-	cartId int primary key auto_increment,
+CREATE TABLE Cart (
+	userId int not null,
 	productId int not null,
 	productQty int not null,
+	foreign key (userId) references Users(userId) on update cascade on delete cascade,
 	foreign key (productId) references Products(productId) on update cascade on delete cascade
 );

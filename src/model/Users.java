@@ -29,6 +29,7 @@ public class Users extends Model {
 	
 	private Users(Integer userId, String username, Integer roleId, String password) {
 		super();
+		this.tableName = "users";
 		this.userId = userId;
 		this.username = username;
 		this.roleId = roleId;
