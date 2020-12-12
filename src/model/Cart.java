@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -14,6 +15,7 @@ public class Cart extends Model{
 	
 	public Cart() {
 		super();
+		this.tableName = "cart";
 	}
 
 	public Cart(Integer userId, Integer productId, Integer productQuantity) {
@@ -66,7 +68,7 @@ public class Cart extends Model{
 	
 	public Cart update() {
 		String query = String.format(
-				"UPDATE %s " + "SET productQuantity = ?" + "WHERE userId = ? AND productId = ?",
+				"UPDATE %s " + "SET productQty = ?" + "WHERE userId = ? AND productId = ?",
 				this.tableName);
 
 		PreparedStatement ps = this.con.prepareStatement(query);
@@ -99,9 +101,38 @@ public class Cart extends Model{
 
 	}
 	
+	private Cart map(ResultSet rs) {
+		try {
+
+			Integer userId = rs.getInt("userId");
+			Integer productId = rs.getInt("productId");
+			Integer productQuantity = rs.getInt("productQty");
+			return new Cart(userId, productId, productQuantity);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public Vector<Model> getAll() {
-		// TODO Auto-generated method stub
+		String query = "SELECT * FROM " + this.tableName;
+		ResultSet rs = this.con.executeQuery(query);
+		if(rs==null)return null;
+		System.out.println("berhasil");
+		try {
+			Vector<Model> carts = new Vector<>();
+			while (rs.next()) {
+				Cart cart = map(rs);
+				carts.add(cart);
+			}
+			return carts;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

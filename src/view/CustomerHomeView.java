@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,11 +30,16 @@ import controller.ProductController;
 import controller.UserController;
 import core.model.Model;
 import core.view.View;
+import model.Cart;
 import model.Product;
 import model.Users;
 
 public class CustomerHomeView extends View implements ActionListener, MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel top, mid, bot;
 	JTable table;
 	JScrollPane sp;
@@ -47,7 +53,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	JTextField qtyTxt;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
-	Integer productId;
+	Integer productId = 0;
 
 	public CustomerHomeView() {
 		super();
@@ -85,14 +91,15 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		addCart = new JButton("Add To Cart");
 
 		logout.addActionListener(this);
+		cart.addActionListener(this);
 		addCart.addActionListener(this);
 	}
 
 	@Override
 	public void initializeComponent() {
 
-		menuMore.add(logout);
 		menuMore.add(cart);
+		menuMore.add(logout);
 		menuBar.add(menuMore);
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
@@ -155,15 +162,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 			this.dispose();
 			new AuthController();
 		} else if(e.getSource() == addCart) {
-			String qty = qtyTxt.getText();
-			Product p = ProductController.getInstance().getOneProduct(productId);
-			CartController c = CartController.getInstance();
-			Users u = UserController.getInstance().getActiveUser();
-			
-			c.addToCart(u.getUserId().toString(), productId.toString(), qty);
-			loadData();
+			addToCart();
 		} else if(e.getSource() == cart) {
-			//View Cart
+			this.dispose();
+			new ManageCartMenuView().showForm();
 		}
 	}
 
@@ -177,7 +179,26 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 			priceTxt.setText(table.getValueAt(row, 3).toString());
 		}
 	}
+	
+	private void addToCart() {
+		String qty = qtyTxt.getText();
 
+		Users u = UserController.getInstance().getActiveUser();
+		Cart cart;
+		cart = CartController.getInstance().addToCart(u.getUserId().toString(), productId.toString(), qty);
+		nameTxt.setText("");
+		authorTxt.setText("");
+		priceTxt.setText("");
+		qtyTxt.setText("");
+		productId=0;
+		if (cart == null) {
+			JOptionPane.showMessageDialog(this, CartController.getInstance().getErrorMessage());
+		} else {
+			JOptionPane.showMessageDialog(this, "Add To Cart Successful!");
+			loadData();
+		}
+	}
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub

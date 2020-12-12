@@ -13,7 +13,7 @@ public class ProductController {
 	private Product product;
 	private static ProductController controller;
 	private boolean valid;
-
+	
 	private ProductController() {
 		product = new Product();
 		valid = true;
@@ -81,6 +81,7 @@ public class ProductController {
 	public Vector<Model> getAll() {
 		return product.getAll();
 	}
+	
 	
 	public Product getOneProduct(Integer productId) {
 		return product.getOneProduct(productId);

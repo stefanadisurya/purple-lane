@@ -6,6 +6,7 @@ import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
 import model.Cart;
+import model.Product;
 
 public class CartController extends Controller {
 	private Vector<Cart> cartList;
@@ -19,6 +20,7 @@ public class CartController extends Controller {
 		if (controller == null) {
 			controller = new CartController();
 		}
+
 		return controller;
 
 	}
@@ -27,7 +29,7 @@ public class CartController extends Controller {
 		return errorMessage;
 	}
 
-	public CartController(Vector<Cart> cartList, Vector<Cart> selectedCart) {
+	private CartController(Vector<Cart> cartList, Vector<Cart> selectedCart) {
 		super();
 		this.cartList = cartList;
 		this.selectedCart = selectedCart;
@@ -36,9 +38,18 @@ public class CartController extends Controller {
 	private CartController() {
 		cart = new Cart();
 		cartList = new Vector<>();
+		Vector<Model> carts = cart.getAll();
+		if (carts != null) {
+			for (Model model : carts) {
+				if (((Cart) model).getUserId() == UserController.getInstance().getActiveUser().getUserId()) {
+					cartList.add((Cart) model);
+				}
+			}
+		}
 	}
 
 	public Vector<Cart> getCartList() {
+
 		return cartList;
 	}
 
@@ -62,8 +73,9 @@ public class CartController extends Controller {
 
 	@Override
 	public Vector<Model> getAll() {
+		
 		// TODO Auto-generated method stub
-		return null;
+		return cart.getAll();
 	}
 
 	public Cart addToCart(String userId, String productId, String productQuantity) {
@@ -82,56 +94,85 @@ public class CartController extends Controller {
 			errorMessage = "product Id must be numeric!";
 			return null;
 		}
-
+		
+		if(productID==0) {
+			errorMessage = "Choose Product First!";
+			return null;
+		}else if(productQuantity.isEmpty()) {
+			errorMessage = "Quantity cannot be empty!";
+			return null;
+		}
+		
 		Integer qty = 0;
 		try {
 			qty = Integer.parseInt(productQuantity);
 		} catch (Exception e) {
-			errorMessage = "product Quantity must be numeric!";
+			errorMessage = "Quantity must be numeric!";
 			return null;
 		}
 
-		if (qty == 0 || qty == null) {
-			errorMessage = "product Quantity cannot be empty!";
+		Product p = ProductController.getInstance().getOneProduct(productID);
+		if (p == null) {
+			errorMessage = "Product Not Exist!";
+			return null;
+		} else if (qty == 0 || qty == null) {
+			errorMessage = "Quantity cannot be empty!";
+			return null;
+		} else if (qty > p.getProductStock()) {
+			errorMessage = "Quantity must be less than product stock!";
 			return null;
 		}
-//			else if (disc < 15000) {
-//				must be less than product stock VALIDATION
-//				errorMessage = "product Quantity must be at least 15000!";
-//				return null;
-//			}
+
+		for (Cart cart : cartList) {
+			if (cart.getUserId() == userID && cart.getProductId() == productID) {
+				Cart c = updateCart(userID.toString(), productID.toString(),
+						((Integer) (qty + cart.getProductQuantity())).toString());
+				return c;
+			}
+		}
 
 		Cart pd = new Cart(userID, productID, qty);
 		Cart cart = pd.create();
 		if (cart == null) {
 			errorMessage = "Add to Cart Failed!";
-		}else {
+		} else {
 			cartList.add(cart);
 		}
 		return cart;
 	}
-	
+
 	public Cart selectCart() {
 		selectedCart.add(cart);
 		return cart;
 	}
-	
+
 	public void processSelectedCart() {
 		for (Cart cart : selectedCart) {
-			//pindah ke transaction
+			// pindah ke transaction
 			cart.delete();
 		}
 		selectedCart.clear();
 	}
-	
+
 	public void removesSelectedCart() {
-		for (Cart cart : selectedCart) {			
+		for (Cart cart : selectedCart) {
 			cart.delete();
 		}
 		selectedCart.clear();
 	}
-	
+
 	public Cart updateCart(String userId, String productId, String productQuantity) {
+		if (userId.isEmpty()) {
+			errorMessage = "Login First!";
+			return null;
+		} else if (productId.isEmpty()) {
+			errorMessage = "Choose Product First!";
+			return null;
+		} else if (productQuantity.isEmpty()) {
+			errorMessage = "Quantity cannot be empty!";
+			return null;
+		}
+
 		Integer userID = 0;
 		try {
 			userID = Integer.parseInt(userId);
@@ -152,26 +193,36 @@ public class CartController extends Controller {
 		try {
 			qty = Integer.parseInt(productQuantity);
 		} catch (Exception e) {
-			errorMessage = "product Quantity must be numeric!";
+			errorMessage = "Quantity must be numeric!";
 			return null;
 		}
 
-		if (qty == 0 || qty == null) {
-			errorMessage = "product Quantity cannot be empty!";
+		if (qty == 0) {
+			errorMessage = "Quantity cannot be empty!";
 			return null;
 		}
-//			else if (disc < 15000) {
-//				must be less than product stock VALIDATION
-//				errorMessage = "product Quantity must be at least 15000!";
-//				return null;
-//			}
+		Product p = ProductController.getInstance().getOneProduct(productID);
+		if (p == null) {
+			errorMessage = "Product Not Exist!";
+			return null;
+		} else if (qty > p.getProductStock()) {
+			errorMessage = "Quantity must be less than product stock!";
+			return null;
+		}
 
 		Cart pd = new Cart(userID, productID, qty);
-		Cart cart = pd.update();
-		if (cart == null) {
-			errorMessage = "Update Cart Failed!";
+		Cart c = null;
+		for (Cart cart : cartList) {
+			if (cart.getUserId() == userID && cart.getProductId() == productID) {
+				cart.setProductQuantity(qty);
+				c = pd.update();
+			}
 		}
-		return cart;
+
+		if (c == null) {
+			errorMessage = "Cart Not Found!";
+		}
+		return c;
 	}
 
 	public Cart getCart() {
