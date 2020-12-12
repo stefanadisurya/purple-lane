@@ -28,7 +28,7 @@ public class TransactionDetail extends Model {
 	}
 	
 	public TransactionDetail() {
-		this.tableName = "TransactionDetail";
+		this.tableName = "detailtransaction";
 	}
 	
 	
@@ -107,28 +107,6 @@ public class TransactionDetail extends Model {
 	public void setProductQuantity(Integer productQuantity) {
 		this.productQuantity = productQuantity;
 	}
-
-
-	@Override
-	public void insert() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	
 	
