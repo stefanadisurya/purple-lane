@@ -2,8 +2,6 @@ package controller;
 
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
@@ -33,7 +31,7 @@ public class AdminController extends Controller {
 		return productController.getAll();
 	}
 
-	public void insert(String productName, String productAuthor, Integer productPrice, Integer productStock) {
+	public void create(String productName, String productAuthor, Integer productPrice, Integer productStock) {
 
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
@@ -42,29 +40,28 @@ public class AdminController extends Controller {
 
 		if (productController.isValid() == true) {
 			Product p = productController.createProduct();
-			p.createProduct(productName, productAuthor, productPrice, productStock);
 		}
 
 	}
 
-	public void update(String productName, String productAuthor, Integer productPrice, Integer productStock,
-			Integer productId) {
+	public void update(Integer productId, String productName, String productAuthor, Integer productPrice, Integer productStock) {
+		productController.setProductId(productId);
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
 		productController.setProductStock(productStock);
-		productController.setProductId(productId);
 
 		if (productController.isValid() == true) {
-			Product p = productController.createProduct();
-			p.updateProduct(productId, productName, productAuthor, productPrice, productStock);
+			Product p = productController.updateProduct();
 		}
 	}
 
 	public void delete(Integer productId) {
-		Product p = new Product();
-		p.setProductId(productId);
-		p.deleteProduct(productId);
+		productController.setProductId(productId);
+		
+		if(productController.isValid() == true) {
+			Product p = productController.deleteProduct();
+		}
 	}
 
 }

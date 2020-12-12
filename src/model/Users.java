@@ -13,6 +13,7 @@ import controller.AdminController;
 import controller.CustomerController;
 import controller.LoginController;
 import controller.ManagerController;
+import controller.ProductController;
 import controller.PromoController;
 import core.model.Model;
 
