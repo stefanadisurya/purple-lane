@@ -8,15 +8,13 @@ import controller.RegisterController;
 public class Main {
 
 	public Main() {
-		AdminController.getInstance().view().showForm();
+//		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
 //		LoginController.getInstance().view().showForm();
 //		AuthController.getInstance().view().showForm();
 		
-		
-		
 		//Albert Promo View Testing
-//		PromoController.getInstance().view().showForm();
+		PromoController.getInstance().viewManagePromoMenu();
 	}
 
 	public static void main(String[] args) {

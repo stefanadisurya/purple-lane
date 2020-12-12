@@ -31,31 +31,44 @@ public class PromoController extends Controller {
 		return errorMessage;
 	}
 
-//	public viewManagePromoMenu() {
-//		//return view;
-//	}
+	public void viewManagePromoMenu() {
+		view().showForm();
+	}
+
+	private boolean isPromoCodeUnique(String code) {
+		Vector<Model> promos = promo.getAll();
+		for (Model model : promos) {
+			if (((Promo) model).getPromoCode().equals(code))
+				return false;
+		}
+		return true;
+	}
 
 	public Promo create(String code, String discount, String note) {
-		if (code == null) {
-			errorMessage = "Code cannot be empty!";
+
+		if (code.isEmpty()) {
+			errorMessage = "Promo Code cannot be empty!";
 			return null;
-		} else if (note == null) {
-			errorMessage = "Note cannot be empty!";
+		} else if (isPromoCodeUnique(code) == false) {
+			errorMessage = "Promo Code Must be unique!";
+			return null;
+		} else if (note.isEmpty()) {
+			errorMessage = "Promo Note cannot be empty!";
 			return null;
 		} else {
 			Integer disc = 0;
 			try {
 				disc = Integer.parseInt(discount);
 			} catch (Exception e) {
-				errorMessage = "Discount must be numeric!";
+				errorMessage = "Promo Discount must be numeric!";
 				return null;
 			}
 
 			if (disc == 0 || disc == null) {
-				errorMessage = "Discount cannot be empty!";
+				errorMessage = "Promo Discount cannot be empty!";
 				return null;
 			} else if (disc < 15000) {
-				errorMessage = "Discount must be at least 15000!";
+				errorMessage = "Promo Discount must be at least 15000!";
 				return null;
 			}
 
@@ -73,32 +86,35 @@ public class PromoController extends Controller {
 		try {
 			ID = Integer.parseInt(id);
 		} catch (Exception e) {
-			errorMessage = "Choose Promo Code First!";
+			errorMessage = "Choose Promo First!";
 			return null;
 		}
 		if (ID == null || ID == 0) {
-			errorMessage = "Id cannot be empty!";
+			errorMessage = "Promo Id cannot be empty!";
 			return null;
-		} else if (code == null) {
-			errorMessage = "Code cannot be empty!";
+		} else if (code.isEmpty()) {
+			errorMessage = "Promo Code cannot be empty!";
 			return null;
-		} else if (note == null) {
-			errorMessage = "Note cannot be empty!";
+		} else if (isPromoCodeUnique(code) == false) {
+			errorMessage = "Promo Code Must be unique!";
+			return null;
+		} else if (note.isEmpty()) {
+			errorMessage = "Promo Note cannot be empty!";
 			return null;
 		} else {
 			Integer disc = 0;
 			try {
 				disc = Integer.parseInt(discount);
 			} catch (Exception e) {
-				errorMessage = "Discount must be numeric!";
+				errorMessage = "Promo Discount must be numeric!";
 				return null;
 			}
 
 			if (disc == 0 || disc == null) {
-				errorMessage = "Discount cannot be empty!";
+				errorMessage = "Promo Discount cannot be empty!";
 				return null;
 			} else if (disc < 15000) {
-				errorMessage = "Discount must be at least 15000!";
+				errorMessage = "Promo Discount must be at least 15000!";
 				return null;
 			}
 
@@ -128,13 +144,18 @@ public class PromoController extends Controller {
 		return deleted;
 	}
 
-	public Promo getOnePromo(Integer promoId) {
-		// validasi
-		return promo.getOnePromo(promoId);
+	public Promo getOnePromo(String promoId) {
+		Integer ID = 0;
+		try {
+			ID = Integer.parseInt(promoId);
+		} catch (Exception e) {
+			errorMessage = "Promo Id Not Valid!";
+			return null;
+		}
+		return promo.getOnePromo(ID);
 	}
 
 	public Vector<Model> getAll() {
-		// validasi
 		return promo.getAll();
 	}
 

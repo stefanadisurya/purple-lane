@@ -173,12 +173,16 @@ public class CreateNewPromoView extends View implements ActionListener {
 		String note = promoNoteTxt.getText();
 		Promo promo;
 		promo = PromoController.getInstance().create(code, discount, note);
+		promoCodeTxt.setText("");
+		promoDiscountTxt.setText("");
+		promoNoteTxt.setText("");
 		if (promo == null) {
 			JOptionPane.showMessageDialog(this, PromoController.getInstance().getErrorMessage());
 		} else {
 			JOptionPane.showMessageDialog(this, "Create Success!");
 			loadData();
 		}
+		
 	}
 
 }

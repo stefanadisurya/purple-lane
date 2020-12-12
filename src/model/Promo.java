@@ -36,7 +36,6 @@ public class Promo extends Model {
 				return promo;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -57,7 +56,7 @@ public class Promo extends Model {
 		return null;
 	}
 
-	public Promo create(String promoCode, String promoNote, Integer promoDiscount ) {
+	public Promo create(String promoCode, String promoNote, Integer promoDiscount) {
 		String query = String.format("INSERT INTO %s VALUES (NULL,?,?,?)", this.tableName);
 		PreparedStatement ps = this.con.prepareStatement(query);
 
@@ -73,7 +72,7 @@ public class Promo extends Model {
 		return null;
 	}
 
-	public Promo update(Integer promoId, String promoCode, String promoNote, Integer promoDiscount ) {
+	public Promo update(Integer promoId, String promoCode, String promoNote, Integer promoDiscount) {
 		String query = String.format(
 				"UPDATE %s " + "SET promoCode = ?, promoDiscount = ?, promoNote = ? " + "WHERE promoId = ?",
 				this.tableName);
@@ -132,31 +131,15 @@ public class Promo extends Model {
 		return promoId;
 	}
 
-	public void setPromoId(Integer promoId) {
-		this.promoId = promoId;
-	}
-
 	public String getPromoCode() {
 		return promoCode;
-	}
-
-	public void setPromoCode(String promoCode) {
-		this.promoCode = promoCode;
 	}
 
 	public Integer getPromoDiscount() {
 		return promoDiscount;
 	}
 
-	public void setPromoDiscount(Integer promoDiscount) {
-		this.promoDiscount = promoDiscount;
-	}
-
 	public String getPromoNote() {
 		return promoNote;
-	}
-
-	public void setPromoNote(String promoNote) {
-		this.promoNote = promoNote;
 	}
 }

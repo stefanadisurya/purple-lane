@@ -181,6 +181,10 @@ public class UpdatePromoView extends View implements ActionListener {
 		String discount = promoDiscountTxt.getText();
 		String note = promoNoteTxt.getText();
 		Promo promo;
+		idLbl.setText("");
+		promoCodeTxt.setText("");
+		promoDiscountTxt.setText("");
+		promoNoteTxt.setText("");
 		promo = PromoController.getInstance().update(id, code, discount, note);
 		if (promo == null) {
 			JOptionPane.showMessageDialog(this, PromoController.getInstance().getErrorMessage());
