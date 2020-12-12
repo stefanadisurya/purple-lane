@@ -48,24 +48,33 @@ public class Users extends Model {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public boolean setUsername(String username) {
+		if(username.equals(""))
+			return false;
 		this.username = username;
+		return true;
 	}
 
 	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public boolean setRoleId(Integer roleId) {
+		if(roleId == 0)
+			return false;
 		this.roleId = roleId;
+		return true;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public boolean setPassword(String password) {
+		if(password.equals(""))
+			return false;
 		this.password = password;
+		return true;
 	}
 	
 	public Users getOneUser(String username, String password) throws SQLException {
@@ -77,23 +86,6 @@ public class Users extends Model {
 		Users u = map(rs);
 		return u;
 		
-	}
-	
-	public Users createCustomerAccount(String username, String password) {
-		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
-		PreparedStatement ps = con.prepareStatement(query);
-		
-		try {
-			ps.setInt(1, 2);
-			ps.setString(2, username);
-			ps.setString(3, password);
-			ps.executeUpdate();
-			return new Users(null, username, 2, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 	
 	public Users createAdminAccount(String username, String password) {
@@ -113,7 +105,24 @@ public class Users extends Model {
 		return null;
 	}
 	
-	public Users createPromotionTeamAccount(String username, String password) {
+	public Users createCustomerAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, 2);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+			return new Users(null, username, 2, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public Users createManagerAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 		
@@ -123,6 +132,23 @@ public class Users extends Model {
 			ps.setString(3, password);
 			ps.executeUpdate();
 			return new Users(null, username, 3, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public Users createPromotionTeamAccount(String username, String password) {
+		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, 3);
+			ps.setString(2, username);
+			ps.setString(3, password);
+			ps.executeUpdate();
+			return new Users(null, username, 4, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -149,23 +175,6 @@ public class Users extends Model {
 		}
 		return null;
 	}
-
-	public Users insert() {
-		String query = String.format("" + "INSERT INTO %s VALUES " + "(null, ?, ?, ?)", tableName);
-		PreparedStatement ps = con.prepareStatement(query);
-
-		try {
-			ps.setInt(1, roleId);
-			ps.setString(2, username);
-			ps.setString(3, password);
-			ps.executeUpdate();
-			return new Users(null, username, roleId, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 
 	@Override
 	public Vector<Model> getAll() {
