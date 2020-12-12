@@ -38,7 +38,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 	JScrollPane sp;
 	JLabel idLbl, idValue, nameLbl, authorLbl, priceLbl, stockLbl;
 	JTextField nameTxt, authorTxt, priceTxt, stockTxt;
-	JButton insert, update, delete;
+	JButton insert, update, delete, reduce;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 
@@ -77,11 +77,13 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		insert = new JButton("Insert");
 		update = new JButton("Update");
 		delete = new JButton("Delete");
+		reduce = new JButton("Reduce Stock");
 
 		insert.addActionListener(this);
 		update.addActionListener(this);
 		delete.addActionListener(this);
 		logout.addActionListener(this);
+		reduce.addActionListener(this);
 
 	}
 
@@ -108,6 +110,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		bot.add(insert);
 		bot.add(update);
 		bot.add(delete);
+		bot.add(reduce);
 
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -170,6 +173,18 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			Integer id = Integer.parseInt(idValue.getText());
 
 			AdminController.getInstance().delete(id);
+			loadData();
+			
+			idValue.setText("-");
+			nameTxt.setText("");
+			authorTxt.setText("");
+			priceTxt.setText("");
+			stockTxt.setText("");
+		} else if(e.getSource() == reduce) {
+			Integer stock = Integer.parseInt(stockTxt.getText());
+			Integer id = Integer.parseInt(idValue.getText());
+			
+			AdminController.getInstance().reduceStock(stock, id);
 			loadData();
 			
 			idValue.setText("-");

@@ -70,5 +70,10 @@ public class AdminController extends Controller {
 			productController.deleteProduct();
 		}
 	}
+	
+	public void reduceStock(Integer productStock, Integer productId) {
+		productController.setProductId(productId);
+		productController.reduceStock(productStock);
+	}
 
 }

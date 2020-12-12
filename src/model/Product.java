@@ -141,6 +141,21 @@ public class Product extends Model {
 		
 		return null;
 	}
+	
+	public Product reduceStock(Integer productStock, Integer productId) {
+		String query = String.format("UPDATE %s SET productStock=? - 1 WHERE productId=?", tableName);
+		PreparedStatement ps = con.prepareStatement(query);
+
+		try {
+			ps.setInt(1, productStock);
+			ps.setInt(2, productId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 	@Override
 	public Vector<Model> getAll() {
@@ -206,4 +221,5 @@ public class Product extends Model {
 		}
 		return null;
 	}
+	
 }

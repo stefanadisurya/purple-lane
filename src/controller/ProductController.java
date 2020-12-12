@@ -122,11 +122,15 @@ public class ProductController extends Controller {
 		newProduct();
 		return product.deleteProduct(product.getProductId());
 	}
+	
+	public Product reduceStock(Integer productQuantity) {
+		newProduct();
+		return product.reduceStock(productQuantity, product.getProductId());
+	}
 
 	public Vector<Model> getAll() {
 		return product.getAll();
 	}
-	
 	
 	public Product getOneProduct(Integer productId) {
 		return product.getOneProduct(productId);
