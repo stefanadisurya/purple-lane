@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ProductController;
@@ -50,8 +51,8 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		logout = new JMenuItem("Logout");
 		backBtn = new JButton("Back");
 		
-		top = new JPanel(new GridLayout(1,0));
-		mid = new JPanel(new GridLayout(2,0));
+		top = new JPanel();
+		mid = new JPanel(new GridLayout(0,2));
 		bot = new JPanel();
 		
 		table = new JTable();
@@ -69,9 +70,8 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
 		
-		top.add(titleLbl);
+//		top.add(titleLbl);
 		top.add(sp);
-		
 		mid.add(priceLbl);
 		mid.add(priceTxt);
 		
