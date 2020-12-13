@@ -14,8 +14,8 @@ public class Main {
 //		RegisterController.getInstance().view().showForm();
 //		LoginController.getInstance().view().showForm();
 		AuthController.getInstance().view().showForm();
-		
-		//Albert Promo View Testing
+
+		// Albert Promo View Testing
 //		PromoController.getInstance().viewManagePromoMenu();
 	}
 

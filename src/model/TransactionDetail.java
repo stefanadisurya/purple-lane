@@ -22,13 +22,14 @@ public class TransactionDetail extends Model {
 
 	public TransactionDetail(Integer transactionId, Integer productId, Integer productQuantity) {
 		super();
+		this.tableName = "DetailTransaction";
 		this.transactionId = transactionId;
 		this.productId = productId;
 		this.productQuantity = productQuantity;
 	}
 	
 	public TransactionDetail() {
-		this.tableName = "TransactionDetail";
+		this.tableName = "DetailTransaction";
 	}
 	
 	
@@ -40,7 +41,7 @@ public class TransactionDetail extends Model {
 			ps.setInt(1, transactionId);
 			ps.setInt(2, productId);
 			ps.setInt(3, productQuantity);
-;
+			ps.executeUpdate();
 			return new TransactionDetail(transactionId, productId, productQuantity);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

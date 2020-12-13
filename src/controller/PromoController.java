@@ -145,14 +145,11 @@ public class PromoController extends Controller {
 	}
 
 	public Promo getOnePromo(String promoId) {
-		Integer ID = 0;
-		try {
-			ID = Integer.parseInt(promoId);
-		} catch (Exception e) {
-			errorMessage = "Promo Id Not Valid!";
-			return null;
+		Promo pm = promo.getOnePromo(promoId);
+		if(pm==null) {
+			errorMessage="Promo Code Not Valid";
 		}
-		return promo.getOnePromo(ID);
+		return pm;
 	}
 
 	public Vector<Model> getAll() {

@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -26,28 +25,28 @@ import javax.swing.table.DefaultTableModel;
 import controller.AuthController;
 import controller.CartController;
 import controller.ProductController;
-import controller.RegisterController;
-import controller.UserController;
-import core.model.Model;
+import controller.PromoController;
+import controller.TransactionController;
 import core.view.View;
 import model.Cart;
-import model.Users;
+import model.Promo;
+import model.Transaction;
 
-public class SelectedCartView extends View implements ActionListener {
+public class PaymentMenuView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
 	JMenuItem logout;
 	JMenu menuMore, menuBack;
-	JPanel top, mid, bot,typePnl, pnlbottomtop, pnlbottombottom;
+	JPanel top, mid, bot, typePnl, pnlbottomtop, pnlbottombottom;
 	JTable table;
 	JButton cancelBtn, submitBtn;
 	JTextField cardNumberTxt;
 	ButtonGroup paymentTypeGroup;
 	JRadioButton debit, credit;
-	JLabel titleLbl, cardNumberLbl, paymentTypeLbl,totalPriceLbl, tpLbl;
+	JLabel titleLbl, cardNumberLbl, paymentTypeLbl, totalPriceLbl, tpLbl;
 
-	public SelectedCartView() {
+	public PaymentMenuView() {
 		super();
 		addListeners();
 		this.height = 700;
@@ -164,46 +163,65 @@ public class SelectedCartView extends View implements ActionListener {
 			row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductName());
 			row.add(c.getProductQuantity().toString());
 			row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductPrice());
-			totalPrice += ProductController.getInstance().getOneProduct(c.getProductId()).getProductPrice();
+
+			totalPrice += (ProductController.getInstance().getOneProduct(c.getProductId()).getProductPrice()
+					* c.getProductQuantity());
 			dtm.addRow(row);
 		}
 		table.setModel(dtm);
 		tpLbl.setText(totalPrice.toString());
 	}
-	
+
 	private void payment() {
+		
+		Integer totalPrice = Integer.parseInt(tpLbl.getText());
+		String paymentType = null;
+		if (paymentTypeGroup.getSelection() != null) {
+			if (paymentTypeGroup.getSelection().getActionCommand().equals("Credit")) {
+				paymentType = "Credit";
+			} else if (paymentTypeGroup.getSelection().getActionCommand().equals("Debit")) {
+				paymentType = "Debit";
+			}
+		}
+		String cardNumber = cardNumberTxt.getText();
 		
 		int ans = JOptionPane.showConfirmDialog(this, "Use Promo Code?");
 		if (ans == JOptionPane.YES_OPTION) {
-			String totalPrice = tpLbl.getText();
-			String paymentType=null;
-			if(paymentTypeGroup.getSelection().getActionCommand().equals("Credit")) {
-				paymentType = "Credit";
-			} else if(paymentTypeGroup.getSelection().getActionCommand().equals("Debit")) {
-				paymentType = "Debit";
+			String promoCode = JOptionPane.showInputDialog("Input Promo Code");
+
+			Transaction tran = TransactionController.getInstance().usePromoCode(promoCode);
+			if (tran == null) {
+				JOptionPane.showMessageDialog(this, TransactionController.getInstance().getErrorMessage());
+			} else {
+				tran = TransactionController.getInstance().processPayment(paymentType, cardNumber);
+				if (tran == null) {
+					JOptionPane.showMessageDialog(this, TransactionController.getInstance().getErrorMessage());
+				} else {
+					Promo p = PromoController.getInstance().getOnePromo(promoCode);
+					totalPrice -= p.getPromoDiscount();
+					if (totalPrice < 0)
+						totalPrice = 0;
+					TransactionController.getInstance().processTransactions(tran);
+					JOptionPane.showMessageDialog(this,
+							"You get discount Rp." + p.getPromoDiscount() + ".\nTotal Price: Rp. " + totalPrice);
+					loadData();
+					tpLbl.setText("-");
+				}
 			}
-			String cardNumber = cardNumberTxt.getText();
-			
-			
-//
-//			Users u = UserController.getInstance().getActiveUser();
-//			CartController.getInstance().setCart(new Cart(u.getUserId(), productId, productQuantity));
-//
-//			Cart cart = CartController.getInstance().selectCart();
-//
-//			if (cart == null) {
-//				JOptionPane.showMessageDialog(this, CartController.getInstance().getErrorMessage());
-//			} else {
-//				JOptionPane.showMessageDialog(this, "Select Cart Successful!");
-//				loadData();
-//			}
-//			pmLbl.setText("-");
-//			qtyLbl.setText("0");
-//			productId=0;
-//		} else if (ans == JOptionPane.NO_OPTION) {
-//			productId=0;
-//			pmLbl.setText("-");
-//			qtyLbl.setText("0");
+
+			cardNumberTxt.setText("0");
+		} else if (ans == JOptionPane.NO_OPTION) {
+			Transaction tran = TransactionController.getInstance().processPayment(paymentType, cardNumber);
+			if (tran == null) {
+				JOptionPane.showMessageDialog(this, TransactionController.getInstance().getErrorMessage());
+			} else {
+				TransactionController.getInstance().processTransactions(tran);
+				JOptionPane.showMessageDialog(this, "Payment Succesfully!");
+				loadData();
+				tpLbl.setText("-");
+			}
+
+			cardNumberTxt.setText("0");
 		}
 	}
 

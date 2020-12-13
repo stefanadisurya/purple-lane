@@ -3,7 +3,7 @@ CREATE TABLE Role (
 	roleName varchar(255) not null
 );
 
-INSERT INTO `role` (`roleId`, `roleName`) VALUES
+INSERT INTO `Role` (`roleId`, `roleName`) VALUES
 (1, 'Admin'),
 (2, 'Member'),
 (3, 'Manager'),
@@ -25,7 +25,7 @@ CREATE TABLE Promo (
 );
 
 CREATE TABLE Transaction (
-	transactionid int primary key auto_increment,
+	transactionId int primary key auto_increment,
 	transactionDate date not null,
 	paymentType varchar(255) not null,
 	cardNumber varchar(255) not null,
@@ -58,3 +58,15 @@ CREATE TABLE Cart (
 	foreign key (userId) references Users(userId) on update cascade on delete cascade,
 	foreign key (productId) references Products(productId) on update cascade on delete cascade
 );
+
+INSERT INTO `users` (`userId`, `roleId`, `username`, `password`) VALUES
+(1, 1, 'admin', 'admin'),
+(2, 2, 'member', 'member');
+
+INSERT INTO `products` (`productId`, `productName`, `productAuthor`, `productPrice`, `productStock`) VALUES
+(1, 'Keyboard', 'Albert', 150000, 50),
+(2, 'Mouse', 'Albert', 150000, 100);
+
+INSERT INTO `cart` (`userId`, `productId`, `productQty`) VALUES
+(2, 1, 3),
+(2, 2, 5);

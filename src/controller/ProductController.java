@@ -125,6 +125,11 @@ public class ProductController extends Controller {
 	
 	public Product reduceStock(Integer productQuantity) {
 		newProduct();
+		if(product.getProductStock()<productQuantity) {
+			JOptionPane.showMessageDialog(null, "Product Stock not enough!", "Warning!", JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}
 		return product.reduceStock(productQuantity, product.getProductId());
 	}
 
@@ -133,7 +138,8 @@ public class ProductController extends Controller {
 	}
 	
 	public Product getOneProduct(Integer productId) {
-		return product.getOneProduct(productId);
+		product = product.getOneProduct(productId);
+		return product;
 	}
 
 }

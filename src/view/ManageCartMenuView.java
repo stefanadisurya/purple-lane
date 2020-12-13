@@ -137,7 +137,7 @@ public class ManageCartMenuView extends View implements ActionListener {
 			selectCart();
 		} else if (e.getSource() == checkOutBtn) {
 			this.dispose();
-			new SelectedCartView().showForm();
+			CartController.getInstance().processSelectedCart();
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();

@@ -15,20 +15,20 @@ public class Promo extends Model {
 	private String promoNote;
 
 	public Promo() {
-		this.tableName = "promo";
+		this.tableName = "Promo";
 	}
 
 	public Promo(Integer promoId, String promoCode, Integer promoDiscount, String promoNote) {
 		super();
-		this.tableName = "promo";
+		this.tableName = "Promo";
 		this.promoId = promoId;
 		this.promoCode = promoCode;
 		this.promoDiscount = promoDiscount;
 		this.promoNote = promoNote;
 	}
 
-	public Promo getOnePromo(Integer promoId) {
-		String query = String.format("SELECT * FROM %s WHERE promoId=%d", this.tableName, promoId);
+	public Promo getOnePromo(String promoCode) {
+		String query = String.format("SELECT * FROM %s WHERE promoCode='%s'", this.tableName, promoCode);
 		ResultSet rs = this.con.executeQuery(query);
 		try {
 			while (rs.next()) {
