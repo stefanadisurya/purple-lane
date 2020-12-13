@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
+	
 import controller.AuthController;
 import controller.LoginController;
 import controller.RegisterController;

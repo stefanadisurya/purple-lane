@@ -163,4 +163,9 @@ public class Transaction extends Model {
 		return null;
 	}
 
+	public void setTransactionId(Integer transactionId2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
