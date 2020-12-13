@@ -29,8 +29,8 @@ public class LoginView extends View implements ActionListener {
 
 	public LoginView() {
 		super();
-		this.height = 600;
-		this.width = 500;
+		this.height = 300;
+		this.width = 400;
 	}
 
 	@Override
@@ -41,7 +41,9 @@ public class LoginView extends View implements ActionListener {
 		passwordLblPnl = new JPanel();
 		passwordFieldPnl = new JPanel();
 		GridLayout gl = new GridLayout(2, 2);
-		gl.setVgap(0);
+
+		gl.setVgap(20);
+
 		mid = new JPanel(gl);
 		midTop = new JPanel();
 		bot = new JPanel(new FlowLayout());
@@ -77,8 +79,8 @@ public class LoginView extends View implements ActionListener {
 		bot.add(cancel);
 		bot.add(login);
 
-		mid.setBorder(new EmptyBorder(50, 50, 50, 50));
-		
+		mid.setBorder(new EmptyBorder(30, 40, 30, 40));
+
 		add(top, BorderLayout.NORTH);
 		add(midTop, BorderLayout.CENTER);
 		add(bot, BorderLayout.SOUTH);

@@ -38,8 +38,8 @@ public class RegisterView extends View implements ActionListener {
 
 	public RegisterView() {
 		super();
-		this.height = 600;
-		this.width = 500;
+		this.height = 300;
+		this.width = 400;
 	}
 
 	@Override

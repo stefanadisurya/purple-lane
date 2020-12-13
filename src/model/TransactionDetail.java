@@ -28,7 +28,9 @@ public class TransactionDetail extends Model {
 	}
 	
 	public TransactionDetail() {
-		this.tableName = "detailtransaction";
+
+		this.tableName = "detailtransaction"; // Kalau mau ganti ke table masing-masing monggo
+
 	}
 	
 	
@@ -54,8 +56,10 @@ public class TransactionDetail extends Model {
 		try {
 			Integer transactionId = rs.getInt("transactionId");
 			Integer productId = rs.getInt("productId");
-			Integer productQty = rs.getInt("productQty");
-			return new TransactionDetail(transactionId, productId, productQty);
+
+			Integer productQuantity = rs.getInt("productQty"); // Kalau mau ganti ke productQuantity disini ya
+			return new TransactionDetail(transactionId, productId, productQuantity);
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -108,4 +112,24 @@ public class TransactionDetail extends Model {
 		this.productQty = productQty;
 	}
 
+
+	public Vector<TransactionDetail> getAllTransactionDetail(Integer transactionId) {
+		String query = String.format("SELECT * FROM %s WHERE "
+				+ "transactionId=%d", tableName, transactionId);
+		ResultSet rs = this.con.executeQuery(query);
+		
+		try {
+			Vector<TransactionDetail> list = new Vector<>();
+			while(rs.next()) {
+				TransactionDetail td = map(rs);
+				list.add(td);
+			}
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
