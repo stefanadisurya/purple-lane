@@ -61,7 +61,7 @@ public class Transaction extends Model{
 			String cardNumber = rs.getString("cardNumber");
 			String promoCode = rs.getString("promoCode");
 			Integer userId = rs.getInt("userId");
-			return new Transaction(transactionId, transactionDate, promoCode, promoCode, promoCode, userId);
+			return new Transaction(transactionId, transactionDate, paymentType, cardNumber, promoCode, userId);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -70,15 +70,17 @@ public class Transaction extends Model{
 		return null;
 	}
 	
-	public Transaction getTransactionReport(Integer Month,Integer Year) {
+	public Vector<Transaction> getTransactionReport(Integer Month,Integer Year) {
 		String query = String.format("SELECT * FROM %s "
 				+ "WHERE transactionDate=%s", this.tableName, transactionDate);
 		ResultSet res = this.con.executeQuery(query);
 		
 		try {
+			Vector<Transaction> temp = new Vector<>();
 			while(res.next()) {
 				Transaction t = map(res);
-				return t;
+				temp.add(t);
+				return temp;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -89,18 +91,19 @@ public class Transaction extends Model{
 	}
 
 	
-	public Transaction getTransactionHistory(Integer userId) {
+	public Vector<Transaction> getTransactionHistory(Integer userId) {
 		String query = String.format("SELECT * FROM %s "
 				+ "WHERE userId=%d", this.tableName, userId);
 		ResultSet res = this.con.executeQuery(query);
 		
 		try {
+			Vector<Transaction> list = new Vector<>();
 			while(res.next()) {
 				Transaction t = map(res);
-				return t;
+				list.add(t);
+				return list;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

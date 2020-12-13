@@ -108,5 +108,23 @@ public class TransactionDetail extends Model {
 		this.productQuantity = productQuantity;
 	}
 
-
+	public Vector<TransactionDetail> getAllTransactionDetail(Integer transactionId) {
+		String query = String.format("SELECT * FROM %s WHERE "
+				+ "transactionId=%d", tableName, transactionId);
+		ResultSet rs = this.con.executeQuery(query);
+		
+		try {
+			Vector<TransactionDetail> list = new Vector<>();
+			while(rs.next()) {
+				TransactionDetail td = map(rs);
+				list.add(td);
+			}
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.AdminController;
 import controller.AuthController;
 import controller.ProductController;
+import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Product;
