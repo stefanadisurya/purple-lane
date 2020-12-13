@@ -25,7 +25,6 @@ import controller.AuthController;
 import controller.CartController;
 import controller.ProductController;
 import controller.UserController;
-import core.model.Model;
 import core.view.View;
 import model.Cart;
 import model.Users;
