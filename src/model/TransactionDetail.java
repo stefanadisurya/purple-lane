@@ -11,7 +11,7 @@ public class TransactionDetail extends Model {
 
 	private Integer transactionId;
 	private Integer productId;
-	private Integer productQuantity;
+	private Integer productQty;
 	
 	
 	
@@ -20,16 +20,17 @@ public class TransactionDetail extends Model {
 	}
 
 
-	public TransactionDetail(Integer transactionId, Integer productId, Integer productQuantity) {
+	public TransactionDetail(Integer transactionId, Integer productId, Integer productQty) {
 		super();
 		this.tableName = "DetailTransaction";
 		this.transactionId = transactionId;
 		this.productId = productId;
-		this.productQuantity = productQuantity;
+		this.productQty = productQty;
 	}
 	
 	public TransactionDetail() {
-		this.tableName = "DetailTransaction";
+		this.tableName = "detailtransaction"; // Kalau mau ganti ke table masing-masing monggo
+
 	}
 	
 	
@@ -40,9 +41,9 @@ public class TransactionDetail extends Model {
 		try {
 			ps.setInt(1, transactionId);
 			ps.setInt(2, productId);
-			ps.setInt(3, productQuantity);
+			ps.setInt(3, productQty);
 			ps.executeUpdate();
-			return new TransactionDetail(transactionId, productId, productQuantity);
+			return new TransactionDetail(transactionId, productId, productQty);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,8 +56,10 @@ public class TransactionDetail extends Model {
 		try {
 			Integer transactionId = rs.getInt("transactionId");
 			Integer productId = rs.getInt("productId");
-			Integer productQuantity = rs.getInt("productQuantity");
+
+			Integer productQuantity = rs.getInt("productQty"); // Kalau mau ganti ke productQuantity disini ya
 			return new TransactionDetail(transactionId, productId, productQuantity);
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -100,14 +103,15 @@ public class TransactionDetail extends Model {
 	}
 
 
-	public Integer getProductQuantity() {
-		return productQuantity;
+	public Integer getProductQty() {
+		return productQty;
 	}
 
 
-	public void setProductQuantity(Integer productQuantity) {
-		this.productQuantity = productQuantity;
+	public void setProductty(Integer productQty) {
+		this.productQty = productQty;
 	}
+
 
 	public Vector<TransactionDetail> getAllTransactionDetail(Integer transactionId) {
 		String query = String.format("SELECT * FROM %s WHERE "

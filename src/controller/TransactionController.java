@@ -40,7 +40,19 @@ public class TransactionController extends Controller {
 	public void viewTransactionReportMenu() {
 		// Return TransactionReport
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public Integer getTransactionId() {
+		return activeTransaction.getTransactionId();
+	}
+	
+	public void setTransactionId(Integer transactionId) {
+		activeTransaction.setTransactionId(transactionId);
+	}
+	
+>>>>>>> 091493e9fabe71ecc4308a5f908224de808c8c9a
 	public Vector<Transaction> getTransactionReport(Integer Month, Integer Year) {
 		Vector<Transaction> list = activeTransaction.getTransactionReport(Month, Year);
 		if (list.size() == 0)
