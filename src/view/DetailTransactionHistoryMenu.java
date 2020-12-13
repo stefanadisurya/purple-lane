@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -29,7 +30,7 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 	JMenu menuBack;
 	JPanel top, mid, bot;
 	JTable table;
-	JLabel titleLbl;
+	JLabel titleLbl, priceLbl, priceTxt;
 	JScrollPane sp;
 	JButton backBtn;
 	Vector<Vector<String>> data;
@@ -49,14 +50,16 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		logout = new JMenuItem("Logout");
 		backBtn = new JButton("Back");
 		
-		top = new JPanel();
-		mid = new JPanel();
+		top = new JPanel(new GridLayout(1,0));
+		mid = new JPanel(new GridLayout(2,0));
 		bot = new JPanel();
 		
 		table = new JTable();
 		sp = new JScrollPane(table);
 		
 		titleLbl = new JLabel("Transaction History");
+		priceLbl = new JLabel("Total Price");
+		priceTxt = new JLabel("-");
 	}
 
 	@Override
@@ -67,8 +70,10 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		setJMenuBar(menuBar);
 		
 		top.add(titleLbl);
+		top.add(sp);
 		
-		mid.add(sp);
+		mid.add(priceLbl);
+		mid.add(priceTxt);
 		
 		bot.add(backBtn);
 		
@@ -94,13 +99,13 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		
 		TransactionController controller = TransactionController.getInstance();
 		
+		Integer totalPrice = 0;
 		Integer transactionId = controller.getTransactionId();
 		Vector<TransactionDetail> detailList = controller.getTransactionDetail(transactionId);
 		for (TransactionDetail transactionDetail : detailList) {
 			detail = new Vector<>();
-			Integer qty = 0;
 			Integer productId = transactionDetail.getProductId();
-			qty = transactionDetail.getProductQty();
+			Integer qty = transactionDetail.getProductQty();
 			
 			Product prod = ProductController.getInstance().getOneProduct(productId);
 			
@@ -109,10 +114,14 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 			detail.add(prod.getProductPrice().toString());
 			detail.add(qty.toString());
 			
+			totalPrice += (prod.getProductPrice()*qty);
+			
 			data.add(detail);
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
+		
+		priceTxt.setText(totalPrice.toString());
 		
 		table.setModel(dtm);
 	}
