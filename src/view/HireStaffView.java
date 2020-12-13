@@ -26,19 +26,19 @@ import controller.LoginController;
 import controller.RegisterController;
 import core.view.View;
 
-public class RegisterView extends View implements ActionListener {
+public class HireStaffView extends View implements ActionListener {
 
-	JPanel top, mid, midTop,bot, rolePnl, usernamePnl,usernameLabelPnl, roleLabelPnl, passwordPnl, passwordLabelPnl;
+	JPanel top, mid, midTop,rolePnl, bot, usernamePnl,usernameLabelPnl, roleLabelPnl, passwordPnl, passwordLabelPnl;
 	JLabel titleLbl, usernameLbl, passwordLbl, roleLbl;
 	JTextField usernameTxt, passwordTxt;
 	JRadioButton admin, customer, manager, promotion;
-	JButton cancel, register;
-
+	JButton cancel, submit;
+	JComboBox roleBox;
 	ButtonGroup roleGroup;
-
-	public RegisterView() {
+	
+	public HireStaffView() {
 		super();
-		this.height = 600;
+		this.height = 250;
 		this.width = 500;
 	}
 
@@ -50,6 +50,7 @@ public class RegisterView extends View implements ActionListener {
 		passwordPnl = new JPanel();
 		passwordLabelPnl = new JPanel();
 		roleLabelPnl = new JPanel();
+		roleBox = new JComboBox();
 		GridLayout gl = new GridLayout(3, 2);
 		gl.setVgap(0);
 		mid = new JPanel(gl);
@@ -58,7 +59,7 @@ public class RegisterView extends View implements ActionListener {
 		
 		rolePnl = new JPanel(new GridLayout(4,1));
 
-		titleLbl = new JLabel("Register");
+		titleLbl = new JLabel("Hire Staff");
 		usernameLbl = new JLabel("Username");
 		usernameLabelPnl.add(usernameLbl);
 		roleLbl = new JLabel("Role");
@@ -91,12 +92,15 @@ public class RegisterView extends View implements ActionListener {
 //		roleGroup.add(manager);
 //		roleGroup.add(promotion);
 		
+		roleBox.addItem("Admin");
+		roleBox.addItem("Promotion");
+		
 		
 		cancel = new JButton("Cancel");
-		register = new JButton("Register");
+		submit = new JButton("Submit");
 
 		cancel.addActionListener(this);
-		register.addActionListener(this);
+		submit.addActionListener(this);
 	}
 
 	@Override
@@ -107,13 +111,13 @@ public class RegisterView extends View implements ActionListener {
 		mid.add(usernamePnl);
 		mid.add(passwordLabelPnl);
 		mid.add(passwordPnl);
-//		mid.add(roleLabelPnl);
-//		mid.add(rolePnl);
+		mid.add(roleLabelPnl);
+		mid.add(roleBox);
 		midTop.add(mid);
 		bot.add(cancel);
-		bot.add(register);
+		bot.add(submit);
 
-		mid.setBorder(new EmptyBorder(50, 50, 50, 50));
+		mid.setBorder(new EmptyBorder(0, 50, 50, 50));
 
 		add(top, BorderLayout.NORTH);
 		add(midTop, BorderLayout.CENTER);
@@ -122,14 +126,19 @@ public class RegisterView extends View implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String value =(String)roleBox.getSelectedItem();
 		if (e.getSource() == cancel) {
 			this.dispose();
 			AuthController.getInstance().view().showForm();
-		} else if (e.getSource() == register) {
+		} else if (e.getSource() == submit) {
 			String username = usernameTxt.getText();
 //			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
 			String password = passwordTxt.getText();
-			RegisterController.getInstance().createCustomerAccount(username, password);
+			if(value.equals("Admin")) {
+				RegisterController.getInstance().createAdminAccount(username, password);
+			} else if(value.equals("Promotion")) {
+				RegisterController.getInstance().createPromotionTeamAccount(username, password);
+			}
 			
 			JOptionPane.showMessageDialog(null, "Register Success!");
 			this.dispose();

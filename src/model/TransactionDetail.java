@@ -11,7 +11,7 @@ public class TransactionDetail extends Model {
 
 	private Integer transactionId;
 	private Integer productId;
-	private Integer productQuantity;
+	private Integer productQty;
 	
 	
 	
@@ -20,11 +20,11 @@ public class TransactionDetail extends Model {
 	}
 
 
-	public TransactionDetail(Integer transactionId, Integer productId, Integer productQuantity) {
+	public TransactionDetail(Integer transactionId, Integer productId, Integer productQty) {
 		super();
 		this.transactionId = transactionId;
 		this.productId = productId;
-		this.productQuantity = productQuantity;
+		this.productQty = productQty;
 	}
 	
 	public TransactionDetail() {
@@ -39,9 +39,9 @@ public class TransactionDetail extends Model {
 		try {
 			ps.setInt(1, transactionId);
 			ps.setInt(2, productId);
-			ps.setInt(3, productQuantity);
+			ps.setInt(3, productQty);
 ;
-			return new TransactionDetail(transactionId, productId, productQuantity);
+			return new TransactionDetail(transactionId, productId, productQty);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,8 +54,8 @@ public class TransactionDetail extends Model {
 		try {
 			Integer transactionId = rs.getInt("transactionId");
 			Integer productId = rs.getInt("productId");
-			Integer productQuantity = rs.getInt("productQuantity");
-			return new TransactionDetail(transactionId, productId, productQuantity);
+			Integer productQty = rs.getInt("productQty");
+			return new TransactionDetail(transactionId, productId, productQty);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -99,13 +99,13 @@ public class TransactionDetail extends Model {
 	}
 
 
-	public Integer getProductQuantity() {
-		return productQuantity;
+	public Integer getProductQty() {
+		return productQty;
 	}
 
 
-	public void setProductQuantity(Integer productQuantity) {
-		this.productQuantity = productQuantity;
+	public void setProductty(Integer productQty) {
+		this.productQty = productQty;
 	}
 
 }
