@@ -38,6 +38,14 @@ public class TransactionController extends Controller {
 		// Return TransactionReport
 	}
 	
+	public Integer getTransactionId() {
+		return activeTransaction.getTransactionId();
+	}
+	
+	public void setTransactionId(Integer transactionId) {
+		activeTransaction.setTransactionId(transactionId);
+	}
+	
 	public Vector<Transaction> getTransactionReport(Integer Month, Integer Year) {
 		Vector<Transaction> list = activeTransaction.getTransactionReport(Month, Year);
 		if(list.size() == 0) return null;

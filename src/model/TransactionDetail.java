@@ -28,7 +28,7 @@ public class TransactionDetail extends Model {
 	}
 	
 	public TransactionDetail() {
-		this.tableName = "TransactionDetail";
+		this.tableName = "detailtransaction"; // Kalau mau ganti ke table masing-masing monggo
 	}
 	
 	
@@ -54,7 +54,7 @@ public class TransactionDetail extends Model {
 		try {
 			Integer transactionId = rs.getInt("transactionId");
 			Integer productId = rs.getInt("productId");
-			Integer productQuantity = rs.getInt("productQuantity");
+			Integer productQuantity = rs.getInt("productQty"); // Kalau mau ganti ke productQuantity disini ya
 			return new TransactionDetail(transactionId, productId, productQuantity);
 
 		} catch (SQLException e) {

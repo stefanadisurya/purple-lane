@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -38,6 +39,7 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	JButton detailBtn;
+	private Integer transactionId = 0;
 	
 	public TransactionHistoryMenu() {
 		super();
@@ -79,6 +81,7 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 		bot.add(detailBtn);
 		
 		logout.addActionListener(this);
+		detailBtn.addActionListener(this);
 		
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -116,19 +119,37 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 		
 		table.setModel(dtm);
 	}
+	
+	public void selectDetail() {
+		if(transactionId == 0) {
+			JOptionPane.showMessageDialog(null, "Choose the Transaction First!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		int ans = JOptionPane.showConfirmDialog(this, String.format("View This Detail Product? : %d", transactionId));
+		if(ans == JOptionPane.YES_OPTION) {
+			TransactionController.getInstance().setTransactionId(transactionId);
+			this.dispose();
+			new DetailTransactionHistoryMenu().showForm();
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
+		} else if(e.getSource() == detailBtn) {
+			selectDetail();
 		}
-		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+		String id = (String) table.getValueAt(row, 0);
+		
+		transactionId = Integer.parseInt(id);
 		
 	}
 
