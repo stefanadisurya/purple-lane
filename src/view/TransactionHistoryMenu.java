@@ -32,6 +32,7 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
 	JMenuItem logout;
+	JMenuItem back;
 	JMenu menuMore;
 	JPanel top, mid, bot;
 	JTable table;
@@ -39,7 +40,7 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 	JScrollPane sp;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
-	JButton detailBtn;
+	JButton detailBtn, backBtn;
 	private Integer transactionId = 0;
 	
 	public TransactionHistoryMenu() {
@@ -66,6 +67,7 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 		table.addMouseListener(this);
 		
 		detailBtn = new JButton("View Detail");
+		backBtn = new JButton("Back");
 	}
 
 	@Override
@@ -79,10 +81,12 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 		
 		mid.add(sp);
 		
+		bot.add(backBtn);
 		bot.add(detailBtn);
 		
 		logout.addActionListener(this);
 		detailBtn.addActionListener(this);
+		backBtn.addActionListener(this);
 		
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -142,6 +146,9 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 			new AuthController();
 		} else if(e.getSource() == detailBtn) {
 			selectDetail();
+		} else if(e.getSource() == backBtn) {
+			this.dispose();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
 	}
 
@@ -151,7 +158,6 @@ public class TransactionHistoryMenu extends View implements ActionListener, Mous
 		String id = (String) table.getValueAt(row, 0);
 		
 		transactionId = Integer.parseInt(id);
-		
 	}
 
 	@Override

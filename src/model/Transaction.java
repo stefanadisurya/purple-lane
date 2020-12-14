@@ -164,7 +164,7 @@ public class Transaction extends Model {
 	}
 
 	public void setTransactionId(Integer transactionId2) {
-		transactionId=transactionId2;
+		this.transactionId = transactionId2;
 	}
 
 }

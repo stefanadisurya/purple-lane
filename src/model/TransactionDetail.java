@@ -13,8 +13,6 @@ public class TransactionDetail extends Model {
 	private Integer productId;
 	private Integer productQty;
 	
-	
-	
 	public Integer getTransactionId() {
 		return transactionId;
 	}

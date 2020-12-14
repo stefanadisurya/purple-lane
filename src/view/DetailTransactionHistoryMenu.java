@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -13,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ProductController;
@@ -29,7 +31,7 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 	JMenu menuBack;
 	JPanel top, mid, bot;
 	JTable table;
-	JLabel titleLbl;
+	JLabel titleLbl, priceLbl, priceTxt;
 	JScrollPane sp;
 	JButton backBtn;
 	Vector<Vector<String>> data;
@@ -50,13 +52,15 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		backBtn = new JButton("Back");
 		
 		top = new JPanel();
-		mid = new JPanel();
+		mid = new JPanel(new GridLayout(0,2));
 		bot = new JPanel();
 		
 		table = new JTable();
 		sp = new JScrollPane(table);
 		
 		titleLbl = new JLabel("Transaction History");
+		priceLbl = new JLabel("Total Price");
+		priceTxt = new JLabel("-");
 	}
 
 	@Override
@@ -66,9 +70,10 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
 		
-		top.add(titleLbl);
-		
-		mid.add(sp);
+//		top.add(titleLbl);
+		top.add(sp);
+		mid.add(priceLbl);
+		mid.add(priceTxt);
 		
 		bot.add(backBtn);
 		
@@ -94,14 +99,14 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		
 		TransactionController controller = TransactionController.getInstance();
 		
+		Integer totalPrice = 0;
 		Integer transactionId = controller.getTransactionId();
 		
 		Vector<TransactionDetail> detailList = controller.getTransactionDetail(transactionId);
 		for (TransactionDetail transactionDetail : detailList) {
 			detail = new Vector<>();
-			Integer qty = 0;
 			Integer productId = transactionDetail.getProductId();
-			qty = transactionDetail.getProductQty();
+			Integer qty = transactionDetail.getProductQty();
 			
 			Product prod = ProductController.getInstance().getOneProduct(productId);
 			
@@ -110,10 +115,14 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 			detail.add(prod.getProductPrice().toString());
 			detail.add(qty.toString());
 			
+			totalPrice += (prod.getProductPrice()*qty);
+			
 			data.add(detail);
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
+		
+		priceTxt.setText(totalPrice.toString());
 		
 		table.setModel(dtm);
 	}
