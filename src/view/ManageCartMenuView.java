@@ -25,7 +25,6 @@ import controller.AuthController;
 import controller.CartController;
 import controller.ProductController;
 import controller.UserController;
-import core.model.Model;
 import core.view.View;
 import model.Cart;
 import model.Users;
@@ -138,7 +137,7 @@ public class ManageCartMenuView extends View implements ActionListener {
 			selectCart();
 		} else if (e.getSource() == checkOutBtn) {
 			this.dispose();
-			new SelectedCartView().showForm();
+			CartController.getInstance().processSelectedCart();
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();

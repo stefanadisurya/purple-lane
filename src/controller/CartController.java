@@ -8,11 +8,12 @@ import core.view.View;
 import model.Cart;
 import model.Product;
 import view.ManageCartMenuView;
-import view.ManagePromoMenuView;
+import view.PaymentMenuView;
 
 public class CartController extends Controller {
 	private Vector<Cart> cartList;
 	private Vector<Cart> selectedCart;
+
 	private Cart cart;
 	public static CartController controller = null;
 
@@ -49,9 +50,9 @@ public class CartController extends Controller {
 	public void viewManageCartMenu() {
 		view().showForm();
 	}
-	
+
 	public void viewPaymentMenu() {
-		view().showForm();
+		new PaymentMenuView().showForm();
 	}
 
 	@Override
@@ -148,11 +149,7 @@ public class CartController extends Controller {
 	}
 
 	public void processSelectedCart() {
-		for (Cart cart : selectedCart) {
-			// pindah ke transaction
-			cart.delete();
-		}
-		selectedCart.clear();
+		viewPaymentMenu();
 	}
 
 	public void removesSelectedCart() {
@@ -160,6 +157,15 @@ public class CartController extends Controller {
 			cart.delete();
 		}
 		selectedCart.clear();
+		cartList.clear();
+		Vector<Model> carts = cart.getAll();
+		if (carts != null) {
+			for (Model model : carts) {
+				if (((Cart) model).getUserId() == UserController.getInstance().getActiveUser().getUserId()) {
+					cartList.add((Cart) model);
+				}
+			}
+		}
 	}
 
 	public Cart updateCart(String userId, String productId, String productQuantity) {

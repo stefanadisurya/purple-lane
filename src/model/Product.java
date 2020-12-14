@@ -143,11 +143,13 @@ public class Product extends Model {
 	}
 	
 	public Product reduceStock(Integer productStock, Integer productId) {
-		String query = String.format("UPDATE %s SET productStock=? - 1 WHERE productId=?", tableName);
+		this.productStock-=productStock;
+		if(this.productStock<0)this.productStock=0;
+		String query = String.format("UPDATE %s SET productStock=? WHERE productId=?", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
 
 		try {
-			ps.setInt(1, productStock);
+			ps.setInt(1, this.productStock);
 			ps.setInt(2, productId);
 			ps.executeUpdate();
 		} catch (SQLException e) {

@@ -43,7 +43,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	JScrollPane sp;
 	JMenuBar menuBar;
 	JMenu menuMore, menuTransactionHistory;
-	JMenuItem logout, cart;
+	JMenuItem logout, cart, viewTransaction;
 	JButton addCart;
 	JLabel nameLbl, authorLbl, priceLbl;
 	JLabel nameTxt, authorTxt, priceTxt;
@@ -85,12 +85,14 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 		logout = new JMenuItem("Logout");
 		cart = new JMenuItem("Cart");
+		viewTransaction = new JMenuItem("View Transaction History");
 
 		addCart = new JButton("Add To Cart");
 
 		logout.addActionListener(this);
 		cart.addActionListener(this);
 		addCart.addActionListener(this);
+		viewTransaction.addActionListener(this);
 	}
 
 	@Override
@@ -98,6 +100,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 		menuMore.add(cart);
 		menuMore.add(logout);
+		menuTransactionHistory.add(viewTransaction);
 		menuBar.add(menuMore);
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
@@ -164,6 +167,9 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		} else if(e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();
+		} else if(e.getSource() == viewTransaction) {
+			this.dispose();
+			new TransactionHistoryMenu().showForm();
 		}
 	}
 
@@ -199,25 +205,21 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
