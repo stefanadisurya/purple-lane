@@ -58,8 +58,10 @@ public class TransactionController extends Controller {
 
 	public Vector<Transaction> getTransactionHistory(Integer userId) {
 		transactionList = activeTransaction.getTransactionHistory(userId);
-		if (transactionList.isEmpty())
+		if (transactionList == null) {
 			return null;
+		}
+			
 		return transactionList;
 	}
 

@@ -33,8 +33,8 @@ public class ManageCartMenuView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
-	JMenuItem logout;
-	JMenu menuMore, menuBack;
+	JMenu menuMore, menuTransactionHistory, menuPromo;
+	JMenuItem logout, cart, viewTransaction, viewPromo, home;
 	JPanel top, mid, bot, pnlbottomtop, pnlbottombottom;
 	JTable table;
 	JButton selectBtn, checkOutBtn;
@@ -51,9 +51,14 @@ public class ManageCartMenuView extends View implements ActionListener {
 	@Override
 	public void initialize() {
 		menuBar = new JMenuBar();
-		menuBack = new JMenu("Back");
-		menuMore = new JMenu("More");
+		menuMore = new JMenu("Home");
+		menuPromo = new JMenu("Promo");
+		menuTransactionHistory = new JMenu("Transaction History");
+		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
+		cart = new JMenuItem("My Cart");
+		viewTransaction = new JMenuItem("View Transaction History");
+		viewPromo = new JMenuItem("View Promo");
 
 		top = new JPanel();
 		titleLbl = new JLabel("My Cart");
@@ -88,9 +93,14 @@ public class ManageCartMenuView extends View implements ActionListener {
 
 	@Override
 	public void initializeComponent() {
+		menuMore.add(home);
+		menuMore.add(cart);
 		menuMore.add(logout);
-		menuBar.add(menuBack);
+		menuPromo.add(viewPromo);
+		menuTransactionHistory.add(viewTransaction);
 		menuBar.add(menuMore);
+		menuBar.add(menuPromo);
+		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
 
 		top.add(titleLbl);
@@ -113,6 +123,11 @@ public class ManageCartMenuView extends View implements ActionListener {
 	}
 
 	private void addListeners() {
+		home.addActionListener(this);
+		logout.addActionListener(this);
+		cart.addActionListener(this);
+		viewTransaction.addActionListener(this);
+		viewPromo.addActionListener(this);
 		checkOutBtn.addActionListener(this);
 		selectBtn.addActionListener(this);
 		table.addMouseListener(new MouseAdapter() {
@@ -123,7 +138,7 @@ public class ManageCartMenuView extends View implements ActionListener {
 				String id = (String) table.getValueAt(row, 0);
 				String name = (String) table.getValueAt(row, 1);
 				String qty = (String) table.getValueAt(row, 2);
-				
+
 				productId = Integer.parseInt(id);
 				pmLbl.setText(name);
 				qtyLbl.setText(qty);
@@ -133,14 +148,26 @@ public class ManageCartMenuView extends View implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == selectBtn) {
+		if (e.getSource() == home) {
+			this.dispose();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
+		} else if (e.getSource() == logout) {
+			this.dispose();
+			new AuthController();
+		} else if (e.getSource() == cart) {
+			this.dispose();
+			new ManageCartMenuView().showForm();
+		} else if (e.getSource() == viewTransaction) {
+			this.dispose();
+			new TransactionHistoryMenu().showForm();
+		} else if (e.getSource() == viewPromo) {
+			this.dispose();
+			new PromoCodeView().showForm();
+		} else if (e.getSource() == selectBtn) {
 			selectCart();
 		} else if (e.getSource() == checkOutBtn) {
 			this.dispose();
 			CartController.getInstance().processSelectedCart();
-		} else if (e.getSource() == logout) {
-			this.dispose();
-			new AuthController();
 		}
 	}
 
@@ -181,9 +208,9 @@ public class ManageCartMenuView extends View implements ActionListener {
 			}
 			pmLbl.setText("-");
 			qtyLbl.setText("0");
-			productId=0;
+			productId = 0;
 		} else if (ans == JOptionPane.NO_OPTION) {
-			productId=0;
+			productId = 0;
 			pmLbl.setText("-");
 			qtyLbl.setText("0");
 		}

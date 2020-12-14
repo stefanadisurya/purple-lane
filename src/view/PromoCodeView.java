@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AuthController;
 import controller.PromoController;
+import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Promo;
@@ -25,8 +26,8 @@ public class PromoCodeView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
-	JMenuItem logout;
-	JMenu menuMore, menuBack;
+	JMenu menuMore, menuTransactionHistory, menuPromo;
+	JMenuItem logout, cart, viewTransaction, viewPromo, home;
 	JPanel top, mid, bot, pnlbottombottom;
 	JTable table;
 	JButton backBtn;
@@ -42,9 +43,14 @@ public class PromoCodeView extends View implements ActionListener {
 	@Override
 	public void initialize() {
 		menuBar = new JMenuBar();
-		menuBack = new JMenu("Back");
-		menuMore = new JMenu("More");
+		menuMore = new JMenu("Home");
+		menuPromo = new JMenu("Promo");
+		menuTransactionHistory = new JMenu("Transaction History");
+		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
+		cart = new JMenuItem("My Cart");
+		viewTransaction = new JMenuItem("View Transaction History");
+		viewPromo = new JMenuItem("View Promo");
 
 		top = new JPanel();
 		titleLbl = new JLabel("View All Promo Code");
@@ -67,9 +73,14 @@ public class PromoCodeView extends View implements ActionListener {
 
 	@Override
 	public void initializeComponent() {
+		menuMore.add(home);
+		menuMore.add(cart);
 		menuMore.add(logout);
-		menuBar.add(menuBack);
+		menuPromo.add(viewPromo);
+		menuTransactionHistory.add(viewTransaction);
 		menuBar.add(menuMore);
+		menuBar.add(menuPromo);
+		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
 
 		top.add(titleLbl);
@@ -86,18 +97,31 @@ public class PromoCodeView extends View implements ActionListener {
 	}
 
 	private void addListeners() {
+		home.addActionListener(this);
+		logout.addActionListener(this);
+		cart.addActionListener(this);
+		viewTransaction.addActionListener(this);
+		viewPromo.addActionListener(this);
 		backBtn.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == backBtn) {
+		if (e.getSource() == home || e.getSource() == backBtn) {
 			this.dispose();
-			new ManagePromoMenuView().showForm();
-		}
-		if (e.getSource() == logout) {
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
+		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
+		} else if (e.getSource() == cart) {
+			this.dispose();
+			new ManageCartMenuView().showForm();
+		} else if (e.getSource() == viewTransaction) {
+			this.dispose();
+			new TransactionHistoryMenu().showForm();
+		} else if (e.getSource() == viewPromo) {
+			this.dispose();
+			new PromoCodeView().showForm();
 		}
 	}
 

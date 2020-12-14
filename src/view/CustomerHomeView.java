@@ -42,10 +42,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	JTable table;
 	JScrollPane sp;
 	JMenuBar menuBar;
-	JMenu menuMore, menuTransactionHistory;
-	JMenuItem logout, cart, viewTransaction;
+	JMenu menuMore, menuTransactionHistory,menuPromo;
+	JMenuItem logout, cart, viewTransaction,viewPromo,home;
 	JButton addCart;
-	JLabel nameLbl, authorLbl, priceLbl;
+	JLabel nameLbl, authorLbl, priceLbl,titleLbl;
 	JLabel nameTxt, authorTxt, priceTxt;
 	JLabel qtyLbl;
 	JTextField qtyTxt;
@@ -65,12 +65,14 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		mid = new JPanel(new GridLayout(4, 2));
 		bot = new JPanel();
 		table = new JTable();
+		titleLbl = new JLabel("Welcome "+UserController.getInstance().getActiveUser().getUsername());
 		sp = new JScrollPane(table);
 
 		table.addMouseListener(this);
 
 		menuBar = new JMenuBar();
-		menuMore = new JMenu("More");
+		menuMore = new JMenu("Home");
+		menuPromo = new JMenu("Promo");
 		menuTransactionHistory = new JMenu("Transaction History");
 		
 		nameLbl = new JLabel("Product Name: ");
@@ -82,29 +84,36 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		authorTxt = new JLabel("-");
 		priceTxt = new JLabel("-");
 		qtyTxt = new JTextField();
-
+		
+		
+		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
-		cart = new JMenuItem("Cart");
+		cart = new JMenuItem("My Cart");
 		viewTransaction = new JMenuItem("View Transaction History");
-
+		viewPromo = new JMenuItem("View Promo");
 		addCart = new JButton("Add To Cart");
-
+		
+		home.addActionListener(this);
 		logout.addActionListener(this);
 		cart.addActionListener(this);
 		addCart.addActionListener(this);
 		viewTransaction.addActionListener(this);
+		viewPromo.addActionListener(this);
 	}
 
 	@Override
 	public void initializeComponent() {
-
+		menuMore.add(home);
 		menuMore.add(cart);
 		menuMore.add(logout);
+		menuPromo.add(viewPromo);
 		menuTransactionHistory.add(viewTransaction);
 		menuBar.add(menuMore);
+		menuBar.add(menuPromo);
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
-
+		
+//		top.add(titleLbl);
 		top.add(sp);
 		
 		mid.add(nameLbl);
@@ -159,7 +168,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == logout) {
+		if (e.getSource() == home) {
+			this.dispose();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
+		}else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
 		} else if(e.getSource() == addCart) {
@@ -170,6 +182,9 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		} else if(e.getSource() == viewTransaction) {
 			this.dispose();
 			new TransactionHistoryMenu().showForm();
+		}else if (e.getSource() == viewPromo) {
+			this.dispose();
+			new PromoCodeView().showForm();
 		}
 	}
 
