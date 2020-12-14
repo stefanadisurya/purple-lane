@@ -159,7 +159,20 @@ public class Transaction extends Model {
 
 	@Override
 	public Vector<Model> getAll() {
-		// TODO Auto-generated method stub
+		String query = String.format("SELECT * FROM %s", this.tableName);
+		ResultSet res = this.con.executeQuery(query);
+
+		try {
+			Vector<Model> list = new Vector<>();
+			while (res.next()) {
+				Transaction t = map(res);
+				list.add(t);
+				return list;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

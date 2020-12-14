@@ -14,11 +14,11 @@ public class UserController extends Controller {
 
 	private Users activeUser;
 	private static UserController controller;
-	
+
 	private UserController() {
 		activeUser = new Users();
 	}
-	
+
 	public static UserController getInstance() {
 		return controller = (controller == null) ? new UserController() : controller;
 	}
@@ -32,7 +32,7 @@ public class UserController extends Controller {
 	public Vector<Model> getAll() {
 		return null;
 	}
-	
+
 	public Users getOneUser(String username, String password) {
 		Users s;
 		try {
@@ -43,15 +43,15 @@ public class UserController extends Controller {
 		}
 		return null;
 	}
-	
+
 	public void processRole(Users user) {
-		if(user.getRoleId() == 1) {
+		if (user.getRoleId() == 1) {
 			AdminController.getInstance().view().showForm();
-		} else if(user.getRoleId() == 2) {
+		} else if (user.getRoleId() == 2) {
 			CustomerController.getInstance().view().showForm();
-		} else if(user.getRoleId() == 3) {
-			new ManagerController();
-		} else if(user.getRoleId() == 4) {
+		} else if (user.getRoleId() == 3) {
+			ManagerController.getInstance().view().showForm();
+		} else if (user.getRoleId() == 4) {
 			PromoController.getInstance();
 		}
 	}
@@ -63,7 +63,7 @@ public class UserController extends Controller {
 	public void setActiveUser(Users activeUser) {
 		this.activeUser = activeUser;
 	}
-	
+
 	public void disposeUser() {
 		this.controller = null;
 		this.activeUser = null;

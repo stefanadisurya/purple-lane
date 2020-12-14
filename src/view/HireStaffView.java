@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import controller.AuthController;
 import controller.LoginController;
 import controller.RegisterController;
+import controller.UserController;
 import core.view.View;
 
 public class HireStaffView extends View implements ActionListener {
@@ -72,24 +73,6 @@ public class HireStaffView extends View implements ActionListener {
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordPnl.add(passwordTxt);
 
-//		admin = new JRadioButton("Admin");
-//		admin.setActionCommand("1");
-//		customer = new JRadioButton("Customer");
-//		customer.setActionCommand("2");
-//		manager = new JRadioButton("Manager");
-//		manager.setActionCommand("3");
-//		promotion = new JRadioButton("Promotion");
-//		promotion.setActionCommand("4");
-//		rolePnl.add(admin);
-//		rolePnl.add(customer);
-//		rolePnl.add(manager);
-//		rolePnl.add(promotion);
-//		roleGroup = new ButtonGroup();
-//		roleGroup.add(admin);
-//		roleGroup.add(customer);
-//		roleGroup.add(manager);
-//		roleGroup.add(promotion);
-		
 		roleBox.addItem("Admin");
 		roleBox.addItem("Promotion");
 		
@@ -127,10 +110,9 @@ public class HireStaffView extends View implements ActionListener {
 		String value =(String)roleBox.getSelectedItem();
 		if (e.getSource() == cancel) {
 			this.dispose();
-			AuthController.getInstance().view().showForm();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == submit) {
 			String username = usernameTxt.getText();
-//			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
 			String password = passwordTxt.getText();
 			if(value.equals("Admin")) {
 				RegisterController.getInstance().createAdminAccount(username, password);
@@ -140,7 +122,7 @@ public class HireStaffView extends View implements ActionListener {
 			
 			JOptionPane.showMessageDialog(null, "Register Success!");
 			this.dispose();
-			LoginController.getInstance().view().showForm();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
 	}
 

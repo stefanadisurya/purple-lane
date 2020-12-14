@@ -1,52 +1,94 @@
-
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
-public class ManagerController extends JFrame implements ActionListener {
+import core.controller.Controller;
+import core.model.Model;
+import core.view.View;
+import view.ManagerHomeView;
+import view.ProductView;
 
-	JMenuBar menuBar;
-	JMenu menuMore;
-	JMenuItem logout;
+public class ManagerController extends Controller {
 
-	void initializeComponent() {
-		menuBar = new JMenuBar();
-		menuMore = new JMenu("More");
-		logout = new JMenuItem("Logout");
+	private ProductController productController;
+	private static ManagerController controller;
+	private boolean valid;
 
-		logout.addActionListener(this);
-
-		menuMore.add(logout);
-		menuBar.add(menuMore);
-		setJMenuBar(menuBar);
+	private ManagerController() {
+		productController = ProductController.getInstance();
 	}
 
-	public void initialize() {
-		setSize(600, 600);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-
-		initializeComponent();
-
-		setVisible(true);
+	public static ManagerController getInstance() {
+		return controller = (controller == null) ? new ManagerController() : controller;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == logout) {
-			this.dispose();
-			new AuthController();
+	public View view() {
+		return new ManagerHomeView();
+	}
+
+	@Override
+	public Vector<Model> getAll() {
+		return productController.getAll();
+	}
+
+	public void create(String productName, String productAuthor, String productPrice, String productStock) {
+		productController.setProductName(productName);
+		productController.setProductAuthor(productAuthor);
+		productController.setProductPrice(productPrice);
+		productController.setProductStock(productStock);
+
+		if (productController.isValid() == true) {
+			productController.createProduct();
+			JOptionPane.showMessageDialog(null, "Insert Product Success!");
+		} else {
+			productController.setValid(true);
+		}
+
+	}
+
+	public void update(Integer productId, String productName, String productAuthor, String productPrice, String productStock) {
+		productController.setProductId(productId);
+		productController.setProductName(productName);
+		productController.setProductAuthor(productAuthor);
+		productController.setProductPrice(productPrice);
+		productController.setProductStock(productStock);
+
+		if (productController.isValid() == true) {
+			productController.updateProduct();
+			JOptionPane.showMessageDialog(null, "Update Product Success!");
+		} else {
+			productController.setValid(true);
 		}
 	}
 
-	public ManagerController() {
-		initialize();
+	public void delete(Integer productId) {
+		productController.setProductId(productId);
+		
+		if(productController.isValid() == true) {
+			productController.deleteProduct();
+			JOptionPane.showMessageDialog(null, "Delete Product Success!");
+		} else {
+			productController.setValid(true);
+		}
+	}
+	
+	public void searchProduct(String productName) {
+		productController.setProductName(productName);
+		
+		if(productController.isValid() == true) {
+			productController.searchProduct();
+		} else {
+			productController.setValid(true);
+		}
+	}
+	
+	public void reduceStock(Integer productStock, Integer productId) {
+		productController.setProductId(productId);
+		productController.reduceStock(productStock);
+		JOptionPane.showMessageDialog(null, "Reduct Product Stock Success!");
 	}
 
 }

@@ -145,7 +145,7 @@ public class Users extends Model {
 		PreparedStatement ps = con.prepareStatement(query);
 
 		try {
-			ps.setInt(1, 3);
+			ps.setInt(1, 4);
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.executeUpdate();
@@ -198,7 +198,7 @@ public class Users extends Model {
 						CustomerController.getInstance().view().showForm();
 					} else if (rs.getString("roleId").equals(Integer.toString(3))) { // Manager
 						JOptionPane.showMessageDialog(null, "Login Success!");
-						new ManagerController();
+						ManagerController.getInstance().view().showForm();
 					} else if (rs.getString("roleId").equals(Integer.toString(4))) { // Promotion Team
 						JOptionPane.showMessageDialog(null, "Login Success!");
 						PromoController.getInstance();
