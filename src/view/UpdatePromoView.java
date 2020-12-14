@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,10 +37,11 @@ public class UpdatePromoView extends View implements ActionListener {
 	JMenuItem logout, home;
 	JMenu menuMore, menuHome;
 	JPanel top, mid, bot, pnlbottomtop, pnlbottombottom;
-	JTextField promoCodeTxt, promoNoteTxt, promoDiscountTxt;
+	JTextField promoCodeTxt, promoDiscountTxt;
 	JTable table;
 	JButton updateBtn, backBtn;
 	JLabel titleLbl, promoIdLbl, idLbl, promoCodeLbl, promoDiscountLbl, promoNoteLbl;
+	JTextArea promoNoteTxt;
 
 	public UpdatePromoView() {
 		super();
@@ -83,7 +85,7 @@ public class UpdatePromoView extends View implements ActionListener {
 		promoDiscountLbl = new JLabel("Promo Discount");
 		promoDiscountTxt = new JTextField();
 		promoNoteLbl = new JLabel("Promo Note");
-		promoNoteTxt = new JTextField();
+		promoNoteTxt = new JTextArea();
 
 		updateBtn = new JButton("Submit");
 		updateBtn.setBackground(Color.YELLOW);

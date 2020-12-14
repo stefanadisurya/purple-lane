@@ -74,7 +74,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		priceLbl = new JLabel("Product Price: ");
 		stockLbl = new JLabel("Product Stock: ");
 
-		idValue = new JLabel("-");
+		idValue = new JLabel();
 
 		nameTxt = new JTextField();
 		authorTxt = new JTextField();
@@ -203,7 +203,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			AdminController.getInstance().create(name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == update) {
-			Integer id = Integer.parseInt(idValue.getText());
+			String id = idValue.getText();
 			String name = nameTxt.getText();
 			String author = authorTxt.getText();
 			String price = priceTxt.getText();
@@ -212,7 +212,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			AdminController.getInstance().update(id, name, author, price, stock);
 			loadData();
 		} else if (e.getSource() == delete) {
-			Integer id = Integer.parseInt(idValue.getText());
+			String id = idValue.getText();
 
 			AdminController.getInstance().delete(id);
 			loadData();

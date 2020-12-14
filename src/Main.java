@@ -1,15 +1,5 @@
 
-import controller.AdminController;
-import controller.AuthController;
 import controller.LoginController;
-import controller.ProductController;
-import controller.PromoController;
-import controller.RegisterController;
-
-import view.CustomerHomeView;
-import view.HireStaffView;
-import view.LoginView;
-import view.RegisterView;
 
 
 public class Main {

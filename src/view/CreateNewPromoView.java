@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,10 +38,11 @@ public class CreateNewPromoView extends View implements ActionListener {
 	JMenuItem logout, home;
 	JMenu menuMore, menuHome;
 	JPanel top, mid, bot, pnlbottomtop, pnlbottombottom;
-	JTextField promoCodeTxt, promoNoteTxt, promoDiscountTxt;
+	JTextField promoCodeTxt, promoDiscountTxt;
 	JTable table;
 	JButton createBtn, backBtn;
 	JLabel titleLbl, promoCodeLbl, promoDiscountLbl, promoNoteLbl;
+	JTextArea promoNoteTxt;
 
 	public CreateNewPromoView() {
 		super();
@@ -69,7 +72,7 @@ public class CreateNewPromoView extends View implements ActionListener {
 
 		mid = new JPanel();
 		bot = new JPanel(new BorderLayout());
-		GridLayout layout = new GridLayout(4, 1, 10, 10);
+		GridLayout layout = new GridLayout(3, 2, 10, 10);
 
 		pnlbottomtop = new JPanel(layout);
 		pnlbottomtop.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
@@ -81,8 +84,8 @@ public class CreateNewPromoView extends View implements ActionListener {
 		promoDiscountLbl = new JLabel("Promo Discount");
 		promoDiscountTxt = new JTextField();
 		promoNoteLbl = new JLabel("Promo Note");
-		promoNoteTxt = new JTextField();
-
+		promoNoteTxt = new JTextArea();
+		
 		createBtn = new JButton("Submit");
 		createBtn.setBackground(Color.GREEN);
 		backBtn = new JButton("Back to Menu");
