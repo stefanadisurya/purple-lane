@@ -52,7 +52,7 @@ public class UserController extends Controller {
 		} else if (user.getRoleId() == 3) {
 			ManagerController.getInstance().view().showForm();
 		} else if (user.getRoleId() == 4) {
-			PromoController.getInstance();
+			PromotionTeamController.getInstance().view().showForm();
 		}
 	}
 

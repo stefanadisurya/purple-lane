@@ -44,13 +44,16 @@ public class PromoCodeView extends View implements ActionListener {
 	public void initialize() {
 		menuBar = new JMenuBar();
 		menuMore = new JMenu("Home");
-		menuPromo = new JMenu("Promo");
-		menuTransactionHistory = new JMenu("Transaction History");
+		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+			menuPromo = new JMenu("Promo");
+			menuTransactionHistory = new JMenu("Transaction History");
+			cart = new JMenuItem("My Cart");
+			viewTransaction = new JMenuItem("View Transaction History");
+			viewPromo = new JMenuItem("View Promo");
+			
+		}
 		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
-		cart = new JMenuItem("My Cart");
-		viewTransaction = new JMenuItem("View Transaction History");
-		viewPromo = new JMenuItem("View Promo");
 
 		top = new JPanel();
 		titleLbl = new JLabel("View All Promo Code");
@@ -74,13 +77,19 @@ public class PromoCodeView extends View implements ActionListener {
 	@Override
 	public void initializeComponent() {
 		menuMore.add(home);
-		menuMore.add(cart);
+		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+			menuMore.add(cart);
+			menuPromo.add(viewPromo);
+			menuTransactionHistory.add(viewTransaction);
+			
+		}
 		menuMore.add(logout);
-		menuPromo.add(viewPromo);
-		menuTransactionHistory.add(viewTransaction);
 		menuBar.add(menuMore);
-		menuBar.add(menuPromo);
-		menuBar.add(menuTransactionHistory);
+		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+			menuBar.add(menuPromo);
+			menuBar.add(menuTransactionHistory);
+			
+		}
 		setJMenuBar(menuBar);
 
 		top.add(titleLbl);
@@ -99,9 +108,12 @@ public class PromoCodeView extends View implements ActionListener {
 	private void addListeners() {
 		home.addActionListener(this);
 		logout.addActionListener(this);
-		cart.addActionListener(this);
-		viewTransaction.addActionListener(this);
-		viewPromo.addActionListener(this);
+		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+			cart.addActionListener(this);
+			viewTransaction.addActionListener(this);
+			viewPromo.addActionListener(this);	
+		}
+		
 		backBtn.addActionListener(this);
 	}
 

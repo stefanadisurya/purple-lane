@@ -13,13 +13,6 @@ public abstract class Model {
 	public Model() {
 
 	}
-	
-	//Albert [karna masing" model beda Paramaeter]
-//	public abstract void insert();
-//
-//	public abstract void update();
-//
-//	public abstract void delete();
 
 	public abstract Vector<Model> getAll();
 

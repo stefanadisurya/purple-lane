@@ -21,9 +21,9 @@ public class ManagePromoMenuView extends View implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
 	JMenuItem logout;
-	JMenu menuMore, menuBack;
+	JMenu menuMore;
 	JPanel top, mid, bot, pnlbottombottom;
-	JButton createBtn,updateBtn,deleteBtn,viewBtn;
+	JButton createBtn, updateBtn, deleteBtn, viewBtn;
 	JLabel titleLbl;
 
 	public ManagePromoMenuView() {
@@ -36,7 +36,6 @@ public class ManagePromoMenuView extends View implements ActionListener {
 	@Override
 	public void initialize() {
 		menuBar = new JMenuBar();
-		menuBack = new JMenu("Back");
 		menuMore = new JMenu("More");
 		logout = new JMenuItem("Logout");
 
@@ -44,10 +43,10 @@ public class ManagePromoMenuView extends View implements ActionListener {
 		titleLbl = new JLabel("Manage Promo Code Menu");
 
 		mid = new JPanel(new BorderLayout());
-		
-		pnlbottombottom = new JPanel(new GridLayout(4,1,10,10));
+
+		pnlbottombottom = new JPanel(new GridLayout(4, 1, 10, 10));
 		bot = new JPanel();
-		
+
 		createBtn = new JButton("Create");
 		updateBtn = new JButton("Update");
 		deleteBtn = new JButton("Delete");
@@ -57,12 +56,10 @@ public class ManagePromoMenuView extends View implements ActionListener {
 	@Override
 	public void initializeComponent() {
 		menuMore.add(logout);
-		menuBar.add(menuBack);
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
 
 		top.add(titleLbl);
-		
 
 		pnlbottombottom.add(createBtn);
 		pnlbottombottom.add(updateBtn);
@@ -70,13 +67,14 @@ public class ManagePromoMenuView extends View implements ActionListener {
 		pnlbottombottom.add(viewBtn);
 		mid.add(pnlbottombottom, BorderLayout.CENTER);
 		mid.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-		
+
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
 	}
 
 	private void addListeners() {
 		viewBtn.addActionListener(this);
+		logout.addActionListener(this);
 		createBtn.addActionListener(this);
 		updateBtn.addActionListener(this);
 		deleteBtn.addActionListener(this);

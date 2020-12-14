@@ -21,7 +21,6 @@ public abstract class View extends JFrame {
 	}
 
 	public abstract void initialize();
-
 	public abstract void initializeComponent();
 
 }

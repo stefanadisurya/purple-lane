@@ -24,8 +24,6 @@ public class Main {
 //		new LoginView().showForm();
 //		new HireStaffView().showForm();
 
-		//Albert Promo View Testing
-//		PromoController.getInstance().viewManagePromoMenu();
 	}
 
 	public static void main(String[] args) {

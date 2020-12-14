@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AuthController;
 import controller.PromoController;
+import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Promo;
@@ -32,12 +33,12 @@ public class UpdatePromoView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
-	JMenuItem logout;
-	JMenu menuMore, menuBack;
+	JMenuItem logout, home;
+	JMenu menuMore, menuHome;
 	JPanel top, mid, bot, pnlbottomtop, pnlbottombottom;
 	JTextField promoCodeTxt, promoNoteTxt, promoDiscountTxt;
 	JTable table;
-	JButton updateBtn,backBtn;
+	JButton updateBtn, backBtn;
 	JLabel titleLbl, promoIdLbl, idLbl, promoCodeLbl, promoDiscountLbl, promoNoteLbl;
 
 	public UpdatePromoView() {
@@ -50,8 +51,9 @@ public class UpdatePromoView extends View implements ActionListener {
 	@Override
 	public void initialize() {
 		menuBar = new JMenuBar();
-		menuBack = new JMenu("Back");
+		menuHome = new JMenu("Home");
 		menuMore = new JMenu("More");
+		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
 
 		top = new JPanel();
@@ -90,8 +92,9 @@ public class UpdatePromoView extends View implements ActionListener {
 
 	@Override
 	public void initializeComponent() {
+		menuHome.add(home);
 		menuMore.add(logout);
-		menuBar.add(menuBack);
+		menuBar.add(menuHome);
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
 
@@ -119,6 +122,8 @@ public class UpdatePromoView extends View implements ActionListener {
 	}
 
 	private void addListeners() {
+		home.addActionListener(this);
+		logout.addActionListener(this);
 		updateBtn.addActionListener(this);
 		backBtn.addActionListener(this);
 		table.addMouseListener(new MouseAdapter() {
@@ -143,12 +148,10 @@ public class UpdatePromoView extends View implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == updateBtn) {
 			update();
-		}
-		if (e.getSource() == backBtn) {
+		} else if (e.getSource() == backBtn || e.getSource() == home) {
 			this.dispose();
-			new ManagePromoMenuView().showForm();
-		}
-		if (e.getSource() == logout) {
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
+		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
 		}

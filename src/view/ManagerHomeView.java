@@ -17,12 +17,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AuthController;
-import controller.PromoController;
 import controller.TransactionController;
 import controller.UserController;
 import core.model.Model;
 import core.view.View;
-import model.Promo;
 import model.Transaction;
 
 public class ManagerHomeView extends View implements ActionListener {
