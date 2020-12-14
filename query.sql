@@ -61,6 +61,8 @@ CREATE TABLE Cart (
 
 INSERT INTO `users` (`userId`, `roleId`, `username`, `password`) VALUES
 (1, 1, 'admin', 'admin'),
+(3, 3, 'manager', 'manager'),
+(4, 4, 'promotion', 'promotion'),
 (2, 2, 'member', 'member');
 
 INSERT INTO `products` (`productId`, `productName`, `productAuthor`, `productPrice`, `productStock`) VALUES
