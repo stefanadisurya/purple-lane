@@ -22,7 +22,7 @@ public class TransactionDetail extends Model {
 
 	public TransactionDetail(Integer transactionId, Integer productId, Integer productQty) {
 		super();
-		this.tableName = "DetailTransaction";
+		this.tableName = "detailtransaction";
 		this.transactionId = transactionId;
 		this.productId = productId;
 		this.productQty = productQty;
@@ -108,7 +108,7 @@ public class TransactionDetail extends Model {
 	}
 
 
-	public void setProductty(Integer productQty) {
+	public void setProductQty(Integer productQty) {
 		this.productQty = productQty;
 	}
 

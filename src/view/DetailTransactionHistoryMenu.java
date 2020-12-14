@@ -95,6 +95,7 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		TransactionController controller = TransactionController.getInstance();
 		
 		Integer transactionId = controller.getTransactionId();
+		
 		Vector<TransactionDetail> detailList = controller.getTransactionDetail(transactionId);
 		for (TransactionDetail transactionDetail : detailList) {
 			detail = new Vector<>();

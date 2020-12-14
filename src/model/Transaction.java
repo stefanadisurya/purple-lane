@@ -51,7 +51,7 @@ public class Transaction extends Model {
 			ps.setString(4, promoCode);
 			ps.setInt(5, userId);
 			ps.executeUpdate();
-			transactionId = getTransactionId(transactionDate, paymentType, cardNumber, userId);
+			transactionId = getId(transactionDate, paymentType, cardNumber, userId);
 			return new Transaction(transactionId, transactionDate, paymentType, cardNumber, promoCode, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -60,7 +60,7 @@ public class Transaction extends Model {
 		return null;
 	}
 
-	private Integer getTransactionId(Date transactionDate2, String paymentType2, String cardNumber2, Integer userId2) {
+	private Integer getId(Date transactionDate2, String paymentType2, String cardNumber2, Integer userId2) {
 		String query = String.format(
 				"SELECT * FROM %s " + "WHERE transactionDate='" + transactionDate2
 						+ "' AND paymentType LIKE '%s' AND cardNumber=%s AND userId=%d ORDER BY transactionId DESC",
@@ -164,8 +164,7 @@ public class Transaction extends Model {
 	}
 
 	public void setTransactionId(Integer transactionId2) {
-		// TODO Auto-generated method stub
-		
+		transactionId=transactionId2;
 	}
 
 }
