@@ -97,7 +97,8 @@ public class Transaction extends Model {
 	}
 
 	public Vector<Transaction> getTransactionReport(Integer Month, Integer Year) {
-		String query = String.format("SELECT * FROM %s " + "WHERE transactionDate=%s", this.tableName, transactionDate);
+		String query = String.format("SELECT * FROM %s WHERE month(transactionDate) = %d "
+				+ "AND year(transactionDate) = %d", this.tableName, Month, Year);
 		ResultSet res = this.con.executeQuery(query);
 
 		try {
@@ -105,8 +106,8 @@ public class Transaction extends Model {
 			while (res.next()) {
 				Transaction t = map(res);
 				temp.add(t);
-				return temp;
 			}
+			return temp;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -124,8 +125,8 @@ public class Transaction extends Model {
 			while (res.next()) {
 				Transaction t = map(res);
 				list.add(t);
-				return list;
 			}
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -167,8 +168,8 @@ public class Transaction extends Model {
 			while (res.next()) {
 				Transaction t = map(res);
 				list.add(t);
-				return list;
 			}
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

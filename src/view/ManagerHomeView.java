@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,13 +30,14 @@ public class ManagerHomeView extends View implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
-	JMenu menuMore, menuTrans, menuRegister;
-	JMenuItem logout, viewAllTransaction, transReport, hireStaff, home;
+	JMenu menuMore, menuTrans, menuRegister, menuFinancial;
+	JMenuItem logout, viewAllTransaction, transReport, hireStaff, home, finance;
 	JPanel top, mid, bot, pnlbottombottom;
 	JTable table;
 	JButton TransReportBtn;
 	JLabel titleLbl;
 	JScrollPane sp;
+	private Integer transactionId = 0;
 
 	public ManagerHomeView() {
 		super();
@@ -68,7 +72,6 @@ public class ManagerHomeView extends View implements ActionListener {
 		sp = new JScrollPane(table);
 		sp.setPreferredSize(new Dimension(800, 450));
 		
-		
 		mid = new JPanel();
 		bot = new JPanel(new BorderLayout());
 
@@ -93,9 +96,6 @@ public class ManagerHomeView extends View implements ActionListener {
 		loadData();
 
 		mid.add(sp, BorderLayout.CENTER);
-		
-
-		
 		
 		pnlbottombottom.add(TransReportBtn);
 		bot.add(pnlbottombottom, BorderLayout.CENTER);
@@ -127,7 +127,7 @@ public class ManagerHomeView extends View implements ActionListener {
 			new HireStaffView().showForm();
 		} else if (e.getSource() == TransReportBtn || e.getSource() == transReport) {
 			this.dispose();
-			new TransactionHistoryMenu().showForm();
+			new TransactionReportView().showForm();
 		}
 	}
 

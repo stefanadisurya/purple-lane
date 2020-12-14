@@ -21,6 +21,8 @@ public class TransactionController extends Controller {
 	private Vector<TransactionDetail> detailTransactionList;
 	private static TransactionController controller;
 	private String errorMessage;
+	private Integer month;
+	private Integer year;
 
 	public TransactionController() {
 		activeTransaction = new Transaction();
@@ -149,4 +151,21 @@ public class TransactionController extends Controller {
 	public Vector<Model> getAll() {
 		return activeTransaction.getAll();
 	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	
 }

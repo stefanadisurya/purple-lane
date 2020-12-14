@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import controller.PromotionTeamController;
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
