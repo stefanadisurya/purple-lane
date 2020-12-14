@@ -72,25 +72,6 @@ public class RegisterView extends View implements ActionListener {
 		passwordTxt = new JPasswordField();
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordPnl.add(passwordTxt);
-
-//		admin = new JRadioButton("Admin");
-//		admin.setActionCommand("1");
-//		customer = new JRadioButton("Customer");
-//		customer.setActionCommand("2");
-//		manager = new JRadioButton("Manager");
-//		manager.setActionCommand("3");
-//		promotion = new JRadioButton("Promotion");
-//		promotion.setActionCommand("4");
-//		rolePnl.add(admin);
-//		rolePnl.add(customer);
-//		rolePnl.add(manager);
-//		rolePnl.add(promotion);
-//		roleGroup = new ButtonGroup();
-//		roleGroup.add(admin);
-//		roleGroup.add(customer);
-//		roleGroup.add(manager);
-//		roleGroup.add(promotion);
-		
 		
 		cancel = new JButton("Cancel");
 		register = new JButton("Register");
@@ -107,8 +88,6 @@ public class RegisterView extends View implements ActionListener {
 		mid.add(usernamePnl);
 		mid.add(passwordLabelPnl);
 		mid.add(passwordPnl);
-//		mid.add(roleLabelPnl);
-//		mid.add(rolePnl);
 		midTop.add(mid);
 		bot.add(cancel);
 		bot.add(register);
@@ -127,7 +106,6 @@ public class RegisterView extends View implements ActionListener {
 			AuthController.getInstance().view().showForm();
 		} else if (e.getSource() == register) {
 			String username = usernameTxt.getText();
-//			Integer roleId = Integer.parseInt(roleGroup.getSelection().getActionCommand());
 			String password = passwordTxt.getText();
 			RegisterController.getInstance().createCustomerAccount(username, password);
 			

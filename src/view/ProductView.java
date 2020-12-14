@@ -2,6 +2,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
@@ -37,22 +39,22 @@ public class ProductView extends View implements ActionListener, MouseListener {
 	JPanel top, mid, bot;
 	JTable table;
 	JScrollPane sp;
-	JLabel idLbl, idValue, nameLbl, authorLbl, priceLbl, stockLbl;
-	JTextField nameTxt, authorTxt, priceTxt, stockTxt;
-	JButton insert, update, delete, reduce;
+	JLabel idLbl, idValue, nameLbl, authorLbl, priceLbl, stockLbl, searchLbl, lbl;
+	JTextField nameTxt, authorTxt, priceTxt, stockTxt, searchTxt;
+	JButton insert, update, delete, search;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 
 	public ProductView() {
 		super();
-		this.height = 700;
+		this.height = 800;
 		this.width = 600;
 	}
 
 	@Override
 	public void initialize() {
 		top = new JPanel();
-		mid = new JPanel(new GridLayout(6, 2));
+		mid = new JPanel(new GridLayout(7, 2, 4, 4));
 		bot = new JPanel();
 		table = new JTable();
 		sp = new JScrollPane(table);
@@ -63,6 +65,9 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		menuMore = new JMenu("More");
 		logout = new JMenuItem("Logout");
 
+		searchLbl = new JLabel("Search Product: ");
+		searchTxt = new JTextField();
+		
 		idLbl = new JLabel("Product ID: ");
 		nameLbl = new JLabel("Product Name: ");
 		authorLbl = new JLabel("Product Author: ");
@@ -78,13 +83,14 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		insert = new JButton("Insert");
 		update = new JButton("Update");
 		delete = new JButton("Delete");
-		reduce = new JButton("Reduce Stock");
+		search = new JButton("Search");
+		search.addActionListener(this);
+		lbl = new JLabel();
 
 		insert.addActionListener(this);
 		update.addActionListener(this);
 		delete.addActionListener(this);
 		logout.addActionListener(this);
-		reduce.addActionListener(this);
 
 	}
 
@@ -94,9 +100,13 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		menuMore.add(logout);
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
-
+		
 		top.add(sp);
 
+		mid.add(searchLbl);
+		mid.add(searchTxt);
+		mid.add(lbl);
+		mid.add(search);
 		mid.add(idLbl);
 		mid.add(idValue);
 		mid.add(nameLbl);
@@ -107,11 +117,12 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		mid.add(priceTxt);
 		mid.add(stockLbl);
 		mid.add(stockTxt);
+		
+		mid.setBorder(new EmptyBorder(20, 60, 20, 60));
 
 		bot.add(insert);
 		bot.add(update);
 		bot.add(delete);
-		bot.add(reduce);
 
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -132,7 +143,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Stock");
 
 		Vector<Model> listProduct = ProductController.getInstance().getAll();
-
+		
 		for (Model model : listProduct) {
 			Product p = (Product) model;
 			detail = new Vector<>();
@@ -145,6 +156,33 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 			data.add(detail);
 		}
+
+		DefaultTableModel dtm = new DefaultTableModel(data, header);
+
+		table.setModel(dtm);
+	}
+	
+	public void searchResult() {
+		data = new Vector<>();
+
+		header = new Vector<>();
+		header.add("Product ID");
+		header.add("Product Name");
+		header.add("Product Author");
+		header.add("Product Price");
+		header.add("Product Stock");
+		
+		Product p = ProductController.getInstance().searchProduct();
+		
+		detail = new Vector<>();
+
+		detail.add(p.getProductId().toString());
+		detail.add(p.getProductName());
+		detail.add(p.getProductAuthor());
+		detail.add(p.getProductPrice().toString());
+		detail.add(p.getProductStock().toString());
+
+		data.add(detail);
 
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
 
@@ -181,18 +219,11 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			authorTxt.setText("");
 			priceTxt.setText("");
 			stockTxt.setText("");
-		} else if(e.getSource() == reduce) {
-			Integer stock = Integer.parseInt(stockTxt.getText());
-			Integer id = Integer.parseInt(idValue.getText());
+		} else if(e.getSource() == search) {
+			String name = searchTxt.getText();
 			
-			AdminController.getInstance().reduceStock(stock, id);
-			loadData();
-			
-			idValue.setText("-");
-			nameTxt.setText("");
-			authorTxt.setText("");
-			priceTxt.setText("");
-			stockTxt.setText("");
+			AdminController.getInstance().searchProduct(name);
+			searchResult();
 		} else if (e.getSource() == logout) {
 			this.dispose();
 			new AuthController();
