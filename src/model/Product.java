@@ -143,9 +143,9 @@ public class Product extends Model {
 	}
 	
 	public Product searchProduct(String productName) {
-		String query = String.format("SELECT * FROM %s WHERE productName='%s'", tableName, productName);
+		String query = String.format("SELECT * FROM %s WHERE productName LIKE '" + productName + "'", tableName);
 		ResultSet rs = con.executeQuery(query);
-
+		
 		try {
 			while (rs.next()) {
 				Integer id = rs.getInt("productId");
