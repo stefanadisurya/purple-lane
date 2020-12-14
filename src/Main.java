@@ -1,6 +1,4 @@
 
-import controller.AdminController;
-import controller.AuthController;
 import controller.LoginController;
 import controller.ManagerController;
 import controller.ProductController;
@@ -16,11 +14,11 @@ import view.RegisterView;
 public class Main {
 
 	public Main() {
-//		ManagerController.getInstance().view().showForm();
+
 //		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
-//		LoginController.getInstance().view().showForm();
-		AuthController.getInstance().view().showForm();
+		LoginController.getInstance().view().showForm();
+//		AuthController.getInstance().view().showForm();
 		
 //		new RegisterView().showForm();
 //		new LoginView().showForm();
