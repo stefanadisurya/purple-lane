@@ -123,9 +123,14 @@ public class ProductController extends Controller {
 		return product.deleteProduct(product.getProductId());
 	}
 	
+	public Product searchProduct() {
+		newProduct();
+		return product.searchProduct(product.getProductName());
+	}
+	
 	public Product reduceStock(Integer productQuantity) {
 		newProduct();
-		if(product.getProductStock()<productQuantity) {
+		if(product.getProductStock() < productQuantity) {
 			JOptionPane.showMessageDialog(null, "Product Stock not enough!", "Warning!", JOptionPane.WARNING_MESSAGE);
 			valid = false;
 			return null;

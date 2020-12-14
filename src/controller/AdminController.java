@@ -75,6 +75,16 @@ public class AdminController extends Controller {
 		}
 	}
 	
+	public void searchProduct(String productName) {
+		productController.setProductName(productName);
+		
+		if(productController.isValid() == true) {
+			productController.searchProduct();
+		} else {
+			productController.setValid(true);
+		}
+	}
+	
 	public void reduceStock(Integer productStock, Integer productId) {
 		productController.setProductId(productId);
 		productController.reduceStock(productStock);

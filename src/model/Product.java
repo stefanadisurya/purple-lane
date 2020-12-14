@@ -142,6 +142,34 @@ public class Product extends Model {
 		return null;
 	}
 	
+	public Product searchProduct(String productName) {
+		String query = String.format("SELECT * FROM %s WHERE productName='%s'", tableName, productName);
+		ResultSet rs = con.executeQuery(query);
+
+		try {
+			while (rs.next()) {
+				Integer id = rs.getInt("productId");
+				String name = rs.getString("productName");
+				String author = rs.getString("productAuthor");
+				Integer price = rs.getInt("productPrice");
+				Integer stock = rs.getInt("productStock");
+
+				Product p = new Product();
+				p.setProductId(id);
+				p.setProductName(name);
+				p.setProductAuthor(author);
+				p.setProductPrice(price);
+				p.setProductStock(stock);
+
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public Product reduceStock(Integer productStock, Integer productId) {
 		this.productStock-=productStock;
 		if(this.productStock<0)this.productStock=0;
