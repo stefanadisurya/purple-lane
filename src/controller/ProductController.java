@@ -34,6 +34,28 @@ public class ProductController extends Controller {
 	public View view() {
 		return new ProductView();
 	}
+	
+	public void setId(String productId) {
+		if(productId.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Product ID column!", "Warning!", JOptionPane.WARNING_MESSAGE);
+			valid = false;
+		} else {
+			Integer temp = 0;
+			try {
+				temp = Integer.parseInt(productId);
+				
+				if(temp <= 0) {
+					JOptionPane.showMessageDialog(null, "Product ID must be more than 0", "Warning!", JOptionPane.WARNING_MESSAGE);
+					valid = false;
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Product ID must be numeric!", "Warning!", JOptionPane.WARNING_MESSAGE);
+				valid = false;
+			}
+			
+			product.setProductId(temp);
+		}
+	}
 
 	public void setProductId(Integer productId) {
 		if (this.product.setProductId(productId) == false) {

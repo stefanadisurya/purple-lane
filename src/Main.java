@@ -15,10 +15,10 @@ import view.RegisterView;
 public class Main {
 
 	public Main() {
-//		AdminController.getInstance().view().showForm();
+		AdminController.getInstance().view().showForm();
 //		RegisterController.getInstance().view().showForm();
 //		LoginController.getInstance().view().showForm();
-		AuthController.getInstance().view().showForm();
+//		AuthController.getInstance().view().showForm();
 		
 //		new RegisterView().showForm();
 //		new LoginView().showForm();

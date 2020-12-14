@@ -49,8 +49,8 @@ public class AdminController extends Controller {
 
 	}
 
-	public void update(Integer productId, String productName, String productAuthor, String productPrice, String productStock) {
-		productController.setProductId(productId);
+	public void update(String productId, String productName, String productAuthor, String productPrice, String productStock) {
+		productController.setId(productId);
 		productController.setProductName(productName);
 		productController.setProductAuthor(productAuthor);
 		productController.setProductPrice(productPrice);
@@ -64,8 +64,8 @@ public class AdminController extends Controller {
 		}
 	}
 
-	public void delete(Integer productId) {
-		productController.setProductId(productId);
+	public void delete(String productId) {
+		productController.setId(productId);
 		
 		if(productController.isValid() == true) {
 			productController.deleteProduct();

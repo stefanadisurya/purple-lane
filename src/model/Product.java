@@ -121,6 +121,7 @@ public class Product extends Model {
 			ps.setInt(4, productStock);
 			ps.setInt(5, productId);
 			ps.executeUpdate();
+			return new Product(productId, productName, productAuthor, productPrice, productStock);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
