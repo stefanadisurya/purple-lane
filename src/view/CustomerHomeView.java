@@ -2,6 +2,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +39,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JPanel top, mid, bot;
+	JPanel top, mid, bot, welcomePnl;
 	JTable table;
 	JScrollPane sp;
 	JMenuBar menuBar;
@@ -61,9 +62,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 	@Override
 	public void initialize() {
-		top = new JPanel();
+		top = new JPanel(new BorderLayout());
 		mid = new JPanel(new GridLayout(4, 2));
 		bot = new JPanel();
+		welcomePnl = new JPanel(new FlowLayout());
 		table = new JTable();
 		titleLbl = new JLabel("Welcome "+UserController.getInstance().getActiveUser().getUsername());
 		sp = new JScrollPane(table);
@@ -113,8 +115,11 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
 		
-//		top.add(titleLbl);
-		top.add(sp);
+		welcomePnl.add(titleLbl);
+		top.add(welcomePnl, BorderLayout.NORTH);
+		top.add(sp, BorderLayout.CENTER);
+		top.setBorder(new EmptyBorder(10,10,10,10));
+
 		
 		mid.add(nameLbl);
 		mid.add(nameTxt);

@@ -25,7 +25,7 @@ public class LoginView extends View implements ActionListener {
 	JPanel top, mid, midTop,bot,usernameLblPnl, usernameFieldPnl, passwordLblPnl, passwordFieldPnl;
 	JLabel titleLbl, usernameLbl, passwordLbl;
 	JTextField usernameTxt, passwordTxt;
-	JButton cancel, login;
+	JButton register, login;
 
 	public LoginView() {
 		super();
@@ -60,10 +60,10 @@ public class LoginView extends View implements ActionListener {
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordFieldPnl.add(passwordTxt);
 		
-		cancel = new JButton("Cancel");
-		login = new JButton("Login");
+		register = new JButton("Register");
+		login = new JButton("Submit");
 
-		cancel.addActionListener(this);
+		register.addActionListener(this);
 		login.addActionListener(this);
 	}
 
@@ -76,7 +76,7 @@ public class LoginView extends View implements ActionListener {
 		mid.add(passwordLblPnl);
 		mid.add(passwordFieldPnl);
 		midTop.add(mid);
-		bot.add(cancel);
+		bot.add(register);
 		bot.add(login);
 
 		mid.setBorder(new EmptyBorder(30, 40, 30, 40));
@@ -88,9 +88,9 @@ public class LoginView extends View implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == cancel) {
+		if (e.getSource() == register) {
 			this.dispose();
-			AuthController.getInstance().view().showForm();
+			RegisterController.getInstance().view().showForm();
 		} else if (e.getSource() == login) {
 			String username = usernameTxt.getText();
 			String password = passwordTxt.getText();

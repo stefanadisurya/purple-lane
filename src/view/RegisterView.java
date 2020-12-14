@@ -32,7 +32,7 @@ public class RegisterView extends View implements ActionListener {
 	JLabel titleLbl, usernameLbl, passwordLbl, roleLbl;
 	JTextField usernameTxt, passwordTxt;
 	JRadioButton admin, customer, manager, promotion;
-	JButton cancel, register;
+	JButton login, register;
 
 	ButtonGroup roleGroup;
 
@@ -73,10 +73,10 @@ public class RegisterView extends View implements ActionListener {
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordPnl.add(passwordTxt);
 		
-		cancel = new JButton("Cancel");
-		register = new JButton("Register");
+		login = new JButton("Login");
+		register = new JButton("Submit");
 
-		cancel.addActionListener(this);
+		login.addActionListener(this);
 		register.addActionListener(this);
 	}
 
@@ -89,7 +89,7 @@ public class RegisterView extends View implements ActionListener {
 		mid.add(passwordLabelPnl);
 		mid.add(passwordPnl);
 		midTop.add(mid);
-		bot.add(cancel);
+		bot.add(login);
 		bot.add(register);
 
 		mid.setBorder(new EmptyBorder(50, 50, 50, 50));
@@ -101,9 +101,9 @@ public class RegisterView extends View implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == cancel) {
+		if (e.getSource() == login) {
 			this.dispose();
-			AuthController.getInstance().view().showForm();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == register) {
 			String username = usernameTxt.getText();
 			String password = passwordTxt.getText();
