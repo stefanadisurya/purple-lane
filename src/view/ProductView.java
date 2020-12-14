@@ -67,7 +67,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 		searchLbl = new JLabel("Search Product: ");
 		searchTxt = new JTextField();
-		
+
 		idLbl = new JLabel("Product ID: ");
 		nameLbl = new JLabel("Product Name: ");
 		authorLbl = new JLabel("Product Author: ");
@@ -100,7 +100,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		menuMore.add(logout);
 		menuBar.add(menuMore);
 		setJMenuBar(menuBar);
-		
+
 		top.add(sp);
 
 		mid.add(searchLbl);
@@ -117,7 +117,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		mid.add(priceTxt);
 		mid.add(stockLbl);
 		mid.add(stockTxt);
-		
+
 		mid.setBorder(new EmptyBorder(20, 60, 20, 60));
 
 		bot.add(insert);
@@ -143,7 +143,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Stock");
 
 		Vector<Model> listProduct = ProductController.getInstance().getAll();
-		
+
 		for (Model model : listProduct) {
 			Product p = (Product) model;
 			detail = new Vector<>();
@@ -161,7 +161,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 		table.setModel(dtm);
 	}
-	
+
 	public void searchResult() {
 		data = new Vector<>();
 
@@ -171,18 +171,21 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Author");
 		header.add("Product Price");
 		header.add("Product Stock");
-		
-		Product p = ProductController.getInstance().searchProduct();
-		
-		detail = new Vector<>();
 
-		detail.add(p.getProductId().toString());
-		detail.add(p.getProductName());
-		detail.add(p.getProductAuthor());
-		detail.add(p.getProductPrice().toString());
-		detail.add(p.getProductStock().toString());
+		Vector<Model> listProduct = ProductController.getInstance().searchProduct();
 
-		data.add(detail);
+		for (Model model : listProduct) {
+			Product p = (Product) model;
+			detail = new Vector<>();
+
+			detail.add(p.getProductId().toString());
+			detail.add(p.getProductName());
+			detail.add(p.getProductAuthor());
+			detail.add(p.getProductPrice().toString());
+			detail.add(p.getProductStock().toString());
+
+			data.add(detail);
+		}
 
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
 
@@ -213,15 +216,15 @@ public class ProductView extends View implements ActionListener, MouseListener {
 
 			AdminController.getInstance().delete(id);
 			loadData();
-			
+
 			idValue.setText("-");
 			nameTxt.setText("");
 			authorTxt.setText("");
 			priceTxt.setText("");
 			stockTxt.setText("");
-		} else if(e.getSource() == search) {
+		} else if (e.getSource() == search) {
 			String name = searchTxt.getText();
-			
+
 			AdminController.getInstance().searchProduct(name);
 			searchResult();
 		} else if (e.getSource() == logout) {
@@ -240,7 +243,7 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			priceTxt.setText(table.getValueAt(row, 3).toString());
 			stockTxt.setText(table.getValueAt(row, 4).toString());
 		}
-		
+
 	}
 
 	@Override

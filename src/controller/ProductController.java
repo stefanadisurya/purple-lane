@@ -123,7 +123,7 @@ public class ProductController extends Controller {
 		return product.deleteProduct(product.getProductId());
 	}
 	
-	public Product searchProduct() {
+	public Vector<Model> searchProduct() {
 		newProduct();
 		return product.searchProduct(product.getProductName());
 	}

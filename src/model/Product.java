@@ -142,10 +142,10 @@ public class Product extends Model {
 		return null;
 	}
 	
-	public Product searchProduct(String productName) {
-		String query = String.format("SELECT * FROM %s WHERE productName LIKE '" + productName + "'", tableName);
+	public Vector<Model> searchProduct(String productName) {
+		String query = String.format("SELECT * FROM %s WHERE productName LIKE '%%" + productName + "%%'", tableName);
 		ResultSet rs = con.executeQuery(query);
-		
+		Vector<Model> data = new Vector<>();
 		try {
 			while (rs.next()) {
 				Integer id = rs.getInt("productId");
@@ -154,15 +154,10 @@ public class Product extends Model {
 				Integer price = rs.getInt("productPrice");
 				Integer stock = rs.getInt("productStock");
 
-				Product p = new Product();
-				p.setProductId(id);
-				p.setProductName(name);
-				p.setProductAuthor(author);
-				p.setProductPrice(price);
-				p.setProductStock(stock);
-
-				return p;
+				Product p = new Product(id, name, author, price, stock);
+				data.add(p);
 			}
+			return data;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
