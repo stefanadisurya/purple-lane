@@ -57,6 +57,7 @@ public class ProductController extends Controller {
 		}
 	}
 
+	// Ini bisa diganti ke setId kalau parameternya dijadiin String (buat yang ngerjain ManagerController, sesuaikan aja)
 	public void setProductId(Integer productId) {
 		if (this.product.setProductId(productId) == false) {
 			JOptionPane.showMessageDialog(null, "ProductId Not Detected!", "Warning!", JOptionPane.WARNING_MESSAGE);
