@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.PromoController;
 import controller.UserController;
 import core.model.Model;
@@ -44,13 +44,13 @@ public class PromoCodeView extends View implements ActionListener {
 	public void initialize() {
 		menuBar = new JMenuBar();
 		menuMore = new JMenu("Home");
-		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+		if (UserController.getInstance().getActiveUser().getRoleId() == 2) {
 			menuPromo = new JMenu("Promo");
 			menuTransactionHistory = new JMenu("Transaction History");
 			cart = new JMenuItem("My Cart");
 			viewTransaction = new JMenuItem("View Transaction History");
 			viewPromo = new JMenuItem("View Promo");
-			
+
 		}
 		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
@@ -77,18 +77,18 @@ public class PromoCodeView extends View implements ActionListener {
 	@Override
 	public void initializeComponent() {
 		menuMore.add(home);
-		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+		if (UserController.getInstance().getActiveUser().getRoleId() == 2) {
 			menuMore.add(cart);
 			menuPromo.add(viewPromo);
 			menuTransactionHistory.add(viewTransaction);
-			
+
 		}
 		menuMore.add(logout);
 		menuBar.add(menuMore);
-		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+		if (UserController.getInstance().getActiveUser().getRoleId() == 2) {
 			menuBar.add(menuPromo);
 			menuBar.add(menuTransactionHistory);
-			
+
 		}
 		setJMenuBar(menuBar);
 
@@ -108,12 +108,12 @@ public class PromoCodeView extends View implements ActionListener {
 	private void addListeners() {
 		home.addActionListener(this);
 		logout.addActionListener(this);
-		if(UserController.getInstance().getActiveUser().getRoleId()==2) {
+		if (UserController.getInstance().getActiveUser().getRoleId() == 2) {
 			cart.addActionListener(this);
 			viewTransaction.addActionListener(this);
-			viewPromo.addActionListener(this);	
+			viewPromo.addActionListener(this);
 		}
-		
+
 		backBtn.addActionListener(this);
 	}
 
@@ -124,7 +124,8 @@ public class PromoCodeView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();

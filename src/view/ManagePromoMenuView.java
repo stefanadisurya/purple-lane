@@ -13,7 +13,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import controller.AuthController;
+import controller.LoginController;
+import controller.UserController;
 import core.view.View;
 
 public class ManagePromoMenuView extends View implements ActionListener {
@@ -100,7 +101,8 @@ public class ManagePromoMenuView extends View implements ActionListener {
 		}
 		if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 

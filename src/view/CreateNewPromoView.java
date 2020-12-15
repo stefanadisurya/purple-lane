@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.PromoController;
 import controller.UserController;
 import core.model.Model;
@@ -85,7 +85,7 @@ public class CreateNewPromoView extends View implements ActionListener {
 		promoDiscountTxt = new JTextField();
 		promoNoteLbl = new JLabel("Promo Note");
 		promoNoteTxt = new JTextArea();
-		
+
 		createBtn = new JButton("Submit");
 		createBtn.setBackground(Color.GREEN);
 		backBtn = new JButton("Back to Menu");
@@ -150,7 +150,8 @@ public class CreateNewPromoView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 

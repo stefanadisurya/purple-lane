@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.ProductController;
 import controller.TransactionController;
 import controller.UserController;
@@ -55,7 +55,7 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		viewTransaction = new JMenuItem("View Transaction History");
 		viewPromo = new JMenuItem("View Promo");
 		backBtn = new JButton("Back");
-		
+
 		top = new JPanel();
 		mid = new JPanel(new GridLayout(0, 2));
 		bot = new JPanel();
@@ -147,7 +147,8 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();

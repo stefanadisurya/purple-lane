@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.PromoController;
 import controller.UserController;
 import core.model.Model;
@@ -133,7 +133,8 @@ public class DeletePromoView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 

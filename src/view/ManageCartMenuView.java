@@ -21,8 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
 import controller.CartController;
+import controller.LoginController;
 import controller.ProductController;
 import controller.UserController;
 import core.view.View;
@@ -153,7 +153,8 @@ public class ManageCartMenuView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();
