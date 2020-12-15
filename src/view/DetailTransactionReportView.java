@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,8 +41,8 @@ public class DetailTransactionReportView extends View implements ActionListener 
 
 	public DetailTransactionReportView() {
 		super();
-		this.height = 600;
-		this.width = 600;
+		this.height = 700;
+		this.width = 900;
 	}
 
 	@Override
@@ -63,6 +64,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 
 		table = new JTable();
 		sp = new JScrollPane(table);
+		sp.setPreferredSize(new Dimension(800, 450));
 
 		titleLbl = new JLabel("Transaction History");
 		priceLbl = new JLabel("Total Price");

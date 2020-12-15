@@ -39,8 +39,8 @@ public class TransactionReportListView extends View implements ActionListener, M
 
 	public TransactionReportListView() {
 		super();
-		this.height = 600;
-		this.width = 700;
+		this.height = 700;
+		this.width = 900;
 	}
 
 	@Override
@@ -62,6 +62,7 @@ public class TransactionReportListView extends View implements ActionListener, M
 		 
 		 table = new JTable();
 		 sp = new JScrollPane(table);
+		 sp.setPreferredSize(new Dimension(800, 450));
 		 
 		 backBtn = new JButton("Back");
 		 detailBtn = new JButton("View Detail");
