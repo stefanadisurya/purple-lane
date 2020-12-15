@@ -181,14 +181,17 @@ public class ManageCartMenuView extends View implements ActionListener {
 		DefaultTableModel dtm = new DefaultTableModel(header, 0);
 
 		Vector<Cart> carts = CartController.getInstance().getCartList();
-		for (Cart c : carts) {
-			Vector<Object> row = new Vector<>();
-			row.add(c.getProductId().toString());
-			row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductName());
-			row.add(c.getProductQuantity().toString());
-			dtm.addRow(row);
+		if(carts!=null) {
+			for (Cart c : carts) {
+				Vector<Object> row = new Vector<>();
+				row.add(c.getProductId().toString());
+				row.add(ProductController.getInstance().getOneProduct(c.getProductId()).getProductName());
+				row.add(c.getProductQuantity().toString());
+				dtm.addRow(row);
+			}
 		}
 		table.setModel(dtm);
+		
 	}
 
 	private void selectCart() {
