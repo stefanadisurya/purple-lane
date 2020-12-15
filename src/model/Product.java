@@ -63,6 +63,7 @@ public class Product extends Model {
 	}
 
 	public Integer getProductStock() {
+		if(productStock==null)return 0;
 		return productStock;
 	}
 
@@ -197,7 +198,7 @@ public class Product extends Model {
 				String author = rs.getString("productAuthor");
 				Integer price = rs.getInt("productPrice");
 				Integer stock = rs.getInt("productStock");
-
+				
 				Product p = new Product();
 				p.setProductId(id);
 				p.setProductName(name);
