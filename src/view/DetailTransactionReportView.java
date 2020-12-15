@@ -149,7 +149,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == home) {
+		if (e.getSource() == home || e.getSource() == viewAllTransaction) {
 			this.dispose();
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
@@ -165,9 +165,6 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		} else if(e.getSource() == transReport) {
 			this.dispose();
 			new TransactionReportView().showForm();
-		} else if(e.getSource() == viewAllTransaction) {
-			this.dispose();
-			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
 	}
 

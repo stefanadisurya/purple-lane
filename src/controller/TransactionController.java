@@ -58,9 +58,10 @@ public class TransactionController extends Controller {
 	
 	public Vector<Transaction> getTransactionReport(Integer Month, Integer Year) {
 		
-		//Mencegah terjadinya query double
-		if(transactionReport != null) return transactionReport;
+		if(transactionReport != null && (Month == this.getMonth() && Year == this.getYear())) return transactionReport;
 		
+		this.setMonth(month);
+		this.setYear(year);
 		transactionReport = activeTransaction.getTransactionReport(Month, Year);
 		if (transactionReport.size() == 0)
 			return null;
@@ -147,10 +148,7 @@ public class TransactionController extends Controller {
 	}
 	
 	public void processSearchTransaction(Integer month, Integer year) {
-		this.setMonth(month);
-		this.setYear(year);
-		
-		transactionReport = getTransactionReport(this.month, this.year);
+		transactionReport = getTransactionReport(month, year);
 		if(transactionReport != null) {
 			new TransactionReportView().dispose();
 			new TransactionReportListView().showForm();

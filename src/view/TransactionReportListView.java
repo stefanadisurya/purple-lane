@@ -144,9 +144,6 @@ public class TransactionReportListView extends View implements ActionListener, M
 			this.dispose();
 			UserController.getInstance().disposeUser();
 			LoginController.getInstance().view().showForm();
-		} else if (e.getSource() == home) {
-			this.dispose();
-			new ManagerHomeView().showForm();
 		} else if (e.getSource() == detailBtn) {
 			selectDetail();
 		} else if(e.getSource() == hireStaff) {
@@ -155,7 +152,7 @@ public class TransactionReportListView extends View implements ActionListener, M
 		} else if(e.getSource() == transReport) {
 			this.dispose();
 			new TransactionReportView().showForm();
-		} else if(e.getSource() == viewAllTransaction) {
+		} else if(e.getSource() == home || e.getSource() == viewAllTransaction) {
 			this.dispose();
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
