@@ -168,7 +168,6 @@ public class Users extends Model {
 			} else {
 				JOptionPane.showMessageDialog(null, "Wrong username or password!", "Warning!",
 						JOptionPane.WARNING_MESSAGE);
-				LoginController.getInstance().view().showForm();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

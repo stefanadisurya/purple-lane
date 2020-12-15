@@ -24,8 +24,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
-import controller.AuthController;
 import controller.CartController;
+import controller.LoginController;
 import controller.UserController;
 import core.model.Model;
 import core.view.View;
@@ -43,10 +43,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 	JTable table;
 	JScrollPane sp;
 	JMenuBar menuBar;
-	JMenu menuMore, menuTransactionHistory,menuPromo;
-	JMenuItem logout, cart, viewTransaction,viewPromo,home;
+	JMenu menuMore, menuTransactionHistory, menuPromo;
+	JMenuItem logout, cart, viewTransaction, viewPromo, home;
 	JButton addCart;
-	JLabel nameLbl, authorLbl, priceLbl,titleLbl;
+	JLabel nameLbl, authorLbl, priceLbl, titleLbl;
 	JLabel nameTxt, authorTxt, priceTxt;
 	JLabel qtyLbl;
 	JTextField qtyTxt;
@@ -67,7 +67,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		bot = new JPanel();
 		welcomePnl = new JPanel(new FlowLayout());
 		table = new JTable();
-		titleLbl = new JLabel("Welcome "+UserController.getInstance().getActiveUser().getUsername());
+		titleLbl = new JLabel("Welcome " + UserController.getInstance().getActiveUser().getUsername());
 		sp = new JScrollPane(table);
 
 		table.addMouseListener(this);
@@ -76,25 +76,24 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		menuMore = new JMenu("Home");
 		menuPromo = new JMenu("Promo");
 		menuTransactionHistory = new JMenu("Transaction History");
-		
+
 		nameLbl = new JLabel("Product Name: ");
 		authorLbl = new JLabel("Product Author: ");
 		priceLbl = new JLabel("Product Price: ");
 		qtyLbl = new JLabel("Input Quantity: ");
-		
+
 		nameTxt = new JLabel("-");
 		authorTxt = new JLabel("-");
 		priceTxt = new JLabel("-");
 		qtyTxt = new JTextField();
-		
-		
+
 		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
 		cart = new JMenuItem("My Cart");
 		viewTransaction = new JMenuItem("View Transaction History");
 		viewPromo = new JMenuItem("View Promo");
 		addCart = new JButton("Add To Cart");
-		
+
 		home.addActionListener(this);
 		logout.addActionListener(this);
 		cart.addActionListener(this);
@@ -114,13 +113,12 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		menuBar.add(menuPromo);
 		menuBar.add(menuTransactionHistory);
 		setJMenuBar(menuBar);
-		
+
 		welcomePnl.add(titleLbl);
 		top.add(welcomePnl, BorderLayout.NORTH);
 		top.add(sp, BorderLayout.CENTER);
-		top.setBorder(new EmptyBorder(10,10,10,10));
+		top.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		
 		mid.add(nameLbl);
 		mid.add(nameTxt);
 		mid.add(authorLbl);
@@ -129,10 +127,10 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		mid.add(priceTxt);
 		mid.add(qtyLbl);
 		mid.add(qtyTxt);
-		mid.setBorder(new EmptyBorder(10,50,10,50));
-		
+		mid.setBorder(new EmptyBorder(10, 50, 10, 50));
+
 		bot.add(addCart);
-		bot.setBorder(new EmptyBorder(10,10,10,10));
+		bot.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		add(top, BorderLayout.NORTH);
 		add(mid, BorderLayout.CENTER);
@@ -176,18 +174,19 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		if (e.getSource() == home) {
 			this.dispose();
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
-		}else if (e.getSource() == logout) {
+		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
-		} else if(e.getSource() == addCart) {
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
+		} else if (e.getSource() == addCart) {
 			addToCart();
-		} else if(e.getSource() == cart) {
+		} else if (e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();
-		} else if(e.getSource() == viewTransaction) {
+		} else if (e.getSource() == viewTransaction) {
 			this.dispose();
 			new TransactionHistoryMenu().showForm();
-		}else if (e.getSource() == viewPromo) {
+		} else if (e.getSource() == viewPromo) {
 			this.dispose();
 			new PromoCodeView().showForm();
 		}
@@ -195,15 +194,15 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getSource() == table) {
+		if (e.getSource() == table) {
 			int row = table.getSelectedRow();
-			productId = Integer.parseInt(table.getValueAt(row, 0).toString()); 
+			productId = Integer.parseInt(table.getValueAt(row, 0).toString());
 			nameTxt.setText(table.getValueAt(row, 1).toString());
 			authorTxt.setText(table.getValueAt(row, 2).toString());
 			priceTxt.setText(table.getValueAt(row, 3).toString());
 		}
 	}
-	
+
 	private void addToCart() {
 		String qty = qtyTxt.getText();
 
@@ -214,7 +213,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 		authorTxt.setText("");
 		priceTxt.setText("");
 		qtyTxt.setText("");
-		productId=0;
+		productId = 0;
 		if (cart == null) {
 			JOptionPane.showMessageDialog(this, CartController.getInstance().getErrorMessage());
 		} else {
@@ -222,7 +221,7 @@ public class CustomerHomeView extends View implements ActionListener, MouseListe
 			loadData();
 		}
 	}
-	
+
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 

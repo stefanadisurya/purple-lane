@@ -15,14 +15,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controller.AuthController;
 import controller.LoginController;
 import controller.RegisterController;
 import core.view.View;
 
 public class LoginView extends View implements ActionListener {
 
-	JPanel top, mid, midTop,bot,usernameLblPnl, usernameFieldPnl, passwordLblPnl, passwordFieldPnl;
+	JPanel top, mid, midTop, bot, usernameLblPnl, usernameFieldPnl, passwordLblPnl, passwordFieldPnl;
 	JLabel titleLbl, usernameLbl, passwordLbl;
 	JTextField usernameTxt, passwordTxt;
 	JButton register, login;
@@ -59,7 +58,7 @@ public class LoginView extends View implements ActionListener {
 		passwordTxt = new JPasswordField();
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordFieldPnl.add(passwordTxt);
-		
+
 		register = new JButton("Register");
 		login = new JButton("Submit");
 

@@ -69,22 +69,62 @@ public class RegisterController extends Controller {
 	}
 	
 	public Users createAdminAccount(String username, String password) {
-		newUser();
+		if(username.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the username column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}else if(password.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Password column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}
 		return user.createAdminAccount(username, password);
 	}
 	
 	public Users createCustomerAccount(String username, String password) {
-		newUser();
+		if(username.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the username column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}else if(password.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Password column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}
 		return user.createCustomerAccount(username, password);
 	}
 	
 	public Users createManagerAccount(String username, String password) {
-		newUser();
+		if(username.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the username column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}else if(password.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Password column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}
 		return user.createManagerAccount(username, password);
 	}
 	
 	public Users createPromotionTeamAccount(String username, String password) {
-		newUser();
+		if(username.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the username column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}else if(password.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please fill the Password column!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+			valid = false;
+			return null;
+		}
 		return user.createPromotionTeamAccount(username, password);
 	}
 

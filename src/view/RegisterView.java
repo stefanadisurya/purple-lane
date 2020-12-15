@@ -7,11 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,15 +18,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import controller.AdminController;
-import controller.AuthController;
 import controller.LoginController;
 import controller.RegisterController;
 import core.view.View;
+import model.Users;
 
 public class RegisterView extends View implements ActionListener {
 
-	JPanel top, mid, midTop,bot, rolePnl, usernamePnl,usernameLabelPnl, roleLabelPnl, passwordPnl, passwordLabelPnl;
+	JPanel top, mid, midTop, bot, rolePnl, usernamePnl, usernameLabelPnl, roleLabelPnl, passwordPnl, passwordLabelPnl;
 	JLabel titleLbl, usernameLbl, passwordLbl, roleLbl;
 	JTextField usernameTxt, passwordTxt;
 	JRadioButton admin, customer, manager, promotion;
@@ -55,8 +52,8 @@ public class RegisterView extends View implements ActionListener {
 		mid = new JPanel(gl);
 		midTop = new JPanel();
 		bot = new JPanel(new FlowLayout());
-		
-		rolePnl = new JPanel(new GridLayout(4,1));
+
+		rolePnl = new JPanel(new GridLayout(4, 1));
 
 		titleLbl = new JLabel("Register");
 		usernameLbl = new JLabel("Username");
@@ -72,7 +69,7 @@ public class RegisterView extends View implements ActionListener {
 		passwordTxt = new JPasswordField();
 		passwordTxt.setPreferredSize(new Dimension(150, 30));
 		passwordPnl.add(passwordTxt);
-		
+
 		login = new JButton("Login");
 		register = new JButton("Submit");
 
@@ -105,10 +102,16 @@ public class RegisterView extends View implements ActionListener {
 			this.dispose();
 			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == register) {
-			String username = usernameTxt.getText();
-			String password = passwordTxt.getText();
-			RegisterController.getInstance().createCustomerAccount(username, password);
-			
+			register();
+		}
+	}
+
+	public void register() {
+		String username = usernameTxt.getText();
+		String password = passwordTxt.getText();
+		Users user = RegisterController.getInstance().createCustomerAccount(username, password);
+
+		if (user != null) {
 			JOptionPane.showMessageDialog(null, "Register Success!");
 			this.dispose();
 			LoginController.getInstance().view().showForm();

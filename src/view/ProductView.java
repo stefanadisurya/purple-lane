@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.AdminController;
-import controller.AuthController;
+import controller.LoginController;
 import controller.ProductController;
 import controller.UserController;
 import core.model.Model;
@@ -229,7 +229,8 @@ public class ProductView extends View implements ActionListener, MouseListener {
 			searchResult();
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		}
 	}
 

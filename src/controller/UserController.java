@@ -35,6 +35,13 @@ public class UserController extends Controller {
 	}
 
 	public Users getOneUser(String username, String password) {
+		if (username.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Username cannot be empty!", "Warning!", JOptionPane.WARNING_MESSAGE);
+			return null;
+		} else if (password.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Password cannot be empty!", "Warning!", JOptionPane.WARNING_MESSAGE);
+			return null;
+		}
 		Users s;
 		try {
 			s = activeUser.getOneUser(username, password);

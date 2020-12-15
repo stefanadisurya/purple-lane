@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.ProductController;
 import controller.TransactionController;
 import controller.UserController;
@@ -37,7 +37,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 	JButton backBtn;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
-	
+
 	public DetailTransactionReportView() {
 		super();
 		this.height = 600;
@@ -51,7 +51,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
 		backBtn = new JButton("Back");
-		
+
 		top = new JPanel();
 		mid = new JPanel(new GridLayout(0, 2));
 		bot = new JPanel();
@@ -75,7 +75,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		mid.add(priceLbl);
 		mid.add(priceTxt);
 		bot.add(backBtn);
-		
+
 		mid.setBorder(new EmptyBorder(10, 50, 10, 10));
 
 		add(top, BorderLayout.NORTH);
@@ -85,13 +85,13 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		addListener();
 		loadData();
 	}
-	
+
 	public void addListener() {
 		backBtn.addActionListener(this);
 		home.addActionListener(this);
 		logout.addActionListener(this);
 	}
-	
+
 	public void loadData() {
 		data = new Vector<>();
 
@@ -141,7 +141,8 @@ public class DetailTransactionReportView extends View implements ActionListener 
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == backBtn) {
 			this.dispose();
 			new TransactionReportView().showForm();

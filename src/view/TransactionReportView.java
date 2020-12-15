@@ -1,4 +1,4 @@
-package view;
+	package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,7 +20,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controller.LoginController;
 import controller.TransactionController;
+import controller.UserController;
 import core.view.View;
 
 public class TransactionReportView extends View implements ActionListener, ItemListener {
@@ -118,7 +120,8 @@ public class TransactionReportView extends View implements ActionListener, ItemL
 			new ManagerHomeView().showForm();
 		} else if(e.getSource() == logout) {
 			this.dispose();
-			new AuthView().showForm();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if(e.getSource() == listBtn) {
 			year = Integer.parseInt(yearTxt.getText().toString());
 			if(!month.isEmpty() && year != 0) {

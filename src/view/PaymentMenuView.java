@@ -22,8 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
 import controller.CartController;
+import controller.LoginController;
 import controller.ProductController;
 import controller.PromoController;
 import controller.TransactionController;
@@ -156,7 +156,8 @@ public class PaymentMenuView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == cart) {
 			this.dispose();
 			new ManageCartMenuView().showForm();
@@ -171,9 +172,6 @@ public class PaymentMenuView extends View implements ActionListener {
 			CartController.getInstance().viewManageCartMenu();
 		} else if (e.getSource() == submitBtn) {
 			payment();
-		} else if (e.getSource() == logout) {
-			this.dispose();
-			new AuthController();
 		}
 	}
 

@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.AuthController;
+import controller.LoginController;
 import controller.TransactionController;
 import controller.UserController;
 import core.model.Model;
@@ -68,10 +68,10 @@ public class ManagerHomeView extends View implements ActionListener {
 				return false;
 			}
 		};
-		
+
 		sp = new JScrollPane(table);
 		sp.setPreferredSize(new Dimension(800, 450));
-		
+
 		mid = new JPanel();
 		bot = new JPanel(new BorderLayout());
 
@@ -96,7 +96,7 @@ public class ManagerHomeView extends View implements ActionListener {
 		loadData();
 
 		mid.add(sp, BorderLayout.CENTER);
-		
+
 		pnlbottombottom.add(TransReportBtn);
 		bot.add(pnlbottombottom, BorderLayout.CENTER);
 
@@ -121,7 +121,8 @@ public class ManagerHomeView extends View implements ActionListener {
 			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		} else if (e.getSource() == logout) {
 			this.dispose();
-			new AuthController();
+			UserController.getInstance().disposeUser();
+			LoginController.getInstance().view().showForm();
 		} else if (e.getSource() == hireStaff) {
 			this.dispose();
 			new HireStaffView().showForm();
