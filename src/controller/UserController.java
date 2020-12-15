@@ -51,6 +51,17 @@ public class UserController extends Controller {
 		}
 		return null;
 	}
+	
+	public Users getOneUserById(Integer userId) {
+		Users s;
+		try {
+			s = activeUser.getOneUser(userId);
+			return s;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public void processRole(Users user) {
 		if (user.getRoleId() == 1) {

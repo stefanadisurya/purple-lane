@@ -20,11 +20,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import controller.LoginController;
+import controller.ProductController;
 import controller.TransactionController;
 import controller.UserController;
 import core.model.Model;
 import core.view.View;
 import model.Transaction;
+import model.TransactionDetail;
 
 public class ManagerHomeView extends View implements ActionListener {
 
@@ -146,17 +148,23 @@ public class ManagerHomeView extends View implements ActionListener {
 		if (transaction != null) {
 			for (Model model : transaction) {
 				Transaction p = (Transaction) model;
-				Vector<Object> row = new Vector<>();
-				row.add(p.getTransactionId());
-				row.add(p.getTransactionDate());
-				row.add(p.getTransactionId());
-				row.add(p.getUserId());
-				row.add(p.getTransactionId());
-				row.add(p.getPaymentType());
-				row.add(p.getPromoCode());
-				dtm.addRow(row);
+				Vector<TransactionDetail> dt = TransactionController.getInstance()
+						.getTransactionDetail(p.getTransactionId());
+				for (TransactionDetail d : dt) {
+					Vector<Object> row = new Vector<>();
+					row.add(p.getTransactionId());
+					row.add(p.getTransactionDate());
+					row.add(ProductController.getInstance().getOneProduct(d.getProductId()).getProductName());
+					row.add(UserController.getInstance().getOneUserById(p.getUserId()).getUsername());
+					System.out.println(UserController.getInstance().getOneUserById(p.getUserId()).getUsername());
+					row.add(d.getProductQty());
+					row.add(p.getPaymentType());
+					row.add(p.getPromoCode());
+					dtm.addRow(row);
+				}
 			}
 		}
+
 		table.setModel(dtm);
 	}
 
