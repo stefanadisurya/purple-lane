@@ -150,18 +150,20 @@ public class ManagerHomeView extends View implements ActionListener {
 				Transaction p = (Transaction) model;
 				Vector<TransactionDetail> dt = TransactionController.getInstance()
 						.getTransactionDetail(p.getTransactionId());
-				for (TransactionDetail d : dt) {
-					Vector<Object> row = new Vector<>();
-					row.add(p.getTransactionId());
-					row.add(p.getTransactionDate());
-					row.add(ProductController.getInstance().getOneProduct(d.getProductId()).getProductName());
-					row.add(UserController.getInstance().getOneUserById(p.getUserId()).getUsername());
-					System.out.println(UserController.getInstance().getOneUserById(p.getUserId()).getUsername());
-					row.add(d.getProductQty());
-					row.add(p.getPaymentType());
-					row.add(p.getPromoCode());
-					dtm.addRow(row);
+				if (dt != null) {
+					for (TransactionDetail d : dt) {
+						Vector<Object> row = new Vector<>();
+						row.add(p.getTransactionId());
+						row.add(p.getTransactionDate());
+						row.add(ProductController.getInstance().getOneProduct(d.getProductId()).getProductName());
+						row.add(UserController.getInstance().getOneUserById(p.getUserId()).getUsername());
+						row.add(d.getProductQty());
+						row.add(p.getPaymentType());
+						row.add(p.getPromoCode());
+						dtm.addRow(row);
+					}
 				}
+
 			}
 		}
 

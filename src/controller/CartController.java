@@ -2,6 +2,8 @@ package controller;
 
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
@@ -149,7 +151,13 @@ public class CartController extends Controller {
 	}
 
 	public void processSelectedCart() {
-		viewPaymentMenu();
+		if (selectedCart.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Select Product First!", "Warning!", JOptionPane.WARNING_MESSAGE);
+			viewManageCartMenu();
+		} else {
+			viewPaymentMenu();
+		}
+
 	}
 
 	public void removesSelectedCart() {
