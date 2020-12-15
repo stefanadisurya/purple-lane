@@ -181,7 +181,8 @@ public class ManageCartMenuView extends View implements ActionListener {
 		DefaultTableModel dtm = new DefaultTableModel(header, 0);
 
 		Vector<Cart> carts = CartController.getInstance().getCartList();
-		if(carts!=null) {
+		System.out.println(carts);
+		if(!carts.isEmpty()) {
 			for (Cart c : carts) {
 				Vector<Object> row = new Vector<>();
 				row.add(c.getProductId().toString());
