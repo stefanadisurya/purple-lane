@@ -19,7 +19,7 @@ public class LoginController extends Controller {
 	}
 
 	@Override
-	public View view() {
+	public View view() {	
 		return new LoginView();
 	}
 
