@@ -116,21 +116,23 @@ public class DetailTransactionHistoryMenu extends View implements ActionListener
 		Integer transactionId = controller.getTransactionId();
 
 		Vector<TransactionDetail> detailList = controller.getTransactionDetail(transactionId);
-		for (TransactionDetail transactionDetail : detailList) {
-			detail = new Vector<>();
-			Integer productId = transactionDetail.getProductId();
-			Integer qty = transactionDetail.getProductQty();
+		if (detailList != null) {
+			for (TransactionDetail transactionDetail : detailList) {
+				detail = new Vector<>();
+				Integer productId = transactionDetail.getProductId();
+				Integer qty = transactionDetail.getProductQty();
 
-			Product prod = ProductController.getInstance().getOneProduct(productId);
+				Product prod = ProductController.getInstance().getOneProduct(productId);
 
-			detail.add(productId.toString());
-			detail.add(prod.getProductName());
-			detail.add(prod.getProductPrice().toString());
-			detail.add(qty.toString());
+				detail.add(productId.toString());
+				detail.add(prod.getProductName());
+				detail.add(prod.getProductPrice().toString());
+				detail.add(qty.toString());
 
-			totalPrice += (prod.getProductPrice() * qty);
+				totalPrice += (prod.getProductPrice() * qty);
 
-			data.add(detail);
+				data.add(detail);
+			}
 		}
 
 		DefaultTableModel dtm = new DefaultTableModel(data, header);

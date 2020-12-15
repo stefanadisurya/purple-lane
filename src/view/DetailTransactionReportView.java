@@ -123,23 +123,25 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		Integer transactionId = controller.getTransactionId();
 
 		Vector<TransactionDetail> detailList = controller.getTransactionDetail(transactionId);
-		for (TransactionDetail transactionDetail : detailList) {
-			detail = new Vector<>();
-			Integer productId = transactionDetail.getProductId();
-			Integer qty = transactionDetail.getProductQty();
+		if (detailList != null) {
+			for (TransactionDetail transactionDetail : detailList) {
+				detail = new Vector<>();
+				Integer productId = transactionDetail.getProductId();
+				Integer qty = transactionDetail.getProductQty();
 
-			Product prod = ProductController.getInstance().getOneProduct(productId);
-			Integer subtotal = prod.getProductPrice() * qty;
+				Product prod = ProductController.getInstance().getOneProduct(productId);
+				Integer subtotal = prod.getProductPrice() * qty;
 
-			detail.add(productId.toString());
-			detail.add(prod.getProductName());
-			detail.add(prod.getProductPrice().toString());
-			detail.add(qty.toString());
-			detail.add(subtotal.toString());
+				detail.add(productId.toString());
+				detail.add(prod.getProductName());
+				detail.add(prod.getProductPrice().toString());
+				detail.add(qty.toString());
+				detail.add(subtotal.toString());
 
-			totalPrice += subtotal;
+				totalPrice += subtotal;
 
-			data.add(detail);
+				data.add(detail);
+			}
 		}
 
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
@@ -161,10 +163,10 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		} else if (e.getSource() == backBtn) {
 			this.dispose();
 			new TransactionReportView().showForm();
-		} else if(e.getSource() == hireStaff) {
+		} else if (e.getSource() == hireStaff) {
 			this.dispose();
 			new HireStaffView().showForm();
-		} else if(e.getSource() == transReport) {
+		} else if (e.getSource() == transReport) {
 			this.dispose();
 			new TransactionReportView().showForm();
 		}
