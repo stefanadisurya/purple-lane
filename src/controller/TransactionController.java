@@ -3,6 +3,8 @@ package controller;
 import java.util.Calendar;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
@@ -11,6 +13,8 @@ import model.Promo;
 import model.Transaction;
 import model.TransactionDetail;
 import view.TransactionHistoryMenu;
+import view.TransactionReportListView;
+import view.TransactionReportView;
 
 public class TransactionController extends Controller {
 
@@ -19,6 +23,7 @@ public class TransactionController extends Controller {
 
 	private Vector<Transaction> transactionList;
 	private Vector<TransactionDetail> detailTransactionList;
+	private Vector<Transaction> transactionReport;
 	private static TransactionController controller;
 	private String errorMessage;
 	private Integer month;
@@ -52,10 +57,14 @@ public class TransactionController extends Controller {
 	}
 	
 	public Vector<Transaction> getTransactionReport(Integer Month, Integer Year) {
-		Vector<Transaction> list = activeTransaction.getTransactionReport(Month, Year);
-		if (list.size() == 0)
+		
+		//Mencegah terjadinya query double
+		if(transactionReport != null) return transactionReport;
+		
+		transactionReport = activeTransaction.getTransactionReport(Month, Year);
+		if (transactionReport.size() == 0)
 			return null;
-		return list;
+		return transactionReport;
 	}
 
 	public Vector<Transaction> getTransactionHistory(Integer userId) {
@@ -135,6 +144,20 @@ public class TransactionController extends Controller {
 		}
 		activeTransaction = activeTransaction.usePromoCode(promoCode);
 		return activeTransaction;
+	}
+	
+	public void processSearchTransaction(Integer month, Integer year) {
+		this.setMonth(month);
+		this.setYear(year);
+		
+		transactionReport = getTransactionReport(this.month, this.year);
+		if(transactionReport != null) {
+			new TransactionReportView().dispose();
+			new TransactionReportListView().showForm();
+		} else {
+			JOptionPane.showMessageDialog(null, "No Transaction Exist!", "Warning!",
+					JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	public Cart addToCart() {

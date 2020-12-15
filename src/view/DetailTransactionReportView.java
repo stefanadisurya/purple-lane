@@ -28,8 +28,8 @@ import model.TransactionDetail;
 public class DetailTransactionReportView extends View implements ActionListener {
 
 	JMenuBar menuBar;
-	JMenu menuMore;
-	JMenuItem logout, home;
+	JMenu menuMore, menuTrans, menuRegister;
+	JMenuItem logout, home, viewAllTransaction, transReport, hireStaff;
 	JPanel top, mid, bot;
 	JTable table;
 	JLabel titleLbl, priceLbl, priceTxt;
@@ -50,6 +50,11 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		menuMore = new JMenu("Home");
 		home = new JMenuItem("Home");
 		logout = new JMenuItem("Logout");
+		menuTrans = new JMenu("Report");
+		menuRegister = new JMenu("Register");
+		viewAllTransaction = new JMenuItem("View All Transaction");
+		transReport = new JMenuItem("Transaction Report");
+		hireStaff = new JMenuItem("Hire Staff");
 		backBtn = new JButton("Back");
 		
 		top = new JPanel();
@@ -68,7 +73,12 @@ public class DetailTransactionReportView extends View implements ActionListener 
 	public void initializeComponent() {
 		menuMore.add(home);
 		menuMore.add(logout);
+		menuTrans.add(viewAllTransaction);
+		menuTrans.add(transReport);
+		menuRegister.add(hireStaff);
 		menuBar.add(menuMore);
+		menuBar.add(menuTrans);
+		menuBar.add(menuRegister);
 		setJMenuBar(menuBar);
 
 		top.add(sp);
@@ -90,6 +100,9 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		backBtn.addActionListener(this);
 		home.addActionListener(this);
 		logout.addActionListener(this);
+		hireStaff.addActionListener(this);
+		viewAllTransaction.addActionListener(this);
+		transReport.addActionListener(this);
 	}
 	
 	public void loadData() {
@@ -100,7 +113,7 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		header.add("Product Name");
 		header.add("Product Price");
 		header.add("Quantity");
-		header.add("Product Sub Total");
+		header.add("Sub Total");
 
 		TransactionController controller = TransactionController.getInstance();
 
@@ -145,6 +158,15 @@ public class DetailTransactionReportView extends View implements ActionListener 
 		} else if (e.getSource() == backBtn) {
 			this.dispose();
 			new TransactionReportView().showForm();
+		} else if(e.getSource() == hireStaff) {
+			this.dispose();
+			new HireStaffView().showForm();
+		} else if(e.getSource() == transReport) {
+			this.dispose();
+			new TransactionReportView().showForm();
+		} else if(e.getSource() == viewAllTransaction) {
+			this.dispose();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
 	}
 
