@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -27,11 +28,11 @@ public class TransactionReportListView extends View implements ActionListener, M
 
 	JPanel top, mid, bot;
 	JMenuBar menuBar;
-	JMenu menuHome;
+	JMenu menuHome, menuTrans, menuRegister, menuFinancial;
+	JMenuItem logout, viewAllTransaction, transReport, hireStaff, home, finance;
 	JTable table;
 	JScrollPane sp;
 	JButton backBtn, detailBtn;
-	JMenuItem home, logout;
 	Vector<Vector<String>> data;
 	Vector<String> detail, header;
 	private Integer transactionId = 0;
@@ -44,27 +45,39 @@ public class TransactionReportListView extends View implements ActionListener, M
 
 	@Override
 	public void initialize() {
-		top = new JPanel();
-		mid = new JPanel();
-		bot = new JPanel();
-
-		home = new JMenuItem("Home");
-		logout = new JMenuItem("Log out");
-		menuHome = new JMenu("Home");
-		menuBar = new JMenuBar();
-
-		table = new JTable();
-		sp = new JScrollPane(table);
-
-		backBtn = new JButton("Back");
-		detailBtn = new JButton("View Detail");
+		 top = new JPanel();
+		 mid = new JPanel();
+		 bot = new JPanel();
+		 
+		 home = new JMenuItem("Home");
+		 logout = new JMenuItem("Log out");
+		 transReport = new JMenuItem("Transaction Report");
+		 viewAllTransaction = new JMenuItem("View All Transaction");
+		 menuTrans = new JMenu("Report");
+		 hireStaff = new JMenuItem("Hire Staff");
+		 menuRegister = new JMenu("Register");
+		 menuHome = new JMenu("Home");
+		 
+		 menuBar = new JMenuBar();
+		 
+		 table = new JTable();
+		 sp = new JScrollPane(table);
+		 
+		 backBtn = new JButton("Back");
+		 detailBtn = new JButton("View Detail");
 	}
 
 	@Override
 	public void initializeComponent() {
+		
+		menuTrans.add(transReport);
+		menuTrans.add(viewAllTransaction);
+		menuRegister.add(hireStaff);
 		menuHome.add(home);
 		menuHome.add(logout);
 		menuBar.add(menuHome);
+		menuBar.add(menuTrans);
+		menuBar.add(menuRegister);
 		setJMenuBar(menuBar);
 
 		top.add(sp);
@@ -84,6 +97,9 @@ public class TransactionReportListView extends View implements ActionListener, M
 		logout.addActionListener(this);
 		table.addMouseListener(this);
 		detailBtn.addActionListener(this);
+		hireStaff.addActionListener(this);
+		transReport.addActionListener(this);
+		viewAllTransaction.addActionListener(this);
 	}
 
 	public void loadData() {
@@ -101,10 +117,7 @@ public class TransactionReportListView extends View implements ActionListener, M
 		Integer month = tcontroller.getMonth();
 		Vector<Transaction> transactionList = tcontroller.getTransactionReport(month, year);
 
-		if (transactionList == null) {
-			JOptionPane.showMessageDialog(null, "No Transaction Exist!", "Warning!", JOptionPane.WARNING_MESSAGE);
-			this.dispose();
-		} else if (transactionList != null) {
+		 if (transactionList != null) {
 			for (Transaction transaction : transactionList) {
 				detail = new Vector<>();
 
@@ -136,6 +149,15 @@ public class TransactionReportListView extends View implements ActionListener, M
 			new ManagerHomeView().showForm();
 		} else if (e.getSource() == detailBtn) {
 			selectDetail();
+		} else if(e.getSource() == hireStaff) {
+			this.dispose();
+			new HireStaffView().showForm();
+		} else if(e.getSource() == transReport) {
+			this.dispose();
+			new TransactionReportView().showForm();
+		} else if(e.getSource() == viewAllTransaction) {
+			this.dispose();
+			UserController.getInstance().processRole(UserController.getInstance().getActiveUser());
 		}
 	}
 

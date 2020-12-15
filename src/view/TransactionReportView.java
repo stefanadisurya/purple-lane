@@ -39,7 +39,7 @@ public class TransactionReportView extends View implements ActionListener, ItemL
 	JTextField monthTxt, yearTxt;
 	static JComboBox<String> monthList;
 	private String month = "January";
-	private Integer year = 0;
+	private Integer year;
 	
 	public TransactionReportView() {
 		super();
@@ -123,17 +123,13 @@ public class TransactionReportView extends View implements ActionListener, ItemL
 			UserController.getInstance().disposeUser();
 			LoginController.getInstance().view().showForm();
 		} else if(e.getSource() == listBtn) {
-			year = Integer.parseInt(yearTxt.getText().toString());
-			if(!month.isEmpty() && year != 0) {
-				
-				TransactionController.getInstance().setMonth(getMonth(month));
-				TransactionController.getInstance().setYear(year);
-
-				this.dispose();
-				new TransactionReportListView().showForm();
-			} else {
+			String yearValue = yearTxt.getText().toString();
+			if(month == null || yearValue.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Please Input Month and Year!", "Warning!",
 						JOptionPane.WARNING_MESSAGE);
+			} else {
+				year = Integer.parseInt(yearValue.toString());
+				TransactionController.getInstance().processSearchTransaction(getMonth(month), year);
 			}
 		}
 	}
