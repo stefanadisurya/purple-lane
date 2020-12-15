@@ -7,14 +7,12 @@ import javax.swing.JOptionPane;
 import core.controller.Controller;
 import core.model.Model;
 import core.view.View;
-import model.Product;
 import view.ProductView;
 
 public class AdminController extends Controller {
 
 	private ProductController productController;
 	private static AdminController controller;
-	private boolean valid;
 
 	private AdminController() {
 		productController = ProductController.getInstance();
@@ -75,8 +73,8 @@ public class AdminController extends Controller {
 		}
 	}
 	
-	public void searchProduct(String productName) {
-		productController.setProductName(productName);
+	public void searchProduct(String productId) {
+		productController.setId(productId);
 		
 		if(productController.isValid() == true) {
 			productController.searchProduct();

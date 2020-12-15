@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import core.model.Model;
 
 public class Product extends Model {
@@ -144,10 +142,9 @@ public class Product extends Model {
 		return null;
 	}
 	
-	public Vector<Model> searchProduct(String productName) {
-		String query = String.format("SELECT * FROM %s WHERE productName LIKE '%%" + productName + "%%'", tableName);
+	public Product searchProduct(Integer productName) {
+		String query = String.format("SELECT * FROM %s WHERE productId=%d", tableName, productId);
 		ResultSet rs = con.executeQuery(query);
-		Vector<Model> data = new Vector<>();
 		try {
 			while (rs.next()) {
 				Integer id = rs.getInt("productId");
@@ -157,9 +154,8 @@ public class Product extends Model {
 				Integer stock = rs.getInt("productStock");
 
 				Product p = new Product(id, name, author, price, stock);
-				data.add(p);
+				return p;
 			}
-			return data;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

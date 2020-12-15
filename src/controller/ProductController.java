@@ -56,8 +56,7 @@ public class ProductController extends Controller {
 			product.setProductId(temp);
 		}
 	}
-
-	// Ini bisa diganti ke setId kalau parameternya dijadiin String (buat yang ngerjain ManagerController, sesuaikan aja)
+	
 	public void setProductId(Integer productId) {
 		if (this.product.setProductId(productId) == false) {
 			JOptionPane.showMessageDialog(null, "ProductId Not Detected!", "Warning!", JOptionPane.WARNING_MESSAGE);
@@ -146,9 +145,9 @@ public class ProductController extends Controller {
 		return product.deleteProduct(product.getProductId());
 	}
 	
-	public Vector<Model> searchProduct() {
+	public Product searchProduct() {
 		newProduct();
-		return product.searchProduct(product.getProductName());
+		return product.searchProduct(product.getProductId());
 	}
 	
 	public Product reduceStock(Integer productQuantity) {

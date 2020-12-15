@@ -89,6 +89,17 @@ public class Users extends Model {
 
 	}
 
+	public Users getOneUser(Integer userId) throws SQLException {
+		db = Connect.getConnection();
+
+		String query = String.format("SELECT * FROM %s WHERE userId=%d", tableName, userId);
+		rs = db.executeQuery(query);
+
+		Users u = map(rs);
+		return u;
+
+	}
+
 	public Users createAdminAccount(String username, String password) {
 		String query = String.format("INSERT INTO %s VALUES(null,?,?,?)", tableName);
 		PreparedStatement ps = con.prepareStatement(query);
