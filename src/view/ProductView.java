@@ -2,7 +2,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -172,20 +170,17 @@ public class ProductView extends View implements ActionListener, MouseListener {
 		header.add("Product Price");
 		header.add("Product Stock");
 
-		Vector<Model> listProduct = ProductController.getInstance().searchProduct();
+		Product p = ProductController.getInstance().searchProduct();
 
-		for (Model model : listProduct) {
-			Product p = (Product) model;
-			detail = new Vector<>();
+		detail = new Vector<>();
 
-			detail.add(p.getProductId().toString());
-			detail.add(p.getProductName());
-			detail.add(p.getProductAuthor());
-			detail.add(p.getProductPrice().toString());
-			detail.add(p.getProductStock().toString());
+		detail.add(p.getProductId().toString());
+		detail.add(p.getProductName());
+		detail.add(p.getProductAuthor());
+		detail.add(p.getProductPrice().toString());
+		detail.add(p.getProductStock().toString());
 
-			data.add(detail);
-		}
+		data.add(detail);
 
 		DefaultTableModel dtm = new DefaultTableModel(data, header);
 
