@@ -125,7 +125,7 @@ public class TransactionReportView extends View implements ActionListener, ItemL
 		} else if(e.getSource() == listBtn) {
 			String yearValue = yearTxt.getText().toString();
 			if(month == null || yearValue.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Please Input Month and Year!", "Warning!",
+				JOptionPane.showMessageDialog(null, "Please Fill the year column!", "Warning!",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
 				year = Integer.parseInt(yearValue.toString());
