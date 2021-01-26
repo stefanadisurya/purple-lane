@@ -1,6 +1,7 @@
 # purple-lane
 A simple GUI made with Java to fulfill the Object-oriented Analysis & Design final project.
-Developed by:
+
+Many thanks to the team:
 - Stefan Adisurya (Me)
 - Popo Fianto (@ppofiant)
 - Albert (@AlbertZasura)
