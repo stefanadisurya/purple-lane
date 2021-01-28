@@ -2,7 +2,7 @@
 A simple GUI made with Java to fulfill the Object-oriented Analysis & Design final project.
 
 Developed by:
-- Stefan Adisurya (stefanadisurya)
-- Popo Fianto (ppofiant)
-- Albert (AlbertZasura)
-- Sin Luis (SinLuis)
+- [Stefan Adisurya](https://github.com/stefanadisurya)
+- [Popo Fianto](https://github.com/ppofiant)
+- [Albert](https://github.com/AlbertZasura)
+- [Sin Luis](https://github.com/SinLuis)
